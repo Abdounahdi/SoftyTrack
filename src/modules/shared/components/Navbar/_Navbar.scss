@@ -5,18 +5,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  // gap: 12px;
 
-  background-color: blue;
+  // background-color: blue;
 
-  &_logo {
-    color: $text;
-  }
-
-  &_buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
+  
 }

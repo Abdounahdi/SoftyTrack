@@ -1,0 +1,21 @@
+.navbar_search_bar_container {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: solid 1px #d0d5dd;
+  gap: 8px;
+  width: 30%;
+
+  svg {
+    height: 20px;
+    width: 20px;
+    color: #667085;
+  }
+
+  .navbar_search_bar {
+    background: none;
+    outline: none;
+    border: none;
+  }
+}

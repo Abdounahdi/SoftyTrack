@@ -9,7 +9,6 @@ interface MainLayoutProps {
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="shared_main_layout">
-      
       <SideBar />
 
       <div className="shared_main_layout_container">
