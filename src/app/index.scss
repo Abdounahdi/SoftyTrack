@@ -1,0 +1,10 @@
+@use '../modules/shared/assets/styles/base' as *;
+@use '../modules/shared/assets/styles/abstracts/colors' as *;
+@use '../modules/shared/assets/styles/abstracts' as *;
+@use '../modules' as *;
+
+.app {
+  width: 100%;
+  height: 100dvh;
+  background-color: $bg;
+}

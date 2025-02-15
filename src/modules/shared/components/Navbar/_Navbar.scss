@@ -1,0 +1,22 @@
+@use '../../assets/styles/abstracts/colors' as *;
+
+.shared_navbar_toggler {
+  padding: 12px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  background-color: blue;
+
+  &_logo {
+    color: $text;
+  }
+
+  &_buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+}
