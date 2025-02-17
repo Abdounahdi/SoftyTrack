@@ -1,6 +1,8 @@
 @forward './shared';
 @forward './auth';
 @forward './dashboard';
+@forward './incomes';
+@forward './expenses';
 
 @forward './todos';
 @forward './todosRtk';
