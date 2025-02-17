@@ -5,11 +5,16 @@ import {
   HiOutlineArrowUpOnSquare,
   HiOutlineHome,
 } from 'react-icons/hi2'
+import SideBarToggleIcon from '../../assets/icons/sideBarIcon.svg'
+import { useState } from 'react'
 
 export default function SideBar() {
+  const [sideBarIsOpen, setSideBarIsOpen] = useState(true)
   return (
-    <div className="side_bar_container">
-      <Logo />
+    <div
+      className={`side_bar_container ${sideBarIsOpen ? 'side_bar_container_open' : 'side_bar_container_close'}`}
+    >
+      <Logo isOpen={sideBarIsOpen} />
       <MainNav
         options={[
           {
@@ -28,6 +33,12 @@ export default function SideBar() {
             to: '/expenses',
           },
         ]}
+        isOpen={sideBarIsOpen}
+      />
+      <img
+        className={`side_bar_toggle ${sideBarIsOpen ? 'side_bar_toggle_oppened' : ''}`}
+        src={SideBarToggleIcon}
+        onClick={() => setSideBarIsOpen((state) => !state)}
       />
     </div>
   )

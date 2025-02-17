@@ -1,32 +1,56 @@
 .side_bar_nav {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   align-items: start;
   padding: 0 15px;
-  transition: all 0.33s;
+  transition: all 0.3s;
 
   &_route {
     padding: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+
     gap: 10px;
     color: #8293ae;
     border-radius: 10px;
     width: 100%;
-    transition: inherit;
+    transition: all 0.3s;
+
+    p {
+      font-family: Almarai;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 26px;
+    }
 
     svg {
-      height: 20px;
-      width: 20px;
-      color: #464a54;
+      height: 23px;
+      width: 23px;
+      color: #8293ae;
     }
 
     &:hover {
       background-color: #98cdff;
       color: #fff;
+      svg {
+        color: #fff;
+      }
     }
+  }
+
+  &_route_opened {
+    justify-content: flex-start;
+  }
+  &_route_closed {
+    justify-content: center;
+  }
+
+  .nav_title_show {
+    display: inline;
+  }
+  .nav_title_hide {
+    display: none;
   }
 
   .active {

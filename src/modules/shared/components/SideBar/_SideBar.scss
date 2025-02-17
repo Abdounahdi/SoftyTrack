@@ -1,6 +1,43 @@
-.side_bar_container{
-    width: 20rem;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.side_bar_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9fcff;
+  transition: all 0.3s ease;
+  outline: 2px solid #f9fcff;
+  position: relative;
+
+  .side_bar_toggle {
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 50px;
+    right: -11px;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    z-index: 99999;
+
+    display: none;
+  }
+
+  .side_bar_toggle_oppened {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    outline: 2px solid #2962d8;
+
+    .side_bar_toggle {
+      display: block;
+    }
+  }
+}
+
+.side_bar_container_close {
+  width: 80px;
+  padding-right:5px ;
+}
+
+.side_bar_container_open {
+  width: 280px;
 }

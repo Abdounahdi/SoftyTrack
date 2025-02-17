@@ -1,5 +1,11 @@
+import PageHeading from "../../shared/components/PageHeading/PageHeading"
+
 const Test = () => {
-  return <div className="dashboard_feature">Dashboard Test</div>
+  return (
+    <div>
+      <PageHeading title="Dashboard" goBack={false} />
+    </div>
+  )
 }
 
 export default Test
