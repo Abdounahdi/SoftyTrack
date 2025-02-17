@@ -6,12 +6,16 @@ import { persistStore } from 'redux-persist'
 import { api } from './services/api'
 
 import rootReducer from './rootReducer'
+import incomesApi from '../../incomes/data/supabaseApi/incomesApi'
 
 export const store = configureStore({
   reducer: rootReducer,
   devTools: VITE_APP_ENABLE_REDUX_DEVTOOLS,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware),
+    getDefaultMiddleware({ serializableCheck: false }).concat(
+      api.middleware,
+      incomesApi.middleware
+    ),
 })
 
 setupListeners(store.dispatch)

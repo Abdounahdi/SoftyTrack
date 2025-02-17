@@ -1,41 +1,96 @@
 import { Table } from 'antd'
 import { useState } from 'react'
-
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-]
+import { useGetIncomesQuery } from '../../data/supabaseApi/incomesApi'
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Customer Name',
+    dataIndex: 'customerName',
+    key: 'customreName',
+    width: 200,
+    fixed: true,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Date',
+    dataIndex: 'dateCreated',
+    key: 'dateCreated',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Customer Phone',
+    dataIndex: 'customerPhone',
+    key: 'customerPhone',
+  },
+  {
+    title: 'Customer Email',
+    dataIndex: 'customerEmail',
+    key: 'customerEmail',
+  },
+  {
+    title: 'Payment Method',
+    dataIndex: 'paymentMethod',
+    key: 'paymentMethod',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
+    title: 'Total Slice',
+    dataIndex: 'slicesTotalCount',
+    key: 'slicesTotalCount',
+  },
+  {
+    title: 'Slice Count',
+    dataIndex: 'sliceCount',
+    key: 'sliceCount',
+  },
+  {
+    title: 'Training',
+    dataIndex: 'trainingName',
+    key: 'trainingName',
+  },
+  {
+    title: 'Reception Location',
+    dataIndex: 'location',
+    key: 'location',
+  },
+  {
+    title: 'Employee Name ',
+    dataIndex: 'employeeName',
+    key: 'employeeName',
+  },
+  {
+    title: 'Description ',
+    dataIndex: 'description',
+    key: 'description',
   },
 ]
 
 export default function IncomesTable() {
   const [selectedRows, setSelectedRows] = useState([])
+
+  const { data, isLoading } = useGetIncomesQuery({})
+
+  if (isLoading) return <div>Loading</div>
+
+  const preparedData = data?.map((income) => {
+    console.log(income.date_created)
+    return {
+      dateCreated: income.date_created,
+      customerName: income.customers.name,
+      customerPhone: income.customers.phone,
+      customerEmail: income.customers.email,
+      paymentMethod: income.payment_method,
+      slicesTotalCount: income.total_slices,
+      sliceCount: income.slice_count,
+      location: income.reception_location,
+      description: income.description,
+      trainingName: income.trainings.name,
+      employeeName: income.user,
+      price: income.price,
+    }
+  })
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -50,14 +105,20 @@ export default function IncomesTable() {
   }
 
   return (
-    <Table
-      dataSource={dataSource}
-      columns={columns}
-      rowSelection={{
-        type: 'checkbox',
-        ...rowSelection,
-      }}
-      pagination={{ position: ["bottomRight"] }}
-    />
+    <div className="table_incomes_container">
+      <div className="table_incomes_container__container">
+        <Table
+          className="table_incomes"
+          pagination={false}
+          dataSource={preparedData}
+          columns={columns}
+          rowSelection={{
+            type: 'checkbox',
+            fixed: true,
+            ...rowSelection,
+          }}
+        />
+      </div>
+    </div>
   )
 }
