@@ -21,6 +21,13 @@ const routes: RouteConfig[] = [
     component: lazy(() => import('../features/Incomes/Incomes')),
     layout: MainLayout,
   },
+  {
+    exact: true,
+    // guard: GuestGuard,
+    path: '/incomes/create',
+    component: lazy(() => import('../features/IncomesCreateFrom/IncomesCreateForm')),
+    layout: MainLayout,
+  },
 ]
 
 export default routes

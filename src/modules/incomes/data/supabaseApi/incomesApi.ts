@@ -15,9 +15,16 @@ const incomesApi = createApi({
         return { data }
       },
     }),
+    createIncomes: builder.query({
+      async queryFn(newIncome) {
+        const { data, error } = await supabase.from('incomes').insert([newIncome]).select()
+        if (error) console.error(error)
+        return { data }
+      },
+    }),
   }),
 })
 
-export const { useGetIncomesQuery } = incomesApi
+export const { useGetIncomesQuery, useCreateIncomesQuery } = incomesApi
 
 export default incomesApi

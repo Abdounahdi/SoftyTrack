@@ -1,69 +1,159 @@
-import { Table } from 'antd'
+import { Spin, Table } from 'antd'
 import { useState } from 'react'
 import { useGetIncomesQuery } from '../../data/supabaseApi/incomesApi'
+import { TagCustomized } from '../../../shared/components/TagCustomized/TagCustomized'
+import { currencyFormat, numberWithSpaces } from '../../../shared/utils/helpers'
+
+const paymentMethodColors = {
+  cash: {
+    bgColor: '#D4E8F9',
+    textColor: '#0A53A8',
+  },
+  cheque: {
+    bgColor: '#4A74D9',
+    textColor: '#B7DAF3',
+  },
+  bankaccount: {
+    bgColor: '#CFF2D2',
+    textColor: '#30B73D',
+  },
+}
+
+const trainingColors = {
+  introwebdev: {
+    bgColor: '#D4E8F9',
+    textColor: '#0A53A8',
+  },
+  pythonforstudents: {
+    bgColor: '#4A74D9',
+    textColor: '#B7DAF3',
+  },
+  packpfee: {
+    bgColor: '#A178FF',
+    textColor: '#270083',
+  },
+  introwebdevkids: {
+    bgColor: '#FEE3D0',
+    textColor: '#B10202',
+  },
+  summerkids: {
+    bgColor: '#D2E3E9',
+    textColor: '#215A6C',
+  },
+  bootcampfullstack: {
+    bgColor: '#9D3EE4',
+    textColor: '#f3e2ff',
+  },
+}
+
+const locationColors = {
+  shaloul: {
+    bgColor: '#F1D8F9',
+    color: '#613A8C',
+  },
+  hamemsousse: {
+    bgColor: '#FEDD8F',
+    color: '#753800',
+  },
+  takiacademy: {
+    bgColor: '#D4E8F9',
+    textColor: '#0A53A8',
+  },
+}
 
 const columns = [
   {
     title: 'Customer Name',
     dataIndex: 'customerName',
-    key: 'customreName',
+    key: 1,
     width: 200,
     fixed: true,
   },
   {
     title: 'Date',
     dataIndex: 'dateCreated',
-    key: 'dateCreated',
+    key: 2,
   },
   {
     title: 'Customer Phone',
     dataIndex: 'customerPhone',
-    key: 'customerPhone',
+    key: 3,
+    render: (phoneNumber) => (
+      <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
+    ),
   },
   {
     title: 'Customer Email',
     dataIndex: 'customerEmail',
-    key: 'customerEmail',
+    key: 4,
+    width: 250,
+    render: (email) => <a href={`mailto:${email}`}>{email}</a>,
   },
   {
     title: 'Payment Method',
     dataIndex: 'paymentMethod',
-    key: 'paymentMethod',
+    key: 5,
+    render: (paymentMethod) => (
+      <TagCustomized
+        colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
+      >
+        {paymentMethod}
+      </TagCustomized>
+    ),
   },
   {
     title: 'Price',
     dataIndex: 'price',
-    key: 'price',
+    key: 6,
+    render: (price) => currencyFormat(price),
   },
   {
     title: 'Total Slice',
     dataIndex: 'slicesTotalCount',
-    key: 'slicesTotalCount',
+    key: 7,
   },
   {
     title: 'Slice Count',
     dataIndex: 'sliceCount',
-    key: 'sliceCount',
+    key: 8,
   },
   {
     title: 'Training',
     dataIndex: 'trainingName',
-    key: 'trainingName',
+    key: 9,
+    width: 200,
+    render: (training) => (
+      <TagCustomized colors={trainingColors[training.replaceAll(' ', '').toLowerCase()] || {}}>
+        {training}
+      </TagCustomized>
+    ),
   },
   {
     title: 'Reception Location',
     dataIndex: 'location',
-    key: 'location',
+    key: 10,
+    render: (location) => (
+      <TagCustomized colors={locationColors[location.replaceAll(' ', '').toLowerCase()] || {}}>
+        {location}
+      </TagCustomized>
+    ),
   },
   {
     title: 'Employee Name ',
     dataIndex: 'employeeName',
-    key: 'employeeName',
+    key: 11,
   },
   {
     title: 'Description ',
     dataIndex: 'description',
-    key: 'description',
+    key: 12,
+  },
+  {
+    title: 'Actions',
+    key: 13,
+    render: () => <p>...</p>,
+    fixed: 'right',
+    width: 100,
   },
 ]
 
@@ -72,12 +162,11 @@ export default function IncomesTable() {
 
   const { data, isLoading } = useGetIncomesQuery({})
 
-  if (isLoading) return <div>Loading</div>
+  if (isLoading) return <Spin size="large" />
 
-  const preparedData = data?.map((income) => {
-    console.log(income.date_created)
+  const incomes = data?.map((income) => {
     return {
-      dateCreated: income.date_created,
+      dateCreated: new Intl.DateTimeFormat('en-CA').format(new Date(income.date_created)),
       customerName: income.customers.name,
       customerPhone: income.customers.phone,
       customerEmail: income.customers.email,
@@ -89,6 +178,7 @@ export default function IncomesTable() {
       trainingName: income.trainings.name,
       employeeName: income.user,
       price: income.price,
+      key: income.id,
     }
   })
 
@@ -104,21 +194,25 @@ export default function IncomesTable() {
     }),
   }
 
+  console.log(data)
+
   return (
     <div className="table_incomes_container">
-      <div className="table_incomes_container__container">
-        <Table
-          className="table_incomes"
-          pagination={false}
-          dataSource={preparedData}
-          columns={columns}
-          rowSelection={{
-            type: 'checkbox',
-            fixed: true,
-            ...rowSelection,
-          }}
-        />
-      </div>
+      {/* <div className="table_incomes_container__container"> */}
+      <Table
+        className="table_incomes"
+        pagination={false}
+        dataSource={incomes}
+        columns={columns}
+        rowSelection={{
+          type: 'checkbox',
+          fixed: true,
+          ...rowSelection,
+        }}
+        scroll={{ x: 2000 }}
+        loading={false}
+      />
+      {/* </div> */}
     </div>
   )
 }

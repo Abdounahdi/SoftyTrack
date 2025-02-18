@@ -7,6 +7,7 @@ import { api } from './services/api'
 
 import rootReducer from './rootReducer'
 import incomesApi from '../../incomes/data/supabaseApi/incomesApi'
+import trainingsApi from '../../incomes/data/supabaseApi/trainingsApi'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -14,7 +15,8 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat(
       api.middleware,
-      incomesApi.middleware
+      incomesApi.middleware,
+      trainingsApi.middleware
     ),
 })
 

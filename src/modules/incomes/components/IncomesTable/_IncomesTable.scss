@@ -1,3 +1,25 @@
-.table_incomes_container{
-  overflow: auto;
+.table_incomes_container {
+  .table_incomes {
+    tr {
+      text-align: center;
+      th {
+        background-color: #f4f7fb;
+        text-align: center;
+        font-family: Almarai;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: 0%;
+        color: #778baa;
+      }
+      td {
+        color: #6a6a6a;
+        font-family: Almarai;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0%;
+      }
+    }
+  }
 }

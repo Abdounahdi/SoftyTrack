@@ -3,12 +3,13 @@
   height: 100vh;
   display: flex;
 
-  overflow: hidden;
   &_container {
+    overflow: auto;
     width: 100%;
+    // flex-grow: 0;
     height: 100%;
-    // padding: 12px 22px;
     display: flex;
+    // padding-right: 180px;
     flex-direction: column;
     gap: 22px;
     
