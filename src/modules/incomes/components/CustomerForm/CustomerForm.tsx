@@ -1,4 +1,5 @@
-import { TagCustomized } from '../../../../shared/components/TagCustomized/TagCustomized'
+import { TagCustomized } from '../../../shared/components/TagCustomized/TagCustomized'
+import FormColumn from '../FormColumn/FormColumn'
 
 export default function CustomerForm({ trainings }) {
   return (
@@ -6,19 +7,10 @@ export default function CustomerForm({ trainings }) {
       <h2>Customer Details</h2>
       <div className="create_form_box">
         <div className="form_row">
-          <div className="form_column">
-            <label> Full Name </label>
-            <input type="text" placeholder="Customer Full Name ... " />
-          </div>
-          <div className="form_column">
-            <label> Phone Number </label>
-            <input type="tel" placeholder="** *** ***" />
-          </div>
-          <div className="form_column">
-            <label> Email </label>
-            <input type="email" placeholder="customer@example.com " />
-          </div>
-          <div className="form_column">
+          <FormColumn type="text" placeHolder="Customer Full Name ... " label="Full Name" />
+          <FormColumn type="tel" placeHolder="** *** *** " label="Phone Number" />
+          <FormColumn type="email" placeHolder="customer@example.com" label="Email" />
+          <FormColumn label="Training Chosen" type="select">
             <label> Training Chosen </label>
             <select>
               <option value="" disabled selected className="training_select_placeholder">
@@ -32,7 +24,7 @@ export default function CustomerForm({ trainings }) {
                 </option>
               ))}
             </select>
-          </div>
+          </FormColumn>
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import PageHeading from '../../../shared/components/PageHeading/PageHeading'
-import IncomeCreateForm from '../../components/IncomesForm/IncomeCreateForm/IncomeCreateForm'
+import IncomeCreateForm from '../../components/IncomeCreateForm/IncomeCreateForm'
 
 export default function IncomesCreateForm() {
   return (

@@ -25,7 +25,7 @@ const routes: RouteConfig[] = [
     exact: true,
     // guard: GuestGuard,
     path: '/incomes/create',
-    component: lazy(() => import('../features/IncomesCreateFrom/IncomesCreateForm')),
+    component: lazy(() => import('../features/IncomesCreate/IncomesCreate')),
     layout: MainLayout,
   },
 ]

@@ -1,0 +1,33 @@
+.create_form_container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.create_form_box {
+  background-color: #f5faff;
+  border: 1px solid #cecece;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form_row {
+  display: flex;
+  align-items: center;
+  // width: 100%;
+  gap: 16px;
+  // justify-content: space-between;
+}
+
+.slices_box_container {
+  gap: 12px;
+  width: 70%;
+  .slices_box {
+    input {
+      max-width: 250px !important;
+      min-width: 0 !important;
+    }
+  }
+}

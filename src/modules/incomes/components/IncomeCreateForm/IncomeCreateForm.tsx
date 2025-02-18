@@ -1,5 +1,5 @@
 import { Spin } from 'antd'
-import { useGetTrainingsQuery } from '../../../data/supabaseApi/trainingsApi'
+import { useGetTrainingsQuery } from '../../data/supabaseApi/trainingsApi'
 import CustomerForm from '../CustomerForm/CustomerForm'
 import PaymentForm from '../PaymentForm/PaymentForm'
 
