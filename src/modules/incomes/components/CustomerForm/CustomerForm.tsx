@@ -1,29 +1,55 @@
-import { TagCustomized } from '../../../shared/components/TagCustomized/TagCustomized'
+import { Select } from 'antd'
 import FormColumn from '../FormColumn/FormColumn'
+import { Controller } from 'react-hook-form'
 
-export default function CustomerForm({ trainings }) {
+export default function CustomerForm({ trainings, register, control }) {
   return (
     <>
       <h2>Customer Details</h2>
       <div className="create_form_box">
         <div className="form_row">
-          <FormColumn type="text" placeHolder="Customer Full Name ... " label="Full Name" />
-          <FormColumn type="tel" placeHolder="** *** *** " label="Phone Number" />
-          <FormColumn type="email" placeHolder="customer@example.com" label="Email" />
+          <FormColumn
+            type="text"
+            placeHolder="Customer Full Name ... "
+            label="Full Name"
+            register={register}
+            value="name"
+            error="i am an error"
+          />
+          <FormColumn
+            type="tel"
+            placeHolder="** *** *** "
+            label="Phone Number"
+            register={register}
+            value="phone"
+          />
+          <FormColumn
+            type="email"
+            placeHolder="customer@example.com"
+            label="Email"
+            register={register}
+            value="email"
+          />
           <FormColumn label="Training Chosen" type="select">
             <label> Training Chosen </label>
-            <select>
-              <option value="" disabled selected className="training_select_placeholder">
-                Select your option
-              </option>
-              {trainings?.map((training) => (
-                <option key={training.id} value={training.name}>
-                  <TagCustomized colors={{ bgColor: '#fff', textColor: '#fff' }}>
-                    {training.name}
-                  </TagCustomized>
-                </option>
-              ))}
-            </select>
+            <Controller
+              name="training"
+              control={control}
+              defaultValue=""
+              rules={{ required: 'This field is required' }}
+              render={({ field, fieldState: { error } }) => (
+                <Select
+                  {...field}
+                  showSearch
+                  className="form_column"
+                  placeholder="Choose Training"
+                  optionFilterProp="label"
+                  options={trainings.map((training) => {
+                    return { value: training.name, label: training.name }
+                  })}
+                />
+              )}
+            />
           </FormColumn>
         </div>
       </div>

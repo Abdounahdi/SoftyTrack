@@ -1,11 +1,11 @@
-interface FormColumnProps {
-  children?: React.ReactNode
-  placeHolder?: string
-  label: string
-  type: string
-  className: string
-  textarea: boolean
-}
+// interface FormColumnProps {
+//   children?: React.ReactNode
+//   placeHolder?: string
+//   label: string
+//   type: string
+//   className: string
+//   textarea: boolean
+// }
 
 export default function FormColumn({
   children,
@@ -14,13 +14,32 @@ export default function FormColumn({
   type,
   className = '',
   textarea,
-}: FormColumnProps) {
+  value,
+  register,
+  error = null,
+}) {
   if (children) return <div className="form_column">{children}</div>
 
   return (
-    <div className={`form_column ${className}`}>
-      <label>{label}</label>
-      {textarea ? <textarea placeholder={placeHolder}/> : <input type={type} placeholder={placeHolder} />}
-    </div>
+    <>
+      <div className={`form_column ${className}`}>
+        <label>{label}</label>
+        {textarea ? (
+          <textarea
+            placeholder={placeHolder}
+            {...register(value, { required: 'This field is required ' })}
+          />
+        ) : (
+          <input
+            type={type}
+            placeholder={placeHolder}
+            {...register(value, {
+              required: 'This field is required',
+            })}
+          />
+        )}
+      {error ? <p className="error_message_form">{error}</p> : ''}
+      </div>
+    </>
   )
 }

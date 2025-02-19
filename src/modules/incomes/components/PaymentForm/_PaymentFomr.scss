@@ -1,0 +1,11 @@
+.ant-select,
+.ant-picker {
+  height: 41px !important;
+  padding-bottom: 0 !important;
+
+  .ant-picker-input {
+    input::placeholder {
+      color: #4F6991;
+    }
+  }
+}

@@ -31,3 +31,21 @@
     }
   }
 }
+
+.sumbit_button_create_income {
+  border: none;
+  background: none;
+  outline: none;
+  background-color: #2e71e2;
+  border-radius: 8px;
+  padding: 15px 25px;
+  color: #f5faff;
+  font-size: 15px;
+  align-self: flex-end;
+  cursor: pointer;
+  transition: all 0.33s ease;
+
+  &:hover {
+    background-color: #4286fb;
+  }
+}

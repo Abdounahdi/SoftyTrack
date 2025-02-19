@@ -5,4 +5,8 @@
 @forward './IncomeCreateForm/IncomeCreateForm';
 @forward './PaymentForm/PaymentFomr';
 
-@forward "./FormColumn/FormColumn"
+@forward "./FormColumn/FormColumn"; 
+
+
+@forward "./FormGenerator/FormGenerator";
+@forward "./InputGenerator/InputGenerator";
