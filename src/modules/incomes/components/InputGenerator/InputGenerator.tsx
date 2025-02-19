@@ -7,58 +7,30 @@ export default function InputGenerator({ inputOptions }) {
 
   console.log(inputOptions)
   if (type === 'text') {
-    return (
-      <Input
-        type="text"
-        placeholder={placeHolder}
-        status={inputOptions.error && 'error'}
-        className={className}
-      />
-    )
+    return <Input type="text" placeholder={placeHolder} status={inputOptions.error && 'error'} />
   }
 
   if (type === 'tel') {
-    return (
-      <Input
-        type="tel"
-        placeholder={placeHolder}
-        status={inputOptions.error && 'error'}
-        className={className}
-      />
-    )
+    return <Input type="tel" placeholder={placeHolder} status={inputOptions.error && 'error'} />
   }
 
   if (type === 'email') {
-    return (
-      <Input
-        type="email"
-        placeholder={placeHolder}
-        status={inputOptions.error && 'error'}
-        className={className}
-      />
-    )
+    return <Input type="email" placeholder={placeHolder} status={inputOptions.error && 'error'} />
   }
 
   if (type === 'number') {
-    return (
-      <Input
-        type="number"
-        placeholder={placeHolder}
-        status={inputOptions.error && 'error'}
-        className={className}
-      />
-    )
+    return <Input type="number" placeholder={placeHolder} status={inputOptions.error && 'error'} />
   }
 
   if (type === 'textarea') {
-    return <textarea placeholder={placeHolder} className={className} />
+    return <textarea placeholder={placeHolder} />
   }
 
   if (type === 'select') {
     return (
       <Select
         showSearch
-        className={`form_column ${className}`}
+        className={'form_column '}
         placeholder={placeHolder}
         optionFilterProp="label"
         options={selectOptions}
@@ -67,7 +39,7 @@ export default function InputGenerator({ inputOptions }) {
   }
 
   if (type === 'date') {
-    return <DatePicker className={`form_column ${className}`} />
+    return <DatePicker className={'form_column'} />
   }
 
   return <p>{type}</p>

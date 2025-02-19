@@ -70,11 +70,12 @@ export default function IncomeCreateForm() {
           error: 'This Field is required',
         },
         {
-          label: 'Email',
-          type: 'email',
-          value: 'email',
-          placeHolder: 'customer@example.com',
+          label: 'Total Slices',
+          type: 'number',
+          value: 'total_slices',
+          placeHolder: '',
           error: '',
+          className: 'slices_box_width_small',
         },
         {
           label: 'Training Chosen',

@@ -8,10 +8,14 @@ export default function FormGenerator({ options }) {
           <div className="form_row">
             {formRowOptions.columns.map((formColumnOptions) => {
               return (
-                <div className="form_column">
+                <div className={`form_column ${formColumnOptions.className}`}>
                   <label>{formColumnOptions.label}</label>
                   <InputGenerator inputOptions={formColumnOptions} />
-                  {formColumnOptions?.error ? <span className='error_form_column_generator'>{formColumnOptions.error}</span> : ''}
+                  {formColumnOptions?.error ? (
+                    <span className="error_form_column_generator">{formColumnOptions.error}</span>
+                  ) : (
+                    ''
+                  )}
                 </div>
               )
             })}
