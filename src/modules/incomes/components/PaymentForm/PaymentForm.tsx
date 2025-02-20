@@ -1,8 +1,6 @@
-import { DatePicker, Select } from 'antd'
-import FormColumn from '../FormColumn/FormColumn'
-import { Controller } from 'react-hook-form'
+import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 
-export default function PaymentForm({ register, control }) {
+export default function PaymentForm({ register, control, errors }) {
   const paymentMethods = [
     {
       value: 'Cash',
@@ -32,104 +30,93 @@ export default function PaymentForm({ register, control }) {
       label: 'Sahloul',
     },
   ]
+  const receptionistOptions = [
+    {
+      value: 'hammemSousse',
+      label: 'Hammem Sousse',
+    },
+    {
+      value: 'TakiAcademy',
+      label: 'TakiAcademy',
+    },
+    {
+      value: 'Sahloul',
+      label: 'Sahloul',
+    },
+  ]
+
+  const paymentFormInputs = [
+    {
+      columns: [
+        {
+          label: 'Price',
+          type: 'number',
+          value: 'price',
+          placeHolder: 'price to pay ... ',
+          error: errors?.price?.message,
+        },
+        {
+          label: 'Total Slices',
+          type: 'number',
+          value: 'total_slices',
+          placeHolder: '',
+          error: errors?.total_slices?.message,
+          className: 'slices_box_width_small',
+        },
+        {
+          label: 'Paid Slices',
+          type: 'number',
+          value: 'paid_slices',
+          placeHolder: '',
+          error: errors?.paid_slices?.message,
+          className: 'slices_box_width_small',
+        },
+        {
+          label: 'Payment Method',
+          type: 'select',
+          selectOptions: paymentMethods,
+          name: 'payment_method',
+          createOption: true,
+          placeHolder: 'Choose Training ... ',
+          error: errors?.payment_method?.message,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Location',
+          type: 'select',
+          name: 'location',
+          selectOptions: locationOptions,
+          placeHolder: 'select location ... ',
+          error: errors?.location?.message,
+        },
+        {
+          label: 'Date of income',
+          type: 'date',
+          value: 'date_created',
+          placeHolder: '',
+          error: errors?.date_created?.message,
+        },
+        {
+          label: 'Receptionist',
+          type: 'select',
+          selectOptions: receptionistOptions,
+          name: 'receptionist',
+          createOption: false,
+          placeHolder: ' ',
+          error: errors?.receptionist?.message,
+        },
+      ],
+    },
+  ]
 
   return (
     <>
       <h2>Payment Details</h2>
       <div className="create_form_box">
-        <div className="form_row">
-          <FormColumn
-            type="number"
-            label="Price"
-            placeHolder="price to pay"
-            register={register}
-            value="price"
-          />
-          <div className="form_row slices_box_container">
-            <FormColumn
-              type="number"
-              label="Total Slices"
-              className="slices_box"
-              register={register}
-              value="total_slices"
-            />
-            <FormColumn
-              type="number"
-              label="Paid Slices"
-              className="slices_box"
-              register={register}
-              value="slice_count"
-            />
-          </div>
-          <FormColumn>
-            <label> Payment Method </label>
-            <Controller
-              name="payment_method"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'This field is required' }}
-              render={({ field, fieldState: { error } }) => (
-                <Select
-                  {...field}
-                  showSearch
-                  className="form_column"
-                  placeholder="Select a method"
-                  optionFilterProp="label"
-                  options={paymentMethods}
-                />
-              )}
-            />
-          </FormColumn>
-        </div>
-        <div className="form_row">
-          <FormColumn>
-            <label> Location </label>
-            <Controller
-              name="reception_location"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'This field is required' }}
-              render={({ field, fieldState: { error } }) => (
-                <Select
-                  {...field}
-                  showSearch
-                  className="form_column"
-                  placeholder="Select a location"
-                  optionFilterProp="label"
-                  options={locationOptions}
-                />
-              )}
-            />
-          </FormColumn>
-          <FormColumn>
-            <label>Date Of Income</label>
-            <Controller
-              name="date_created"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'This field is required' }}
-              render={({ field, fieldState: { error } }) => (
-                <DatePicker className="form_column" {...field} />
-              )}
-            />
-          </FormColumn>
-          <FormColumn
-            type="text"
-            label="Receptionist Full Name "
-            placeHolder="user name "
-            register={register}
-            value="user"
-          />
-        </div>
-        <div className="form_row">
-          <FormColumn
-            textarea={true}
-            placeHolder="description ... "
-            label="Description"
-            register={register}
-            value="description"
-          />
-        </div>
+        <FormGenerator options={paymentFormInputs} control={control} register={register} />
       </div>
     </>
   )

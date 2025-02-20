@@ -1,0 +1,14 @@
+.error_form_column_generator {
+  position: absolute;
+  bottom: -11px;
+  left: 5px;
+  font-size: 14px;
+  color: rgb(255, 61, 61);
+}
+.form_row {
+  display: flex;
+  align-items: center;
+  // width: 100%;
+  gap: 16px;
+  // justify-content: space-between;
+}

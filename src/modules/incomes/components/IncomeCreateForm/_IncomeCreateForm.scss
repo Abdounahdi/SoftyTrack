@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 16px;
 }
+
 .create_form_box {
   background-color: #f5faff;
   border: 1px solid #cecece;
@@ -13,24 +14,18 @@
   gap: 16px;
 }
 
-.form_row {
-  display: flex;
-  align-items: center;
-  // width: 100%;
-  gap: 16px;
-  // justify-content: space-between;
-}
 
-.slices_box_container {
-  gap: 12px;
-  width: 70%;
-  .slices_box {
-    input {
-      max-width: 250px !important;
-      min-width: 0 !important;
-    }
-  }
-}
+
+// .slices_box_container {
+//   gap: 12px;
+//   width: 70%;
+//   .slices_box {
+//     input {
+//       max-width: 250px !important;
+//       min-width: 0 !important;
+//     }
+//   }
+// }
 
 .sumbit_button_create_income {
   border: none;
@@ -48,9 +43,4 @@
   &:hover {
     background-color: #4286fb;
   }
-}
-
-
-.slices_box_width_small{
-  width: 30% !important;
 }

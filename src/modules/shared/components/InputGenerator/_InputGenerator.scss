@@ -36,10 +36,14 @@
 }
 
 
-.error_message_form{
-  position: absolute;
-  bottom: -11px;
-  left: 7px;
-  font-size: 13px ;
-  color: rgb(205, 0, 0);
+.ant-select,
+.ant-picker {
+  height: 41px !important;
+  padding-bottom: 0 !important;
+
+  .ant-picker-input {
+    input::placeholder {
+      color: #4F6991;
+    }
+  }
 }

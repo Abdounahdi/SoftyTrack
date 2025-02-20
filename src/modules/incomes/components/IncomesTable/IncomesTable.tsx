@@ -194,7 +194,7 @@ export default function IncomesTable() {
     }),
   }
 
-  console.log(data)
+  // console.log(data)
 
   return (
     <div className="table_incomes_container">

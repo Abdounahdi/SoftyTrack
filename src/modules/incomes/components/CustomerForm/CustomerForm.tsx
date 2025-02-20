@@ -1,57 +1,62 @@
-import { Select } from 'antd'
-import FormColumn from '../FormColumn/FormColumn'
-import { Controller } from 'react-hook-form'
+import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 
-export default function CustomerForm({ trainings, register, control }) {
+export default function CustomerForm({ trainings, register, control, errors }) {
+  const trainingsOptions = [
+    {
+      value: 'BootCamp',
+      label: 'BootCamp',
+    },
+    {
+      value: 'Pack Pfee',
+      label: 'Pack Pfee',
+    },
+    {
+      value: 'Summer Kids',
+      label: 'Summer Kids',
+    },
+  ]
+
+  const customerFormInputs = [
+    {
+      columns: [
+        {
+          label: 'Full Name',
+          type: 'text',
+          value: 'customer_name',
+          placeHolder: 'customer full name ... ',
+          error: errors?.customer_name?.message,
+        },
+        {
+          label: 'Phone Number',
+          type: 'tel',
+          value: 'phone',
+          placeHolder: '** *** ***',
+          error: errors?.phone?.message,
+        },
+        {
+          label: 'Email',
+          type: 'email',
+          value: 'email',
+          placeHolder: 'customer@example.com',
+          error: errors?.email?.message,
+        },
+        {
+          label: 'Training Chosen',
+          type: 'select',
+          selectOptions: trainingsOptions,
+          name: 'training',
+          createOption: true,
+          placeHolder: 'Choose Training ... ',
+          error: errors?.training?.message,
+        },
+      ],
+    },
+  ]
   return (
     <>
       <h2>Customer Details</h2>
       <div className="create_form_box">
-        <div className="form_row">
-          <FormColumn
-            type="text"
-            placeHolder="Customer Full Name ... "
-            label="Full Name"
-            register={register}
-            value="name"
-            error="i am an error"
-          />
-          <FormColumn
-            type="tel"
-            placeHolder="** *** *** "
-            label="Phone Number"
-            register={register}
-            value="phone"
-          />
-          <FormColumn
-            type="email"
-            placeHolder="customer@example.com"
-            label="Email"
-            register={register}
-            value="email"
-          />
-          <FormColumn label="Training Chosen" type="select">
-            <label> Training Chosen </label>
-            <Controller
-              name="training"
-              control={control}
-              defaultValue=""
-              rules={{ required: 'This field is required' }}
-              render={({ field, fieldState: { error } }) => (
-                <Select
-                  {...field}
-                  showSearch
-                  className="form_column"
-                  placeholder="Choose Training"
-                  optionFilterProp="label"
-                  options={trainings.map((training) => {
-                    return { value: training.name, label: training.name }
-                  })}
-                />
-              )}
-            />
-          </FormColumn>
-        </div>
+        <FormGenerator options={customerFormInputs} control={control} register={register} />
       </div>
     </>
   )
