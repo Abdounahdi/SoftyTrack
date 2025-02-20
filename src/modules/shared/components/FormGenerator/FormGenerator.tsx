@@ -1,19 +1,20 @@
 import InputGenerator from '../InputGenerator/InputGenerator'
 
-export default function FormGenerator({ options, control ,  register}) {
+export default function FormGenerator({ options, control, register }) {
   return (
     <>
       {options.map((formRowOptions) => {
         return (
           <div className="form_row">
-            {formRowOptions.columns.map((formColumnOptions) => {
+            {formRowOptions.columns.map((formColumnOptions, index) => {
               return (
-                <div
-                  className={`form_column ${formColumnOptions.className}`}
-                  key={formColumnOptions.label}
-                >
+                <div className={`form_column ${formColumnOptions.className}`} key={index}>
                   <label>{formColumnOptions.label}</label>
-                  <InputGenerator inputOptions={formColumnOptions} control={control} register={register}/>
+                  <InputGenerator
+                    inputOptions={formColumnOptions}
+                    control={control}
+                    register={register}
+                  />
                   {formColumnOptions?.error ? (
                     <span className="error_form_column_generator">{formColumnOptions.error}</span>
                   ) : (

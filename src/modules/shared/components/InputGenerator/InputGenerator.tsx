@@ -130,5 +130,24 @@ export default function InputGenerator({ inputOptions, control, register }) {
     )
   }
 
-  return <p>{type}</p>
+  if (type === 'password') {
+    return (
+      <Controller
+        name={name || value}
+        control={control}
+        defaultValue=""
+        rules={{ required: 'This Field is required' }}
+        render={({ field, fieldState: { error } }) => (
+          <Input.Password
+            {...field}
+            className={'password_input'}
+            status={inputOptions.error && 'error'}
+            placeholder={placeHolder}
+          />
+        )}
+      />
+    )
+  }
+
+  return <p>unknown type : {type}</p>
 }

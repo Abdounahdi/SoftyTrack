@@ -32,9 +32,19 @@
   .antd_select {
     min-width: 180px;
     // padding-bottom: 0 !important;
+    &:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px white inset !important;
+    }
   }
 }
 
+.password_input {
+  padding-top: 10px;
+  padding-right: 16px;
+  padding-bottom: 10px;
+  padding-left: 16px;
+  border: 1px solid #cecece;
+}
 
 .ant-select,
 .ant-picker {
@@ -43,7 +53,7 @@
 
   .ant-picker-input {
     input::placeholder {
-      color: #4F6991;
+      color: #4f6991;
     }
   }
 }

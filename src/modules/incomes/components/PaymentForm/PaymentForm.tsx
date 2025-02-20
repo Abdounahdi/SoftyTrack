@@ -85,7 +85,7 @@ export default function PaymentForm({ register, control, errors }) {
     {
       columns: [
         {
-          label: 'Location',
+          label: 'Reception Local',
           type: 'select',
           name: 'location',
           selectOptions: locationOptions,

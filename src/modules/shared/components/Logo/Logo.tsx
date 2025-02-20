@@ -6,11 +6,12 @@ import LogoSvgSM from '../../assets/icons/brandLogoSmall.svg'
 
 interface Props {
   isOpen: boolean
+  className: string
 }
 
-export default function Logo({ isOpen }: Props) {
+export default function Logo({ isOpen, className }: Props) {
   return (
-    <div className="logo_container">
+    <div className={`logo_container ${className}`}>
       <img src={isOpen ? LogoSvgLG : LogoSvgSM} alt="" />
     </div>
   )

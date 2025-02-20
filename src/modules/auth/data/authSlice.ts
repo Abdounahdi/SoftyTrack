@@ -5,7 +5,7 @@ import { login } from './authThunk'
 export interface AuthState {
   status: string
   isAuthenticated: boolean
-  isInitialised: boolean
+  // isInitialised: boolean
   user: IUser | null
   error: string | null
 }
@@ -13,7 +13,7 @@ export interface AuthState {
 const initialState: AuthState = {
   status: 'idle',
   isAuthenticated: false,
-  isInitialised: false,
+  // isInitialised: false,
   user: null,
   error: null,
 }
@@ -25,7 +25,7 @@ const authSlice = createSlice({
     initialise: (state, action) => {
       const { isAuthenticated, user } = action.payload
       state.isAuthenticated = isAuthenticated
-      state.isInitialised = true
+      // state.isInitialised = true
       state.user = user
     },
     restore: (state) => {
