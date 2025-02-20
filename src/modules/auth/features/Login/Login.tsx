@@ -11,11 +11,12 @@ import { useForm } from 'react-hook-form'
 import { Divider } from 'antd'
 import googleIcon from '../../../shared/assets/icons/googleIcon.svg'
 import githubIcon from '../../../shared/assets/icons/github.svg'
+import { initialise } from '../../data/authSlice'
 
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const [login, {isLoading}] = useLoginMutation()
+  const [login, { isLoading, error}] = useLoginMutation()
   // const [submitting, setSubmitting] = useState<boolean>(false)
 
   const {
@@ -51,18 +52,16 @@ const Login = () => {
   ]
 
   async function onSuccess(newObj) {
-    try{
-
-      const data = await login(newObj) ; 
-    }catch(err){
-      console.error(err)
-      toast
+    const { data } = await login(newObj)
+    if (data?.user) {
+      console.log(data)
+      dispatch(initialise({ isAuthenticated: true, user: data.user }))
     }
-
   }
 
   function onError(err) {
     console.error(err)
+    console.log('hi')
   }
 
   return (
