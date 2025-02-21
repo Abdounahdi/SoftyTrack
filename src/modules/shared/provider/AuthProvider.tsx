@@ -1,13 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axiosInstance from '../utils/axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { initialise } from '../../auth/data/authSlice'
 import { isValidToken } from '../utils/isValidToken'
 import LazyLoad from '../components/LazyLoad/LazyLoad'
 import useIsMounted from '../hook/useIsMountedRef'
-import { clearTokens, getTokens } from '../utils/token'
+import { clearTokens, getToken, getTokens } from '../utils/token'
 import { RootState } from '../store'
 import supabase from '../supabase'
+import { useGetUserRoleQuery } from '../../auth/data/authApi'
 
 // import { useDispatch, useSelector } from "react-redux"
 // import useIsMounted from "../hook/useIsMountedRef"
@@ -19,7 +20,7 @@ interface AuthProviderProps {
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const dispatch = useDispatch()
   const isMounted = useIsMounted()
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -27,27 +28,39 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     async function fetchUser() {
-      const test = localStorage.getItem('sb-flnfpmjlnofgwbgfuiar-auth-token')
-      const thabet = JSON.parse(test)
+      const access_token = getToken()
 
-      const access_token = thabet?.access_token
       if (!access_token) return
-      const user = await supabase.auth.getUser(access_token)
+      setIsLoading(true)
+      const data = await supabase.auth.getUser(access_token)
 
-      if (!user) {
+      if (data.error) {
         return dispatch(initialise({ isAuthenticated: false, user: null }))
       }
-      console.log("thanks")
-      dispatch(initialise({ isAuthenticated: true, user }))
+
+      const { data: userRole, error: userRolesError } = await supabase
+        .from('user_roles')
+        .select('* , role_id(*)')
+        .eq('user_id', data.data.user?.id)
+
+      if (userRolesError) {
+        return dispatch(initialise({ isAuthenticated: false, user: null }))
+      }
+
+      const role = userRole[0]?.role_id.role_name
+
+      console.log(role)
+
+      setIsLoading(false)
+      dispatch(initialise({ isAuthenticated: true, user: data?.data?.user, role }))
     }
 
     fetchUser()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // if (!isAuthenticated) {
-  //   return <LazyLoad />
-  // }
+  if (isLoading) {
+    return <LazyLoad />
+  }
 
   return <>{children}</>
 }

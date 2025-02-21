@@ -4,7 +4,7 @@ import { useState } from 'react'
 import * as Yup from 'yup'
 import Input from '../../../shared/components/Input'
 import { useNavigate } from 'react-router-dom'
-import { useLoginMutation } from '../../data/authApi'
+import { useGetUserRoleMutation, useLoginMutation } from '../../data/authApi'
 import Logo from '../../../shared/components/Logo/Logo'
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 import { useForm } from 'react-hook-form'
@@ -16,7 +16,8 @@ import { initialise } from '../../data/authSlice'
 const Login = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const [login, { isLoading, error}] = useLoginMutation()
+  const [login, { isLoading, error }] = useLoginMutation()
+  const [getUserRole, { isLoading: isLoadingRole, error: errorRole }] = useGetUserRoleMutation()
   // const [submitting, setSubmitting] = useState<boolean>(false)
 
   const {
@@ -51,12 +52,15 @@ const Login = () => {
     },
   ]
 
-  async function onSuccess(newObj) {
-    const { data } = await login(newObj)
+  async function onSuccess(loginInfo) {
+    const { data } = await login(loginInfo)
     if (data?.user) {
-      console.log(data)
       dispatch(initialise({ isAuthenticated: true, user: data.user }))
+    } else {
+      return
     }
+    const { data:{userRole} } = await getUserRole(data?.session?.access_token)
+    console.log(userRole)
   }
 
   function onError(err) {

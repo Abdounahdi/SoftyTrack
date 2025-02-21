@@ -8,7 +8,7 @@ const authApi = createApi({
   endpoints: (builder) => ({
     login: builder.mutation({
       async queryFn({ password, email }) {
-        console.log(password, email)
+        // console.log(password, email)
         const { data, error } = await supabase.auth.signInWithPassword({
           email: email,
           password: password,
@@ -17,12 +17,33 @@ const authApi = createApi({
           console.error(error)
           toast.error('Invalid email or password !')
         }
+        // console.log(data)
+        return { data }
+      },
+    }),
+    getUserRole: builder.mutation({
+      async queryFn(access_token) {
+        const { data, error } = await supabase.auth.getUser(access_token)
+        if (error) {
+          console.error(error)
+          throw new Error('geting user faild')
+        }
+        const userId = data.user.id
+
+        const { data: userRoleData, error: userRolesError } = await supabase
+          .from('user_roles')
+          .select('* , role_id(*)')
+          .eq('user_id', userId)
+        if (userRoleData?.length === 0) throw new Error("user or role doesn't exist ")
+
+        const userRole = userRoleData[0]?.role_id.role_name
+        data.userRole = userRole
         return { data }
       },
     }),
   }),
 })
 
-export const { useLoginMutation } = authApi
+export const { useLoginMutation, useGetUserRoleMutation } = authApi
 
 export default authApi
