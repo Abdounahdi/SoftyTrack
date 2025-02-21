@@ -32,27 +32,31 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
       if (!access_token) return
       setIsLoading(true)
-      const data = await supabase.auth.getUser(access_token)
+      try {
+        const data = await supabase.auth.getUser(access_token)
 
-      if (data.error) {
-        return dispatch(initialise({ isAuthenticated: false, user: null }))
+        if (data.error) {
+          return dispatch(initialise({ isAuthenticated: false, user: null }))
+        }
+
+        const { data: userRole, error: userRolesError } = await supabase
+          .from('user_roles')
+          .select('* , role_id(*)')
+          .eq('user_id', data.data.user?.id)
+
+        if (userRolesError) {
+          return dispatch(initialise({ isAuthenticated: false, user: null }))
+        }
+
+        const role = userRole[0]?.role_id.role_name
+
+        console.log(role)
+        dispatch(initialise({ isAuthenticated: true, user: data?.data?.user, role }))
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setIsLoading(false)
       }
-
-      const { data: userRole, error: userRolesError } = await supabase
-        .from('user_roles')
-        .select('* , role_id(*)')
-        .eq('user_id', data.data.user?.id)
-
-      if (userRolesError) {
-        return dispatch(initialise({ isAuthenticated: false, user: null }))
-      }
-
-      const role = userRole[0]?.role_id.role_name
-
-      console.log(role)
-
-      setIsLoading(false)
-      dispatch(initialise({ isAuthenticated: true, user: data?.data?.user, role }))
     }
 
     fetchUser()

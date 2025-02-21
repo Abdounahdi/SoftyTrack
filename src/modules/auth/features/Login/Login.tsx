@@ -12,6 +12,7 @@ import { Divider } from 'antd'
 import googleIcon from '../../../shared/assets/icons/googleIcon.svg'
 import githubIcon from '../../../shared/assets/icons/github.svg'
 import { initialise } from '../../data/authSlice'
+// import { useCreateNewCustomerMutation } from '../../../auth/data/authApi'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -54,19 +55,32 @@ const Login = () => {
 
   async function onSuccess(loginInfo) {
     const { data } = await login(loginInfo)
-    if (data?.user) {
-      dispatch(initialise({ isAuthenticated: true, user: data.user }))
-    } else {
-      return
-    }
-    const { data:{userRole} } = await getUserRole(data?.session?.access_token)
-    console.log(userRole)
+    if (!data?.user) return
+
+    const {
+      data: { userRole },
+    } = await getUserRole(data?.session?.access_token)
+    if (!userRole) return
+    // console.log(userRole)
+
+    dispatch(initialise({ isAuthenticated: true, user: data.user, role: userRole }))
   }
 
   function onError(err) {
     console.error(err)
     console.log('hi')
   }
+
+  // const [createNewCustomer] = useCreateNewCustomerMutation({})
+
+  // function handleCreateUser() {
+  //   const { data } = createNewCustomer({
+  //     password: '123456789',
+  //     email: 'username@user.com',
+  //     phone: '98452635',
+  //     fullName: 'user username',
+  //   })
+  // }
 
   return (
     <div className="login_feature">
@@ -110,6 +124,7 @@ const Login = () => {
           </div>
         </div>
       </form>
+      {/* <button onClick={handleCreateUser}> create user</button> */}
     </div>
   )
 }

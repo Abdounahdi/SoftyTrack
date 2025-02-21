@@ -41,9 +41,30 @@ const authApi = createApi({
         return { data }
       },
     }),
+    createNewCustomer: builder.mutation({
+      async queryFn({ email, password, fullName, phone }) {
+        let { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              full_name: fullName,
+              phone: phone,
+            },
+          },
+        })
+
+        if (error) {
+          console.error(error)
+          // return
+        }
+
+        return { data }
+      },
+    }),
   }),
 })
 
-export const { useLoginMutation, useGetUserRoleMutation } = authApi
+export const { useLoginMutation, useGetUserRoleMutation, useCreateNewCustomerMutation } = authApi
 
 export default authApi

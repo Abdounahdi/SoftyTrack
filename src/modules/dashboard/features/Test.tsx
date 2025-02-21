@@ -1,4 +1,4 @@
-import PageHeading from "../../shared/components/PageHeading/PageHeading"
+import PageHeading from '../../shared/components/PageHeading/PageHeading'
 
 const Test = () => {
   return (

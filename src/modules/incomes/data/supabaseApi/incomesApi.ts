@@ -10,8 +10,10 @@ const incomesApi = createApi({
       async queryFn() {
         const { data, error } = await supabase
           .from('incomes')
-          .select('* , customers(*) , trainings(*)')
-        if (error) console.error(error)
+          .select('* , training_id(*) , payment_method_id(*) , customer_id(*) , made_by(*) , reception_location(*)')
+
+        if (error) return
+
         return { data }
       },
     }),

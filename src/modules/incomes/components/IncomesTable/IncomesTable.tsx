@@ -164,19 +164,21 @@ export default function IncomesTable() {
 
   if (isLoading) return <Spin size="large" />
 
+  console.log(data)
+
   const incomes = data?.map((income) => {
     return {
       dateCreated: new Intl.DateTimeFormat('en-CA').format(new Date(income.date_created)),
-      customerName: income.customers.name,
-      customerPhone: income.customers.phone,
-      customerEmail: income.customers.email,
-      paymentMethod: income.payment_method,
+      customerName: income.customer_id.full_name,
+      customerPhone: income.customer_id.phone,
+      customerEmail: income.customer_id.email,
+      paymentMethod: income.payment_method_id.payment_method,
       slicesTotalCount: income.total_slices,
-      sliceCount: income.slice_count,
-      location: income.reception_location,
+      sliceCount: income.paid_slices,
+      location: income.reception_location.location,
       description: income.description,
-      trainingName: income.trainings.name,
-      employeeName: income.user,
+      trainingName: income.training_id.training,
+      employeeName: income.made_by.full_name,
       price: income.price,
       key: income.id,
     }

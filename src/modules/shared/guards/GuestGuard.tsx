@@ -6,9 +6,17 @@ interface MainLayoutProps {
 }
 
 const GuestGuard = ({ children }: MainLayoutProps) => {
-  const { isAuthenticated } = useAppSelector((state) => state.auth)
+  const { isAuthenticated, role } = useAppSelector((state) => state.auth)
 
-  return isAuthenticated ? <Navigate to="/dashboard" /> : children
+  return isAuthenticated ? (
+    role === 'admin' ? (
+      <Navigate to="/dashboard" />
+    ) : (
+      <Navigate to="/incomes" />
+    )
+  ) : (
+    children
+  )
 }
 
 export default GuestGuard
