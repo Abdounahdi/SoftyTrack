@@ -1,49 +1,23 @@
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 
-export default function PaymentForm({ register, control, errors }) {
-  const paymentMethods = [
-    {
-      value: 'Cash',
-      label: 'Cash',
-    },
-    {
-      value: 'BankAccount',
-      label: 'BankAccount',
-    },
-    {
-      value: 'Cheque',
-      label: 'Cheque',
-    },
-  ]
+export default function PaymentForm({
+  payment_methods,
+  locations,
+  users,
+  register,
+  control,
+  errors,
+}) {
+  const paymentMethods = payment_methods.map((paymentMethod) => {
+    return { value: paymentMethod.id, label: paymentMethod.payment_method }
+  })
 
-  const locationOptions = [
-    {
-      value: 'hammemSousse',
-      label: 'Hammem Sousse',
-    },
-    {
-      value: 'TakiAcademy',
-      label: 'TakiAcademy',
-    },
-    {
-      value: 'Sahloul',
-      label: 'Sahloul',
-    },
-  ]
-  const receptionistOptions = [
-    {
-      value: 'hammemSousse',
-      label: 'Hammem Sousse',
-    },
-    {
-      value: 'TakiAcademy',
-      label: 'TakiAcademy',
-    },
-    {
-      value: 'Sahloul',
-      label: 'Sahloul',
-    },
-  ]
+  const locationOptions = locations.map((location) => {
+    return { value: location.id, label: location.location }
+  })
+  const receptionistOptions = users.map((user) => {
+    return { value: user.id, label: user.full_name }
+  })
 
   const paymentFormInputs = [
     {

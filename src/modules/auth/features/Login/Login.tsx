@@ -12,7 +12,7 @@ import { Divider } from 'antd'
 import googleIcon from '../../../shared/assets/icons/googleIcon.svg'
 import githubIcon from '../../../shared/assets/icons/github.svg'
 import { initialise } from '../../data/authSlice'
-import { useCreateNewCustomerMutation } from '../../../auth/data/authApi'
+// import { useCreateNewCustomerMutation } from '../../../auth/data/authApi'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -71,7 +71,7 @@ const Login = () => {
     console.log('hi')
   }
 
-  const [createNewCustomer] = useCreateNewCustomerMutation({})
+  // const [createNewCustomer] = useCreateNewCustomerMutation({})
 
   function handleCreateUser() {
     const { data } = createNewCustomer({
@@ -125,7 +125,7 @@ const Login = () => {
           </div>
         </div>
       </form>
-      <button onClick={handleCreateUser}> create user</button>
+      {/* <button onClick={handleCreateUser}> create user</button> */}
     </div>
   )
 }

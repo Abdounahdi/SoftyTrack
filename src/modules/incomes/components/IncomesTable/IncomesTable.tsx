@@ -164,7 +164,7 @@ export default function IncomesTable() {
 
   if (isLoading) return <Spin size="large" />
 
-  console.log(data)
+  // console.log(data)
 
   const incomes = data?.map((income) => {
     return {

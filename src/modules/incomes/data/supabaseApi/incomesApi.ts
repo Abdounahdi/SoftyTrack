@@ -19,9 +19,30 @@ const incomesApi = createApi({
         return { data }
       },
     }),
-    createIncomes: builder.query({
+    createIncome: builder.mutation({
       async queryFn(newIncome) {
-        const { data, error } = await supabase.from('incomes').insert([newIncome]).select()
+        const data={}
+        console.log(newIncome)
+        return {data}
+      },
+    }),
+    getPaymentMethods: builder.query({
+      async queryFn() {
+        const { data, error } = await supabase.from('payment_methods').select('*')
+        if (error) console.error(error)
+        return { data }
+      },
+    }),
+    getLocations: builder.query({
+      async queryFn() {
+        const { data, error } = await supabase.from('locations').select('*')
+        if (error) console.error(error)
+        return { data }
+      },
+    }),
+    getTrainings: builder.query({
+      async queryFn() {
+        const { data, error } = await supabase.from('trainings').select('*')
         if (error) console.error(error)
         return { data }
       },
@@ -29,6 +50,6 @@ const incomesApi = createApi({
   }),
 })
 
-export const { useGetIncomesQuery, useCreateIncomesQuery } = incomesApi
+export const { useGetIncomesQuery , useCreateIncomeMutation , useGetPaymentMethodsQuery , useGetLocationsQuery, useGetTrainingsQuery} = incomesApi
 
 export default incomesApi

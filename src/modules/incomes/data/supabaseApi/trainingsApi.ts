@@ -6,13 +6,6 @@ const trainingsApi = createApi({
   baseQuery: fetchBaseQuery(),
   tagTypes: ['trainings'],
   endpoints: (builder) => ({
-    getTrainings: builder.query({
-      async queryFn() {
-        const { data, error } = await supabase.from('trainings').select('*')
-        if (error) console.error(error)
-        return { data }
-      },
-    }),
     addTraining: builder.query({
       async queryFn(newIncome) {
         const { data, error } = await supabase.from('trainings').insert([newIncome]).select()
@@ -23,6 +16,6 @@ const trainingsApi = createApi({
   }),
 })
 
-export const { useGetTrainingsQuery, useAddTrainingQuery } = trainingsApi
+export const { useAddTrainingQuery } = trainingsApi
 
 export default trainingsApi

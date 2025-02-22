@@ -3,7 +3,7 @@
 @use './themes/dark' as *;
 
 $themes: (
-  'light': $light,
+  'light': $dark,
   'dark': $dark,
 );
 
