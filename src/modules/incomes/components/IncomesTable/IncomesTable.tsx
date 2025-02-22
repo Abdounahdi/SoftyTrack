@@ -175,7 +175,7 @@ export default function IncomesTable() {
       paymentMethod: income.payment_method_id.payment_method,
       slicesTotalCount: income.total_slices,
       sliceCount: income.paid_slices,
-      location: income.reception_location.location,
+      location: income.reception_location_id.location,
       description: income.description,
       trainingName: income.training_id.training,
       employeeName: income.made_by.full_name,

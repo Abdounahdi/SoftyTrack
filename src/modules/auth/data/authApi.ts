@@ -42,7 +42,7 @@ const authApi = createApi({
       },
     }),
     createNewCustomer: builder.mutation({
-      async queryFn({ email, password, fullName, phone }) {
+      async queryFn({ email, password, fullName, phone, role }) {
         let { data, error } = await supabase.auth.signUp({
           email: email,
           password: password,
@@ -50,6 +50,7 @@ const authApi = createApi({
             data: {
               full_name: fullName,
               phone: phone,
+              role: role,
             },
           },
         })
