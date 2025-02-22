@@ -4,6 +4,7 @@
   flex-direction: row;
   row-gap: 10px;
   column-gap: 15px;
+  transition: all 0.2s;
 
   font-family: Almarai;
   font-weight: 400;
@@ -16,7 +17,7 @@
     display: flex;
     gap: 5px;
     padding-right: 10px;
-    
+
     &:not(:last-child) {
       border-right: #a3a3a3 solid 1px;
     }

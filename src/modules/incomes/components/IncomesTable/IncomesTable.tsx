@@ -5,7 +5,7 @@ import { TagCustomized } from '../../../shared/components/TagCustomized/TagCusto
 import { currencyFormat, numberWithSpaces } from '../../../shared/utils/helpers'
 import ProgressBySteps from '../../../shared/components/ProgressBySteps/ProgressBySteps'
 import CopyClipBoard from '../../../shared/components/CopyClipBoard/CopyClipBoard'
-import { useAppSelector } from '../../../shared/store'
+import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import ColumnsShowOptions from '../../../shared/components/ColumnsShowOptions/ColumnsShowOptions'
 import {
   HiArrowDownLeft,
@@ -15,6 +15,8 @@ import {
   HiChevronLeft,
   HiChevronRight,
 } from 'react-icons/hi2'
+import { setCurrentPage, setPageSize } from '../../data/incomesUiSlice'
+import TableActions from '../../../shared/components/TableActions/TableActions'
 
 const paymentMethodColors = {
   cash: {
@@ -167,7 +169,7 @@ const columns = [
   {
     title: 'Actions',
     key: 13,
-    render: () => <p>...</p>,
+    render: () => <TableActions/>,
     fixed: 'right',
     width: 100,
   },
@@ -193,15 +195,22 @@ const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => 
 
 export default function IncomesTable() {
   const [selectedRows, setSelectedRows] = useState([])
-  const { data, isLoading } = useGetIncomesQuery({})
+  const { currentPage, pageSize } = useAppSelector((state) => state.incomesUi)
+  const dispatch = useAppDispatch()
+  const { data, isFetching } = useGetIncomesQuery({
+    currentPage,
+    pageSize,
+  })
 
   const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
     (state) => state.incomesUi
   )
 
-  if (isLoading) return <Spin size="large" />
+  if (isFetching) return <Spin size="large" />
 
-  const incomes = data?.map((income) => {
+  const totalIncomes = data?.count
+
+  const incomes = data?.incomesInfo.map((income) => {
     return {
       dateCreated: new Intl.DateTimeFormat('en-CA').format(new Date(income.date_created)),
       customerName: income.customer_id.full_name,
@@ -242,6 +251,13 @@ export default function IncomesTable() {
     hidden: !checkedList.includes(item.key),
   }))
 
+  const handlePagination = (currentPage, pageSize) => {
+    dispatch(setCurrentPage(currentPage))
+    if (pageSize) {
+      dispatch(setPageSize(pageSize))
+    }
+  }
+
   return (
     <>
       {showColumnsOptions ? <ColumnsShowOptions checkedList={checkedList} columns={columns} /> : ''}
@@ -262,7 +278,13 @@ export default function IncomesTable() {
             loading={false}
           />
         </div>
-        <Pagination showSizeChanger pageSizeOptions={['5', '10', '20']} itemRender={itemRender} />
+        <Pagination
+          total={totalIncomes}
+          showSizeChanger
+          onChange={handlePagination}
+          pageSizeOptions={['5', '10', '20']}
+          itemRender={itemRender}
+        />
       </div>
       <div></div>
     </>

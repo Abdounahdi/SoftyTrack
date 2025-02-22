@@ -7,16 +7,24 @@ const incomesApi = createApi({
   tagTypes: ['incomes'],
   endpoints: (builder) => ({
     getIncomes: builder.query({
-      async queryFn() {
-        const { data, error } = await supabase
+      async queryFn(params) {
+        const { currentPage, pageSize } = params
+        let query = supabase
           .from('incomes')
           .select(
-            '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)'
+            '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)',
+            { count: 'exact' }
           )
+
+        const offset = (currentPage - 1) * pageSize
+
+        query = query.range(offset, offset + pageSize - 1)
+
+        const { data: incomesInfo, error, count } = await query
 
         if (error) return
 
-        return { data }
+        return { data: { incomesInfo, count } }
       },
     }),
     getPaymentMethods: builder.query({
@@ -96,15 +104,12 @@ const incomesApi = createApi({
           made_by: user?.id,
         }
 
-        const { data, error } = await supabase
-          .from('incomes')
-          .insert([incomeDetails])
-          .select()
-        
-          if (error){
-            console.error(error)
-            console.log("creating new income failed")
-          }
+        const { data, error } = await supabase.from('incomes').insert([incomeDetails]).select()
+
+        if (error) {
+          console.error(error)
+          console.log('creating new income failed')
+        }
 
         console.log(incomeDetails)
         return { data }
