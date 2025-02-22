@@ -5,7 +5,6 @@ import authReducer from '../../auth/data/authSlice'
 import todosReducer from '../../todos/data/todoSlice'
 import incomesUiReducer from '../../incomes/data/incomesUiSlice'
 import incomesApi from '../../incomes/data/supabaseApi/incomesApi'
-import trainingsApi from '../../incomes/data/supabaseApi/trainingsApi'
 import customersApi from '../../incomes/data/supabaseApi/customerApi'
 import authApi from '../../auth/data/authApi'
 import usersApi from '../../incomes/data/supabaseApi/usersApi'
@@ -13,7 +12,6 @@ import usersApi from '../../incomes/data/supabaseApi/usersApi'
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [incomesApi.reducerPath]: incomesApi.reducer,
-  [trainingsApi.reducerPath]: trainingsApi.reducer,
   [customersApi.reducerPath]: customersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,

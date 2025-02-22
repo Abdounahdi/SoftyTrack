@@ -84,6 +84,17 @@ export default function PaymentForm({
         },
       ],
     },
+    {
+      columns:[
+        {
+          label: 'Description',
+          type: 'textarea',
+          placeHolder: 'any details you want to add ... ',
+          name: 'description',
+          error: errors?.description?.message,
+        },
+      ]
+    }
   ]
 
   return (

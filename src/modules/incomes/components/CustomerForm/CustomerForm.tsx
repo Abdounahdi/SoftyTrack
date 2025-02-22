@@ -1,11 +1,9 @@
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 
-
 export default function CustomerForm({ trainings, register, control, errors }) {
-
-  console.log(trainings)
-  
-  const trainingsOptions = trainings.map(training=>{return{value:training.id , label:training.training}})
+  const trainingsOptions = trainings.map((training) => {
+    return { value: training.id, label: training.training }
+  })
 
   const customerFormInputs = [
     {

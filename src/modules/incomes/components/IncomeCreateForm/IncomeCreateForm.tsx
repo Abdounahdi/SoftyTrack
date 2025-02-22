@@ -2,10 +2,13 @@ import { Spin } from 'antd'
 import CustomerForm from '../CustomerForm/CustomerForm'
 import PaymentForm from '../PaymentForm/PaymentForm'
 import { useForm } from 'react-hook-form'
-import { useCreateIncomeMutation , useGetPaymentMethodsQuery, useGetLocationsQuery , useGetTrainingsQuery} from '../../data/supabaseApi/incomesApi'
+import {
+  useCreateIncomeMutation,
+  useGetPaymentMethodsQuery,
+  useGetLocationsQuery,
+  useGetTrainingsQuery,
+} from '../../data/supabaseApi/incomesApi'
 import { useGetAllUsersQuery } from '../../data/supabaseApi/usersApi'
-// import { useGetLocationsQuery } from '../../data/supabaseApi/locationsApi'
-// import { useGetPaymentMethodsQuery } from '../../data/supabaseApi/paymentMethodsApi'
 
 export default function IncomeCreateForm() {
   const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
@@ -14,7 +17,7 @@ export default function IncomeCreateForm() {
   const { data: payment_methods, isLoading: isLoadingPaymentMethods } = useGetPaymentMethodsQuery(
     {}
   )
-  const [createIncome, data] = useCreateIncomeMutation({})
+  const [createIncome, { isLoading:isCreating }] = useCreateIncomeMutation({})
 
   const isLoading =
     isLoadingTrainings || isLoadingUsers || isLoadingLocations || isLoadingPaymentMethods
@@ -29,7 +32,6 @@ export default function IncomeCreateForm() {
   function onSumbit(newObj) {
     // console.log(newObj)
     createIncome(newObj)
-    console.log(data)
     // const newCustomer = {
     //   name: newObj.name,
     //   phone: newObj.phone,
@@ -57,7 +59,9 @@ export default function IncomeCreateForm() {
           control={control}
           errors={errors}
         />
-        <button className="sumbit_button_create_income">Create Income</button>
+        <button className="sumbit_button_create_income" disabled={isCreating}>
+          {isCreating ? 'Creating Income ... ' : 'Create Income'}
+        </button>
       </div>
     </form>
   )
