@@ -1,8 +1,12 @@
-import { Spin, Table } from 'antd'
+import { Progress, Spin, Table } from 'antd'
 import { useState } from 'react'
 import { useGetIncomesQuery } from '../../data/supabaseApi/incomesApi'
 import { TagCustomized } from '../../../shared/components/TagCustomized/TagCustomized'
 import { currencyFormat, numberWithSpaces } from '../../../shared/utils/helpers'
+import ProgressBySteps from '../../../shared/components/ProgressBySteps/ProgressBySteps'
+import CopyClipBoard from '../../../shared/components/CopyClipBoard/CopyClipBoard'
+import IncomesColumnsShowOptions from '../IncomesColumnsShowOptions/IncomesColumnsShowOptions'
+import { useAppSelector } from '../../../shared/store'
 
 const paymentMethodColors = {
   cash: {
@@ -11,7 +15,7 @@ const paymentMethodColors = {
   },
   cheque: {
     bgColor: '#4A74D9',
-    textColor: '#B7DAF3',
+    textColor: '#e7f1f8',
   },
   bankaccount: {
     bgColor: '#CFF2D2',
@@ -79,7 +83,9 @@ const columns = [
     dataIndex: 'customerPhone',
     key: 3,
     render: (phoneNumber) => (
-      <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
+      <CopyClipBoard item={phoneNumber}>
+        <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
+      </CopyClipBoard>
     ),
   },
   {
@@ -87,7 +93,12 @@ const columns = [
     dataIndex: 'customerEmail',
     key: 4,
     width: 250,
-    render: (email) => <a href={`mailto:${email}`}>{email}</a>,
+    render: (email) => (
+      <CopyClipBoard item={email}>
+        {' '}
+        <a href={`mailto:${email}`}>{email}</a>
+      </CopyClipBoard>
+    ),
   },
   {
     title: 'Payment Method',
@@ -100,6 +111,7 @@ const columns = [
         {paymentMethod}
       </TagCustomized>
     ),
+    width: 150,
   },
   {
     title: 'Price',
@@ -108,14 +120,10 @@ const columns = [
     render: (price) => currencyFormat(price),
   },
   {
-    title: 'Total Slice',
-    dataIndex: 'slicesTotalCount',
-    key: 7,
-  },
-  {
-    title: 'Slice Count',
-    dataIndex: 'sliceCount',
+    title: 'Slices Paid',
+    dataIndex: 'slicesPrecentage',
     key: 8,
+    render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
   },
   {
     title: 'Training',
@@ -159,12 +167,11 @@ const columns = [
 
 export default function IncomesTable() {
   const [selectedRows, setSelectedRows] = useState([])
-
   const { data, isLoading } = useGetIncomesQuery({})
 
-  if (isLoading) return <Spin size="large" />
+  const { showColumnsOptions } = useAppSelector((state) => state.incomesUi)
 
-  console.log(data)
+  if (isLoading) return <Spin size="large" />
 
   const incomes = data?.map((income) => {
     return {
@@ -175,6 +182,7 @@ export default function IncomesTable() {
       paymentMethod: income.payment_method_id.payment_method,
       slicesTotalCount: income.total_slices,
       sliceCount: income.paid_slices,
+      slicesPrecentage: ` ${income.total_slices}-${income.paid_slices} `,
       location: income.reception_location_id.location,
       description: income.description,
       trainingName: income.training_id.training,
@@ -183,6 +191,8 @@ export default function IncomesTable() {
       key: income.id,
     }
   })
+
+  console.log(incomes[0].slicesPrecentage.split('-'))
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -196,25 +206,32 @@ export default function IncomesTable() {
     }),
   }
 
+
+
+  const defaultCheckedList = columns.map((item) => item.key);
+
   // console.log(data)
 
   return (
-    <div className="table_incomes_container">
-      {/* <div className="table_incomes_container__container"> */}
-      <Table
-        className="table_incomes"
-        pagination={false}
-        dataSource={incomes}
-        columns={columns}
-        rowSelection={{
-          type: 'checkbox',
-          fixed: true,
-          ...rowSelection,
-        }}
-        scroll={{ x: 2000 }}
-        loading={false}
-      />
-      {/* </div> */}
-    </div>
+    <>
+      {/* {showColumnsOptions ? <IncomesColumnsShowOptions  columns={columns} checkedList={checkedList}/> : ''} */}
+      <div className="table_incomes_container">
+        {/* <div className="table_incomes_container__container"> */}
+        <Table
+          className="table_incomes"
+          pagination={false}
+          dataSource={incomes}
+          columns={columns}
+          rowSelection={{
+            type: 'checkbox',
+            fixed: true,
+            ...rowSelection,
+          }}
+          scroll={{ x: 2000 }}
+          loading={false}
+        />
+        {/* </div> */}
+      </div>
+    </>
   )
 }

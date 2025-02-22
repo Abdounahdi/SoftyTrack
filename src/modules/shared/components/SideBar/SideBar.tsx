@@ -9,7 +9,6 @@ import {
   HiOutlineUserGroup,
 } from 'react-icons/hi2'
 import SideBarToggleIcon from '../../assets/icons/sideBarIcon.svg'
-import { useState } from 'react'
 import { useAppSelector } from '../../store'
 import { useDispatch } from 'react-redux'
 import { SharedSwitchValue } from '../../store/slices/sharedSlice'

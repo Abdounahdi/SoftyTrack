@@ -1,19 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  createFormOpen: false,
+  showColumnsOptions:false , 
 }
 
 const incomesUiSlice = createSlice({
-  name: 'incomesUiState',
+  name: 'incomesUi',
   initialState , 
   reducers:{
-    setCreateForm:(state , action )=>{
-      state.createFormOpen = !state.createFormOpen
+    setShowColumnsOptions:(state,action)=>{
+      state.showColumnsOptions = !state.showColumnsOptions
     }
   }
 })
 
-export const {setCreateForm } = incomesUiSlice.actions
+export const { setShowColumnsOptions } = incomesUiSlice.actions
 
 export default incomesUiSlice.reducer
