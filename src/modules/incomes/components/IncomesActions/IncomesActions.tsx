@@ -1,4 +1,4 @@
-import { HiMiniPlus, HiOutlineChevronDown, HiOutlineSquare3Stack3D } from 'react-icons/hi2'
+import { HiMiniAdjustmentsVertical, HiMiniPlus, HiOutlineChevronDown, HiOutlineSquare3Stack3D } from 'react-icons/hi2'
 import { useNavigate } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import { setShowColumnsOptions } from '../../data/incomesUiSlice'
@@ -9,7 +9,9 @@ export function IncomesActions() {
   const dispatch = useAppDispatch()
   return (
     <div className="incomes_actions_container">
-      <div></div>
+      <div className="incomes_actions_btns_box">
+        <button className="incomes_btn incomes_filter"> <HiMiniAdjustmentsVertical/>Filter</button>
+      </div>
       <div className="incomes_actions_btns_box">
         <button
           onClick={() => dispatch(setShowColumnsOptions())}

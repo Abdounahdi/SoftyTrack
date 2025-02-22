@@ -1,12 +1,20 @@
-import { Progress, Spin, Table } from 'antd'
+import { Pagination, PaginationProps, Progress, Spin, Table } from 'antd'
 import { useState } from 'react'
 import { useGetIncomesQuery } from '../../data/supabaseApi/incomesApi'
 import { TagCustomized } from '../../../shared/components/TagCustomized/TagCustomized'
 import { currencyFormat, numberWithSpaces } from '../../../shared/utils/helpers'
 import ProgressBySteps from '../../../shared/components/ProgressBySteps/ProgressBySteps'
 import CopyClipBoard from '../../../shared/components/CopyClipBoard/CopyClipBoard'
-import IncomesColumnsShowOptions from '../IncomesColumnsShowOptions/IncomesColumnsShowOptions'
 import { useAppSelector } from '../../../shared/store'
+import ColumnsShowOptions from '../../../shared/components/ColumnsShowOptions/ColumnsShowOptions'
+import {
+  HiArrowDownLeft,
+  HiArrowDownRight,
+  HiArrowLongLeft,
+  HiArrowLongRight,
+  HiChevronLeft,
+  HiChevronRight,
+} from 'react-icons/hi2'
 
 const paymentMethodColors = {
   cash: {
@@ -165,11 +173,31 @@ const columns = [
   },
 ]
 
+const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
+  return item === 'prev' ? (
+    <p className="pagination_text">
+      {' '}
+      <HiArrowLongLeft />
+      <span>Previous</span>
+    </p>
+  ) : item === 'next' ? (
+    <p className="pagination_text">
+      {' '}
+      <HiArrowLongRight />
+      <span>Next</span>
+    </p>
+  ) : (
+    originalElement
+  )
+}
+
 export default function IncomesTable() {
   const [selectedRows, setSelectedRows] = useState([])
   const { data, isLoading } = useGetIncomesQuery({})
 
-  const { showColumnsOptions } = useAppSelector((state) => state.incomesUi)
+  const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
+    (state) => state.incomesUi
+  )
 
   if (isLoading) return <Spin size="large" />
 
@@ -192,8 +220,6 @@ export default function IncomesTable() {
     }
   })
 
-  console.log(incomes[0].slicesPrecentage.split('-'))
-
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
@@ -206,32 +232,39 @@ export default function IncomesTable() {
     }),
   }
 
+  const checkedList =
+    checkedListOfShownColumns.length === 0
+      ? columns.map((item) => item.key)
+      : checkedListOfShownColumns
 
-
-  const defaultCheckedList = columns.map((item) => item.key);
-
-  // console.log(data)
+  const newColumns = columns.map((item) => ({
+    ...item,
+    hidden: !checkedList.includes(item.key),
+  }))
 
   return (
     <>
-      {/* {showColumnsOptions ? <IncomesColumnsShowOptions  columns={columns} checkedList={checkedList}/> : ''} */}
+      {showColumnsOptions ? <ColumnsShowOptions checkedList={checkedList} columns={columns} /> : ''}
+
       <div className="table_incomes_container">
-        {/* <div className="table_incomes_container__container"> */}
-        <Table
-          className="table_incomes"
-          pagination={false}
-          dataSource={incomes}
-          columns={columns}
-          rowSelection={{
-            type: 'checkbox',
-            fixed: true,
-            ...rowSelection,
-          }}
-          scroll={{ x: 2000 }}
-          loading={false}
-        />
-        {/* </div> */}
+        <div className="">
+          <Table
+            className="table_incomes"
+            pagination={false}
+            dataSource={incomes}
+            columns={newColumns}
+            rowSelection={{
+              type: 'checkbox',
+              fixed: true,
+              ...rowSelection,
+            }}
+            scroll={{ x: 2000 }}
+            loading={false}
+          />
+        </div>
+        <Pagination showSizeChanger pageSizeOptions={['5', '10', '20']} itemRender={itemRender} />
       </div>
+      <div></div>
     </>
   )
 }

@@ -54,8 +54,20 @@
       }
     }
 
-    .opened_column_options{
-      .arrow_down{
+    .incomes_filter {
+      background: none;
+      border: #0593ff 1px solid;
+      color: #0080df;
+      font-family: Almarai;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      text-align: center;
+    }
+
+    .opened_column_options {
+      .arrow_down {
         transform: rotate(180deg);
       }
     }

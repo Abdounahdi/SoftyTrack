@@ -1,4 +1,7 @@
 .table_incomes_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   .table_incomes {
     tr {
       text-align: center;
@@ -20,6 +23,34 @@
         line-height: 20px;
         letter-spacing: 0%;
       }
+    }
+  }
+  .ant-pagination {
+    justify-content: flex-end;
+    align-items: center;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: none;
+    }
+
+    .ant-pagination-prev {
+      background-color: #fff;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      padding-top: 10px;
+      padding-right: 16px;
+      padding-bottom: 10px;
+      padding-left: 16px;
+      border-width: 1px;
+    }
+    .pagination_text {
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      gap: 8px;
     }
   }
 }

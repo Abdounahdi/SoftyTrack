@@ -1,0 +1,24 @@
+.columns_show_options_switch_container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  row-gap: 10px;
+  column-gap: 15px;
+
+  font-family: Almarai;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+
+  color: #575757;
+  .column_show_options_switch_box {
+    display: flex;
+    gap: 5px;
+    padding-right: 10px;
+    
+    &:not(:last-child) {
+      border-right: #a3a3a3 solid 1px;
+    }
+  }
+}

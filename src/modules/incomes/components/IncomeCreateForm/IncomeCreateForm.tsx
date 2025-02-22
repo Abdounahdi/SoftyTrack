@@ -9,6 +9,8 @@ import {
   useGetTrainingsQuery,
 } from '../../data/supabaseApi/incomesApi'
 import { useGetAllUsersQuery } from '../../data/supabaseApi/usersApi'
+import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
 
 export default function IncomeCreateForm() {
   const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
@@ -17,7 +19,8 @@ export default function IncomeCreateForm() {
   const { data: payment_methods, isLoading: isLoadingPaymentMethods } = useGetPaymentMethodsQuery(
     {}
   )
-  const [createIncome, { isLoading:isCreating }] = useCreateIncomeMutation({})
+  const [createIncome, { isLoading: isCreating }] = useCreateIncomeMutation({})
+  const navigate = useNavigate()
 
   const isLoading =
     isLoadingTrainings || isLoadingUsers || isLoadingLocations || isLoadingPaymentMethods
@@ -29,16 +32,10 @@ export default function IncomeCreateForm() {
     control,
   } = useForm()
 
-  function onSumbit(newObj) {
-    // console.log(newObj)
-    createIncome(newObj)
-    // const newCustomer = {
-    //   name: newObj.name,
-    //   phone: newObj.phone,
-    //   email: newObj.email,
-    // }
-    // const newIncome = {}
-    // console.log(newCustomer)
+  async function onSumbit(newObj) {
+    await createIncome(newObj)
+    navigate('/incomes')
+    toast.success('New Income Created !')
   }
 
   function onError(error) {

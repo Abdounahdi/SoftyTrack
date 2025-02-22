@@ -45,7 +45,11 @@ export default function CustomerForm({ trainings, register, control, errors }) {
     <>
       <h2>Customer Details</h2>
       <div className="create_form_box">
-        <FormGenerator options={customerFormInputs} control={control} register={register} />
+        <FormGenerator
+          options={customerFormInputs}
+          control={control}
+          register={register}
+        />
       </div>
     </>
   )
