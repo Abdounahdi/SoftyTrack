@@ -1,3 +1,31 @@
+.table_action_option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  font-family: Almarai;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0%;
+
+  span {
+    color: #4b76b8;
+  }
+
+  svg {
+    height: 15px;
+    width: 15px;
+    color: #4b76b8;
+  }
+}
+
+.table_action_danger {
+  span , svg{
+    color: #ed1515;
+  }
+}
+
 .table_actions_btn {
   background: none;
   border: none;

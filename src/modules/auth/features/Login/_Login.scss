@@ -50,6 +50,10 @@
       align-items: center;
       gap: 8px;
 
+      &:disabled{
+        background-color: #1441a3;
+      }
+
       &_img {
         width: 24px;
         height: 24px;

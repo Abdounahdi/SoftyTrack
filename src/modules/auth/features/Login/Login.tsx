@@ -57,6 +57,8 @@ const Login = () => {
     const { data } = await login(loginInfo)
     if (!data?.user) return
 
+
+
     const {
       data: { userRole },
     } = await getUserRole(data?.session?.access_token)
@@ -91,8 +93,8 @@ const Login = () => {
           <FormGenerator options={loginFormInputs} control={control} register={register} />
         </div>
 
-        <button type="submit" className="login_feature_container_btn">
-          Login
+        <button type="submit" className="login_feature_container_btn" disabled={isLoading}>
+          {isLoading ? "Loggin in ... ":"Login"}
         </button>
 
         <Divider variant="dashed" className="divider_style">
