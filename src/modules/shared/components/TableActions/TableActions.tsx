@@ -20,7 +20,8 @@ export default function TableActions() {
       label: (
         <Link to={`edit/${id}`} className="table_action_option">
           <HiOutlinePencil />
-          <span>Update</span>        </Link>
+          <span>Update</span>
+        </Link>
       ),
     },
     {
