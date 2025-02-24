@@ -1,0 +1,59 @@
+.form_column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: start;
+  width: 100%;
+  position: relative;
+  padding-bottom: 14px;
+  label {
+    font-family: Almarai;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+  }
+  input,
+  select,
+  textarea {
+    resize: none;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    border: 1px solid #cecece;
+    // min-width: 200px;
+    width: 100%;
+    &::placeholder {
+      color: #4f6991;
+    }
+  }
+  .antd_select {
+    min-width: 180px;
+    // padding-bottom: 0 !important;
+    &:-webkit-autofill {
+      box-shadow: 0 0 0px 1000px white inset !important;
+    }
+  }
+}
+
+.password_input {
+  padding-top: 10px;
+  padding-right: 16px;
+  padding-bottom: 10px;
+  padding-left: 16px;
+  border: 1px solid #cecece;
+}
+
+.ant-select,
+.ant-picker {
+  height: 41px !important;
+  padding-bottom: 0 !important;
+
+  .ant-picker-input {
+    input::placeholder {
+      color: #4f6991;
+    }
+  }
+}

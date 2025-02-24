@@ -1,13 +1,18 @@
 // import { ReactSVG } from 'react-svg'
-import LogoSvg from "../../assets/icons/BrandLogo.svg";
+import LogoSvgLG from '../../assets/icons/BrandLogo.svg'
+import LogoSvgSM from '../../assets/icons/brandLogoSmall.svg'
 
 // const LogoSvg = () => <ReactSVG src="../../assets/icons/BrandLogo" />
 
-export default function Logo() {
+interface Props {
+  isOpen: boolean
+  className: string
+}
+
+export default function Logo({ isOpen, className }: Props) {
   return (
-    <div className="logo_container">
-      <img src={LogoSvg} alt="" />
+    <div className={`logo_container ${className}`}>
+      <img src={isOpen ? LogoSvgLG : LogoSvgSM} alt="" />
     </div>
   )
 }
- 
