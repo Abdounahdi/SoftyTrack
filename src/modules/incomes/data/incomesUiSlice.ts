@@ -11,10 +11,10 @@ const incomesUiSlice = createSlice({
   name: 'incomesUi',
   initialState,
   reducers: {
-    setShowColumnsOptions: (state, action) => {
+    setShowColumnsOptionsIncomes: (state) => {
       state.showColumnsOptions = !state.showColumnsOptions
     },
-    setCheckedListOfShownColumns: (state, action) => {
+    setCheckedListOfShownColumnsIncomes: (state, action) => {
       state.checkedListOfShownColumns = action.payload
     },
     setCurrentPage: (state, action) => {
@@ -26,7 +26,11 @@ const incomesUiSlice = createSlice({
   },
 })
 
-export const { setShowColumnsOptions, setCheckedListOfShownColumns, setCurrentPage, setPageSize } =
-  incomesUiSlice.actions
+export const {
+  setShowColumnsOptionsIncomes,
+  setCheckedListOfShownColumnsIncomes,
+  setCurrentPage,
+  setPageSize,
+} = incomesUiSlice.actions
 
 export default incomesUiSlice.reducer

@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 
 export default function TableActions({ id }) {
+  console.log(id)
+
   const { confirm } = Modal
 
   const showDeleteConfirm = () => {

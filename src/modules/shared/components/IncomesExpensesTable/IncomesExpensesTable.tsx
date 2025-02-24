@@ -5,6 +5,7 @@ import { incomesTableColumns } from '../../../incomes/data/TableColumnsObject'
 import ColumnsShowOptions from '../ColumnsShowOptions/ColumnsShowOptions'
 import incomesTableData from '../../../incomes/data/incomesTableData'
 import expensesTableData from '../../../expenses/data/expensesTableData'
+import { expensesTableColumns } from '../../../expenses/data/TableColumnsExpenses'
 
 const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
   return item === 'prev' ? (
@@ -41,10 +42,16 @@ export default function IncomesExpensesTable({ where }) {
 
   if (isFetching) return <Spin size="large" />
 
+  console.log(data)
+
   return (
     <>
       {showColumnsOptions ? (
-        <ColumnsShowOptions checkedList={checkedList} columns={incomesTableColumns} />
+        <ColumnsShowOptions
+          checkedList={checkedList}
+          columns={where === 'incomes' ? incomesTableColumns : expensesTableColumns}
+          where={where}
+        />
       ) : (
         ''
       )}

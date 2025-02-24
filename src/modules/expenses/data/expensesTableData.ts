@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../shared/store'
 import { useGetExpensesQuery } from './supabaseApi/expensesApi'
 import { expensesTableColumns } from './TableColumnsExpenses'
-import { setPageSize , setCurrentPage} from './expensesUiSlice'
+import { setPageSize, setCurrentPage } from './expensesUiSlice'
 
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
@@ -12,8 +12,8 @@ export default function expensesTableData() {
   const { currentPage, pageSize } = useAppSelector((state) => state.expensesUi)
 
   const { data: expenses, isFetching } = useGetExpensesQuery({
-    currentPage: 1,
-    pageSize: 2,
+    currentPage,
+    pageSize,
   })
 
   const [selectedRows, setSelectedRows] = useState([])
@@ -28,6 +28,7 @@ export default function expensesTableData() {
       description: expense.description,
       category: expense.category_id.category,
       paymentMethod: expense.payment_method_id.payment_method,
+      key: expense.id,
     }
   })
 
@@ -47,6 +48,8 @@ export default function expensesTableData() {
     checkedListOfShownColumns.length === 0
       ? expensesTableColumns.map((item) => item.key)
       : checkedListOfShownColumns
+
+  console.log(data)
 
   const newColumns = expensesTableColumns.map((item) => ({
     ...item,

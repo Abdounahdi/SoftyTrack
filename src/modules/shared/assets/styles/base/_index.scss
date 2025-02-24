@@ -16,6 +16,7 @@ html {
   scroll-padding-top: 5rem;
   overflow-x: hidden;
   text-size-adjust: none;
+  transition: all 0.2s;
 
   ::-webkit-scrollbar-track {
     background-color: #ddd;

@@ -56,6 +56,8 @@ export default function incomesTableData() {
       ? incomesTableColumns.map((item) => item.key)
       : checkedListOfShownColumns
 
+  console.log(checkedList)
+
   const newColumns = incomesTableColumns.map((item) => ({
     ...item,
     hidden: !checkedList.includes(item.key),
