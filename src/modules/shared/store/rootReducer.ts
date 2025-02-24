@@ -8,6 +8,8 @@ import incomesApi from '../../incomes/data/supabaseApi/incomesApi'
 import customersApi from '../../incomes/data/supabaseApi/customerApi'
 import authApi from '../../auth/data/authApi'
 import usersApi from '../../incomes/data/supabaseApi/usersApi'
+import expensesApi from '../../expenses/data/supabaseApi/expensesApi'
+import expensesUiReducer from '../../expenses/data/expensesUiSlice'
 
 const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
@@ -15,10 +17,12 @@ const rootReducer = combineReducers({
   [customersApi.reducerPath]: customersApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
+  [expensesApi.reducerPath]: expensesApi.reducer,
   shared: sharedsPersistedReducer,
   auth: authReducer,
   todos: todosReducer,
   incomesUi: incomesUiReducer,
+  expensesUi: expensesUiReducer,
 })
 
 export default rootReducer

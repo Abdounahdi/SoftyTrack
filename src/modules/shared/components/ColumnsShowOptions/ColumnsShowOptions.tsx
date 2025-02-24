@@ -24,7 +24,6 @@ export default function ColumnsShowOptions({ checkedList, columns }) {
 
               dispatch(setCheckedListOfShownColumns(newCheckedList))
             }}
-            // className='column_show_options_switch'
           />
           <span>{title}</span>
         </div>

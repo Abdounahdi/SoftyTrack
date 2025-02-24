@@ -1,15 +1,15 @@
-.incomes_actions_container {
+.table_actions_container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .incomes_actions_btns_box {
+  .table_actions_btns_box {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 
-    .incomes_btn {
+    .table_btn {
       border: none;
       border-radius: 8px;
       padding-top: 8px;
@@ -31,7 +31,7 @@
       }
     }
 
-    .incomes_button_create {
+    .table_button_create {
       background-color: #0080df;
       color: #fff;
 
@@ -43,7 +43,7 @@
       }
     }
 
-    .incomes_btn_show_columns_options {
+    .table_btn_show_columns_options {
       background-color: #fff;
       color: #e76cf2;
       border: 1px solid #e76cf2;
@@ -54,7 +54,7 @@
       }
     }
 
-    .incomes_filter {
+    .table_filter {
       background: none;
       border: #0593ff 1px solid;
       color: #0080df;

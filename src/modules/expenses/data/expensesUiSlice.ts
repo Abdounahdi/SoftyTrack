@@ -7,8 +7,8 @@ const initialState = {
   currentPage: 1,
 }
 
-const incomesUiSlice = createSlice({
-  name: 'incomesUi',
+const expensesUiSlice = createSlice({
+  name: 'expensesUi',
   initialState,
   reducers: {
     setShowColumnsOptions: (state, action) => {
@@ -27,6 +27,6 @@ const incomesUiSlice = createSlice({
 })
 
 export const { setShowColumnsOptions, setCheckedListOfShownColumns, setCurrentPage, setPageSize } =
-  incomesUiSlice.actions
+  expensesUiSlice.actions
 
-export default incomesUiSlice.reducer
+export default expensesUiSlice.reducer

@@ -1,9 +1,27 @@
-import { Dropdown } from 'antd'
+import { Dropdown, Modal } from 'antd'
 import { HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import { Link } from 'react-router'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
-export default function TableActions() {
-  const id = 354
+export default function TableActions({ id }) {
+  const { confirm } = Modal
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: 'Are you sure delete this row ?',
+      icon: <ExclamationCircleFilled />,
+      content: 'Do you really want to delete these records ? This action cannot be undone  ',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        console.log('OK')
+      },
+      onCancel() {
+        console.log('Cancel')
+      },
+    })
+  }
 
   const items: MenuProps['items'] = [
     {
@@ -27,7 +45,7 @@ export default function TableActions() {
     {
       key: '3',
       label: (
-        <Link className="table_action_option table_action_danger">
+        <Link className="table_action_option table_action_danger" onClick={showDeleteConfirm}>
           <HiOutlineTrash />
           <span>Delete</span>
         </Link>

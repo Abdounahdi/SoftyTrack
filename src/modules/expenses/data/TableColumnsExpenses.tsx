@@ -45,6 +45,28 @@ const trainingColors = {
     textColor: '#f3e2ff',
   },
 }
+const categoryColors = {
+  pythonforstudents: {
+    bgColor: '#4A74D9',
+    textColor: '#B7DAF3',
+  },
+  packpfee: {
+    bgColor: '#A178FF',
+    textColor: '#270083',
+  },
+  food: {
+    bgColor: '#FEE3D0',
+    textColor: '#B10202',
+  },
+  summerkids: {
+    bgColor: '#D2E3E9',
+    textColor: '#215A6C',
+  },
+  bootcampfullstack: {
+    bgColor: '#9D3EE4',
+    textColor: '#f3e2ff',
+  },
+}
 
 const locationColors = {
   shaloul: {
@@ -61,10 +83,10 @@ const locationColors = {
   },
 }
 
-const incomesTableColumns = [
+const expensesTableColumns = [
   {
-    title: 'Customer Name',
-    dataIndex: 'customerName',
+    title: 'Employee Name',
+    dataIndex: 'employeeName',
     key: 1,
     width: 200,
     fixed: true,
@@ -75,26 +97,10 @@ const incomesTableColumns = [
     key: 2,
   },
   {
-    title: 'Customer Phone',
-    dataIndex: 'customerPhone',
+    title: 'Price',
+    dataIndex: 'price',
     key: 3,
-    render: (phoneNumber) => (
-      <CopyClipBoard item={phoneNumber}>
-        <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
-      </CopyClipBoard>
-    ),
-  },
-  {
-    title: 'Customer Email',
-    dataIndex: 'customerEmail',
-    key: 4,
-    width: 250,
-    render: (email) => (
-      <CopyClipBoard item={email}>
-        {' '}
-        <a href={`mailto:${email}`}>{email}</a>
-      </CopyClipBoard>
-    ),
+    render: (price) => currencyFormat(price),
   },
   {
     title: 'Payment Method',
@@ -110,42 +116,15 @@ const incomesTableColumns = [
     width: 150,
   },
   {
-    title: 'Price',
-    dataIndex: 'price',
-    key: 6,
-    render: (price) => currencyFormat(price),
-  },
-  {
-    title: 'Slices Paid',
-    dataIndex: 'slicesPrecentage',
-    key: 8,
-    render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
-  },
-  {
-    title: 'Training',
-    dataIndex: 'trainingName',
-    key: 9,
-    width: 200,
-    render: (training) => (
-      <TagCustomized colors={trainingColors[training.replaceAll(' ', '').toLowerCase()] || {}}>
-        {training}
+    title: 'Category',
+    dataIndex: 'category',
+    key: 4,
+    width: 150,
+    render: (category) => (
+      <TagCustomized colors={categoryColors[category.replaceAll(' ', '').toLowerCase()] || {}}>
+        {category}
       </TagCustomized>
     ),
-  },
-  {
-    title: 'Reception Location',
-    dataIndex: 'location',
-    key: 10,
-    render: (location) => (
-      <TagCustomized colors={locationColors[location.replaceAll(' ', '').toLowerCase()] || {}}>
-        {location}
-      </TagCustomized>
-    ),
-  },
-  {
-    title: 'Employee Name ',
-    dataIndex: 'employeeName',
-    key: 11,
   },
   {
     title: 'Description ',
@@ -162,4 +141,4 @@ const incomesTableColumns = [
   },
 ]
 
-export { incomesTableColumns }
+export { expensesTableColumns }

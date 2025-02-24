@@ -1,9 +1,9 @@
-.table_incomes_container {
+.table_container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   transition: all 0.2s;
-  .table_incomes {
+  .table {
     tr {
       text-align: center;
       th {
