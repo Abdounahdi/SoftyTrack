@@ -67,13 +67,10 @@ const expensesApi = createApi({
     }),
     getExpenseById: builder.query({
       async queryFn(id) {
-
-        console.log("salemou alaikom")
-
         const { data, error } = await supabase
           .from('expenses')
           .select('* , category_id(*) , user_id(*) , payment_method_id(*)')
-          
+          .eq('id', id)
 
         if (error) {
           console.error(error)

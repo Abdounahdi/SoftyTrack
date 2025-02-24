@@ -51,7 +51,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{
           required: 'This field is required',
           pattern: {
@@ -91,7 +91,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
   }
 
   if (type === 'textarea') {
-    return <textarea placeholder={placeHolder} {...register(name || value)} />
+    return <textarea placeholder={placeHolder} {...register(name || value)} defaultValue={defaultValue} />
   }
 
   if (type === 'select') {
@@ -99,7 +99,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{ required: 'This field is required' }}
         render={({ field, fieldState: { error } }) => (
           <Select
@@ -121,7 +121,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{ required: 'This Field is required' }}
         render={({ field, fieldState: { error } }) => (
           <DatePicker {...field} className={'form_column'} status={inputOptions.error && 'error'} />
@@ -135,7 +135,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{ required: 'This Field is required' }}
         render={({ field, fieldState: { error } }) => (
           <Input.Password
