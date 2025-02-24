@@ -26,6 +26,7 @@ const incomesApi = createApi({
 
         return { data: { incomesInfo, count } }
       },
+      providesTags: ['incomes'],
     }),
     getPaymentMethods: builder.query({
       async queryFn() {
@@ -114,6 +115,17 @@ const incomesApi = createApi({
         console.log(incomeDetails)
         return { data }
       },
+      invalidatesTags: ['incomes'],
+    }),
+    deleteIncome: builder.mutation({
+      async queryFn(id) {
+        const { data, error } = await supabase.from('incomes').delete().eq('id', id)
+
+        if (error) return
+
+        return { data }
+      },
+      invalidatesTags: ['incomes'],
     }),
   }),
 })
@@ -124,6 +136,7 @@ export const {
   useGetPaymentMethodsQuery,
   useGetLocationsQuery,
   useGetTrainingsQuery,
+  useDeleteIncomeMutation,
 } = incomesApi
 
 export default incomesApi

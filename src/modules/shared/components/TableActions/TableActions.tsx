@@ -2,9 +2,16 @@ import { Dropdown, Modal } from 'antd'
 import { HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import { Link } from 'react-router'
 import { ExclamationCircleFilled } from '@ant-design/icons'
+import { useDeleteIncomeMutation } from '../../../incomes/data/supabaseApi/incomesApi'
+import toast from 'react-hot-toast'
+import { useDeleteExpenseMutation } from '../../../expenses/data/supabaseApi/expensesApi'
 
-export default function TableActions({ id }) {
-  console.log(id)
+export default function TableActions({ id, where }) {
+  const [deleteIncome] = useDeleteIncomeMutation({})
+  const [deleteExpense] = useDeleteExpenseMutation({})
+
+  const deleteItem = where === 'incomes' ? deleteIncome : deleteExpense
+
 
   const { confirm } = Modal
 
@@ -16,8 +23,15 @@ export default function TableActions({ id }) {
       okText: 'Yes',
       okType: 'danger',
       cancelText: 'No',
-      onOk() {
-        console.log('OK')
+      closable: true,
+      centered: true,
+      async onOk() {
+        const { error } = await deleteItem(id)
+        if (!error) {
+          toast.success('Income deleted succesfully ! ')
+        } else {
+          toast.error('Something went wrong !')
+        }
       },
       onCancel() {
         console.log('Cancel')

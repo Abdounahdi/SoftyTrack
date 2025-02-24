@@ -5,22 +5,20 @@ import { Spin } from 'antd'
 import { useGetAllUsersQuery } from '../../../incomes/data/supabaseApi/usersApi'
 import {
   useCreateExpenseMutation,
+  useGetExpenseByIdQuery,
   useGetExpensesCategoriesQuery,
 } from '../../data/supabaseApi/expensesApi'
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import toast from 'react-hot-toast'
 
-export default function ExpenseCreateFrom() {
+export default function ExpenseCreateFrom({ update = false }) {
   const { data: paymentMethodOptions, isLoading: isLoadingPaymentMethods } =
     useGetPaymentMethodsQuery({})
-
   const { data: users, isLoading: isLoadingUsers } = useGetAllUsersQuery({})
-
   const { data: categories, isLoading: isLoadingCategories } = useGetExpensesCategoriesQuery({})
-
   const [createExpense, { isLoading: isCreating }] = useCreateExpenseMutation()
 
-  const navigate = useNavigate()
+  const { data: expenseByIdInfo, isLoading: isLoadingExpenseById } = useGetExpenseByIdQuery({})
 
   const {
     register,
@@ -38,6 +36,7 @@ export default function ExpenseCreateFrom() {
           value: 'price',
           placeHolder: 'price to pay ... ',
           error: errors?.price?.message,
+          defaultValue: null,
         },
         {
           label: 'Payment Method',
@@ -51,6 +50,7 @@ export default function ExpenseCreateFrom() {
           createOption: true,
           placeHolder: 'Choose Training ... ',
           error: errors?.payment_method?.message,
+          defaultValue: null,
         },
         {
           label: 'Category',
@@ -64,6 +64,7 @@ export default function ExpenseCreateFrom() {
           createOption: true,
           placeHolder: 'Choose Category ... ',
           error: errors?.payment_method?.message,
+          defaultValue: null,
         },
       ],
     },
@@ -79,6 +80,7 @@ export default function ExpenseCreateFrom() {
           createOption: false,
           placeHolder: ' ',
           error: errors?.employeeName?.message,
+          defaultValue: null,
         },
         {
           label: 'Date of income',
@@ -86,6 +88,7 @@ export default function ExpenseCreateFrom() {
           value: 'date_created',
           placeHolder: '',
           error: errors?.date_created?.message,
+          defaultValue: null,
         },
       ],
     },
@@ -97,6 +100,7 @@ export default function ExpenseCreateFrom() {
           placeHolder: 'any details you want to add ... ',
           name: 'description',
           error: errors?.description?.message,
+          defaultValue: null,
         },
       ],
     },
@@ -117,9 +121,12 @@ export default function ExpenseCreateFrom() {
     console.error(err)
   }
 
-  const isLoading = isLoadingPaymentMethods || isLoadingUsers || isLoadingCategories
+  const isLoading =
+    isLoadingPaymentMethods || isLoadingUsers || isLoadingCategories || isLoadingExpenseById
 
   if (isLoading) return <Spin />
+  
+  console.log(expenseByIdInfo)
 
   return (
     <form className="customer_create_form" onSubmit={handleSubmit(onSuccess, onError)}>

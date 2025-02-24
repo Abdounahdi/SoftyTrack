@@ -2,14 +2,14 @@ import { DatePicker, Input, Select } from 'antd'
 import { Controller } from 'react-hook-form'
 
 export default function InputGenerator({ inputOptions, control, register }) {
-  const { type, placeHolder, selectOptions, name, value } = inputOptions
+  const { type, placeHolder, selectOptions, name, value, defaultValue = '' } = inputOptions
 
   if (type === 'text') {
     return (
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{ required: 'This field is required' }}
         render={({ field, fieldState: { error } }) => (
           <Input
@@ -28,7 +28,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{
           required: 'This field is required',
           maxLength: { value: 8, message: 'This Phone Number is not valid' },
@@ -76,7 +76,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
       <Controller
         name={name || value}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         rules={{ required: 'This field is required' }}
         render={({ field, fieldState: { error } }) => (
           <Input

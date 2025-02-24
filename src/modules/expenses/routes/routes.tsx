@@ -28,6 +28,13 @@ const routes: RouteConfig[] = [
     component: lazy(() => import('../features/ExpenseCreate/ExpenseCreate')),
     layout: MainLayout,
   },
+  {
+    exact: true,
+    guard: AuthGuard,
+    path: '/expenses/edit/:id',
+    component: lazy(() => import('../features/ExpenseUpdate/ExpenseUpdate')),
+    layout: MainLayout,
+  },
 ]
 
 export default routes

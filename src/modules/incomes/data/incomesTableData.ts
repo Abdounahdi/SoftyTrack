@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../shared/store'
 import { useGetIncomesQuery } from './supabaseApi/incomesApi'
-import { incomesTableColumns } from './TableColumnsObject'
+import { incomesTableColumns } from './IncomesTableColumns'
 import { setCurrentPage, setPageSize } from './incomesUiSlice'
 
 export default function incomesTableData() {
@@ -55,8 +55,6 @@ export default function incomesTableData() {
     checkedListOfShownColumns.length === 0
       ? incomesTableColumns.map((item) => item.key)
       : checkedListOfShownColumns
-
-  console.log(checkedList)
 
   const newColumns = incomesTableColumns.map((item) => ({
     ...item,

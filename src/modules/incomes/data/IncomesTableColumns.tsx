@@ -156,7 +156,7 @@ const incomesTableColumns = [
     title: 'Actions',
     key: 13,
     dataIndex: 'key',
-    render: (key) => <TableActions id={key} />,
+    render: (key) => <TableActions id={key} where="incomes" />,
     fixed: 'right',
     width: 100,
   },

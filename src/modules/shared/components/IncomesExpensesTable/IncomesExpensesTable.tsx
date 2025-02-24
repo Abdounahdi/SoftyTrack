@@ -1,7 +1,7 @@
 import { Pagination, PaginationProps, Spin, Table } from 'antd'
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
 
-import { incomesTableColumns } from '../../../incomes/data/TableColumnsObject'
+import { incomesTableColumns } from '../../../incomes/data/IncomesTableColumns'
 import ColumnsShowOptions from '../ColumnsShowOptions/ColumnsShowOptions'
 import incomesTableData from '../../../incomes/data/incomesTableData'
 import expensesTableData from '../../../expenses/data/expensesTableData'
@@ -41,8 +41,6 @@ export default function IncomesExpensesTable({ where }) {
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
 
   if (isFetching) return <Spin size="large" />
-
-  console.log(data)
 
   return (
     <>

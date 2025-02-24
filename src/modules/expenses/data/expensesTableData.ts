@@ -49,8 +49,6 @@ export default function expensesTableData() {
       ? expensesTableColumns.map((item) => item.key)
       : checkedListOfShownColumns
 
-  console.log(data)
-
   const newColumns = expensesTableColumns.map((item) => ({
     ...item,
     hidden: !checkedList.includes(item.key),

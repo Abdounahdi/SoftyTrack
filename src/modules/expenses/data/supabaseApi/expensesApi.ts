@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import supabase from '../../../shared/supabase'
+import { useParams } from 'react-router'
 
 const expensesApi = createApi({
   reducerPath: 'expensesApi',
@@ -22,7 +23,8 @@ const expensesApi = createApi({
         if (error) return
 
         return { data: { expensesInfo, count } }
-      },providesTags: ['expenses'], 
+      },
+      providesTags: ['expenses'],
     }),
     getExpensesCategories: builder.query({
       async queryFn() {
@@ -47,12 +49,51 @@ const expensesApi = createApi({
         if (error) return
 
         return { data }
-      },invalidatesTags: ['expenses']
+      },
+      invalidatesTags: ['expenses'],
+    }),
+    deleteExpense: builder.mutation({
+      async queryFn(id) {
+        const { data, error } = await supabase.from('expenses').delete().eq('id', id)
+        if (error) {
+          console.log(error)
+          return
+        }
+        console.log('deleting ')
+
+        return { data }
+      },
+      invalidatesTags: ['expenses'],
+    }),
+    getExpenseById: builder.query({
+      async queryFn(id) {
+
+        console.log("salemou alaikom")
+
+        const { data, error } = await supabase
+          .from('expenses')
+          .select('* , category_id(*) , user_id(*) , payment_method_id(*)')
+          
+
+        if (error) {
+          console.error(error)
+          return
+        }
+
+        console.log(data)
+
+        return { data }
+      },
     }),
   }),
 })
 
-export const { useGetExpensesQuery, useGetExpensesCategoriesQuery, useCreateExpenseMutation } =
-  expensesApi
+export const {
+  useGetExpensesQuery,
+  useGetExpensesCategoriesQuery,
+  useCreateExpenseMutation,
+  useDeleteExpenseMutation,
+  useGetExpenseByIdQuery,
+} = expensesApi
 
 export default expensesApi
