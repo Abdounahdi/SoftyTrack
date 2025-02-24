@@ -10,8 +10,8 @@ const routes = [
   ...sharedRoutes,
   ...authRoutes,
   ...dashboardRoutes,
-  ...todosRoutes,
-  ...todosRTKRoutes,
+  // ...todosRoutes,
+  // ...todosRTKRoutes,
   ...incomesRoutes,
   ...expensesRoutes,
 ]

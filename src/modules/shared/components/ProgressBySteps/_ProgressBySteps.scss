@@ -1,0 +1,17 @@
+.progress_bar_steps_slices_paid {
+  .ant-progress-steps-item{
+    border-radius: 10px;
+    width: 18px !important;
+    background-color:#D2E3E9;
+  }
+
+  .ant-progress-steps-item-active{
+    background-color:#2E71E2 ;
+  }
+  
+
+  .ant-progress-steps-outer{
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
+}

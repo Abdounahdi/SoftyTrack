@@ -1,0 +1,31 @@
+.text_with_copy_clipboard_container {
+  .copy_clipboard_btn {
+    border: none;
+    background: none;
+    color: #4a74d9;
+    display: flex;
+    opacity: 0;
+    align-items: center;
+    padding: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.13s;
+    svg {
+      height: 19px;
+      stroke-width: 1.5;
+      width: 19px;
+    }
+  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  &:hover {
+    .copy_clipboard_btn {
+      opacity: 1;
+    }
+  }
+}
+
+
