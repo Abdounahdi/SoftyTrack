@@ -10,7 +10,11 @@ export default function Table({
   currentPage,
   pageSize,
   itemRender,
+<<<<<<< HEAD
   isLoading,
+=======
+  isLoading
+>>>>>>> f7fcd22949f691139c6f9ed35f2e6f2947e19036
 }) {
   return (
     <>
@@ -27,7 +31,10 @@ export default function Table({
           }}
           scroll={{ x: xScroll }}
           loading={isLoading}
+<<<<<<< HEAD
           rowKey="id"
+=======
+>>>>>>> f7fcd22949f691139c6f9ed35f2e6f2947e19036
         />
       </div>
       <Pagination

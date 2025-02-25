@@ -4,7 +4,11 @@ import TableActions from '../../../shared/components/TableActions/TableActions'
 import { useGetTrainingsQuery } from '../../data/supabase/trainingsApi'
 import Table from '../../../shared/components/Table/Table'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
+<<<<<<< HEAD
 import { setCurrentPage, setPageSize, setSelectedRows } from '../../data/trainingsSlice'
+=======
+import { setCurrentPage, setPageSize } from '../../data/trainingsSlice'
+>>>>>>> f7fcd22949f691139c6f9ed35f2e6f2947e19036
 
 const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
   return item === 'prev' ? (
@@ -73,7 +77,10 @@ export default function TrainingsTable() {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+<<<<<<< HEAD
       dispatch(setSelectedRows(selectedRows))
+=======
+>>>>>>> f7fcd22949f691139c6f9ed35f2e6f2947e19036
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
