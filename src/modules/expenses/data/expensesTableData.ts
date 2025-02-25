@@ -4,7 +4,7 @@ import {
   useGetExpensesCategoriesQuery,
   useGetExpensesQuery,
 } from './supabaseApi/expensesApi'
-import { expensesTableColumns } from './TableColumnsExpenses'
+import { getExpensesColumns } from './TableColumnsExpenses'
 import { setPageSize, setCurrentPage, setSelectedRows } from './expensesUiSlice'
 import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
 import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
@@ -16,13 +16,14 @@ export default function expensesTableData() {
   const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
     (state) => state.expensesUi
   )
-  const { currentPage, pageSize , selectedRows} = useAppSelector((state) => state.expensesUi)
+  const { currentPage, pageSize, selectedRows } = useAppSelector((state) => state.expensesUi)
 
   const { data: expenses, isFetching } = useGetExpensesQuery({
     currentPage,
     pageSize,
   })
 
+  const expensesTableColumns = getExpensesColumns()
 
   const totalData = expenses?.count
 
@@ -235,7 +236,7 @@ export function getExpensesFromOptions(errors, update) {
           value: 'date_created',
           placeHolder: '',
           error: errors?.date_created?.message,
-          defaultValue: expenseByIdInfo?.map((object) =>dayjs(object.date_created))[0],
+          defaultValue: expenseByIdInfo?.map((object) => dayjs(object.date_created))[0],
         },
       ],
     },
@@ -247,7 +248,7 @@ export function getExpensesFromOptions(errors, update) {
           placeHolder: 'any details you want to add ... ',
           name: 'description',
           error: errors?.description?.message,
-          defaultValue: expenseByIdInfo?.map((object)=>object.description)[0],
+          defaultValue: expenseByIdInfo?.map((object) => object.description)[0],
         },
       ],
     },
@@ -255,5 +256,5 @@ export function getExpensesFromOptions(errors, update) {
 
   const expenseFormOptions = update ? expenseFormUpdateOptions : expenseFormBlankOptions
 
-  return { expenseFormOptions, isLoading, expenseByIdInfo , expenseId }
+  return { expenseFormOptions, isLoading, expenseByIdInfo, expenseId }
 }

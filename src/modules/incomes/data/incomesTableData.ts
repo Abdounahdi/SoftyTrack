@@ -6,7 +6,7 @@ import {
   useGetPaymentMethodsQuery,
   useGetTrainingsQuery,
 } from './supabaseApi/incomesApi'
-import { incomesTableColumns } from './IncomesTableColumns'
+import { getIncomesColumns } from './IncomesTableColumns'
 import { setCurrentPage, setPageSize, setSelectedRows } from './incomesUiSlice'
 import { useGetAllUsersQuery } from './supabaseApi/usersApi'
 import { useNavigate, useParams } from 'react-router'
@@ -23,6 +23,8 @@ export default function incomesTableData() {
     currentPage,
     pageSize,
   })
+
+  const incomesTableColumns = getIncomesColumns()
 
   const totalData = incomes?.count
 
