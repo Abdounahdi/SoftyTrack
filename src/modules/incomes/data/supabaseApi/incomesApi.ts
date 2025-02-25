@@ -54,11 +54,11 @@ const incomesApi = createApi({
         const {
           phone,
           email,
-          customer_name,
+          full_name,
           price,
           total_slices,
           paid_slices,
-          training: training_id,
+          training_id,
           payment_method: payment_method_id,
           location: reception_location_id,
           receptionist: receptionist_id,
@@ -68,7 +68,7 @@ const incomesApi = createApi({
         const customerDetails = {
           phone,
           email,
-          full_name: customer_name,
+          full_name,
         }
 
         const { data: createdCustomer, error: creationCustomerError } = await supabase
@@ -127,6 +127,84 @@ const incomesApi = createApi({
       },
       invalidatesTags: ['incomes'],
     }),
+    getIncomeById: builder.query({
+      async queryFn(id) {
+        const { data, error } = await supabase
+          .from('incomes')
+          .select(
+            '* ,payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*) '
+          )
+          .eq('id', id)
+        if (error) {
+          console.error(error)
+          return
+        }
+        return { data }
+      },
+    }),
+    updateIncome: builder.mutation({
+      async queryFn(params) {
+        const { id, updatedIncome, customerId } = params
+        const {
+          phone,
+          email,
+          full_name,
+          price,
+          total_slices,
+          paid_slices,
+          training_id,
+          payment_method: payment_method_id,
+          location: reception_location_id,
+          receptionist: receptionist_id,
+          description,
+        } = updatedIncome
+
+        const customerDetails = {
+          phone,
+          email,
+          full_name,
+        }
+
+        const { data: customerUpdated, error: customerUpdateError } = await supabase
+          .from('customers')
+          .update(customerDetails)
+          .eq('id', customerId)
+
+        if (customerUpdateError) {
+          console.error("customer couldn't be updated ")
+          console.error(customerUpdateError)
+          return
+        }
+
+        const incomeDetails = {
+          date_created: new Date(updatedIncome.date_created.$d)
+            .toISOString()
+            .replace('.000Z', '+00:00'),
+          price: Number(price),
+          total_slices: Number(total_slices),
+          paid_slices: Number(paid_slices),
+          payment_method_id,
+          training_id,
+          reception_location_id,
+          receptionist_id,
+          customer_id: customerId,
+          description,
+        }
+
+        const { data, error } = await supabase
+          .from('incomes')
+          .update(incomeDetails)
+          .eq('id', id)
+          .select()
+
+        if (error) {
+          console.error("couldn't update income ")
+          console.error(error)
+        }
+
+        return { data }
+      },invalidatesTags:["incomes"]
+    }),
   }),
 })
 
@@ -137,6 +215,8 @@ export const {
   useGetLocationsQuery,
   useGetTrainingsQuery,
   useDeleteIncomeMutation,
+  useGetIncomeByIdQuery,
+  useUpdateIncomeMutation,
 } = incomesApi
 
 export default incomesApi

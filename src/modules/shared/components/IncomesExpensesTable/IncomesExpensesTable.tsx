@@ -42,6 +42,7 @@ export default function IncomesExpensesTable({ where }) {
 
   if (isFetching) return <Spin size="large" />
 
+
   return (
     <>
       {showColumnsOptions ? (

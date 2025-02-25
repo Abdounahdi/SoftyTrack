@@ -3,8 +3,8 @@ import ExpenseCreateFrom from '../../components/ExpenseCreateForm/ExpenseCreateF
 
 export default function ExpenseUpdate() {
   return (
-    <PageActionLayout title={`Update Expense`} goBack={true}>
-      <ExpenseCreateFrom update={true} />
+    <PageActionLayout title={`View Expense`} goBack={true}>
+      <ExpenseCreateFrom update={true} disabled={true} />
     </PageActionLayout>
   )
 }

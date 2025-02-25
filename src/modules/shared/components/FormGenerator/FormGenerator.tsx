@@ -1,6 +1,6 @@
 import InputGenerator from '../InputGenerator/InputGenerator'
 
-export default function FormGenerator({ options, control, register }) {
+export default function FormGenerator({ options, control, register, disableAll=false }) {
   return (
     <>
       {options.map((formRowOptions) => {
@@ -14,6 +14,7 @@ export default function FormGenerator({ options, control, register }) {
                     inputOptions={formColumnOptions}
                     control={control}
                     register={register}
+                    disableAll={disableAll}
                   />
                   {formColumnOptions?.error ? (
                     <span className="error_form_column_generator">{formColumnOptions.error}</span>

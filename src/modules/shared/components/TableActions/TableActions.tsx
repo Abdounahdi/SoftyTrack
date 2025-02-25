@@ -2,6 +2,7 @@ import { Dropdown, Modal } from 'antd'
 import { HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import { Link } from 'react-router'
 import { ExclamationCircleFilled } from '@ant-design/icons'
+
 import { useDeleteIncomeMutation } from '../../../incomes/data/supabaseApi/incomesApi'
 import toast from 'react-hot-toast'
 import { useDeleteExpenseMutation } from '../../../expenses/data/supabaseApi/expensesApi'

@@ -1,16 +1,21 @@
 import { useForm } from 'react-hook-form'
 import { Spin } from 'antd'
-import toast from 'react-hot-toast'
 
-import { useCreateExpenseMutation } from '../../data/supabaseApi/expensesApi'
+import {
+  useCreateExpenseMutation,
+  useUpdateExpenseMutation,
+} from '../../data/supabaseApi/expensesApi'
 import { getExpensesFromOptions } from '../../data/expensesTableData'
 
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
+import FormCreateUpdateBtn from '../../../shared/components/FormCreateUpdateBtn/FormCreateUpdateBtn'
 
-export default function ExpenseCreateFrom({ update = false }) {
+export default function ExpenseCreateFrom({ update = false, disabled = false }) {
   const navigate = useNavigate()
   const [createExpense, { isLoading: isCreating }] = useCreateExpenseMutation()
+  const [updateExpense, { isLoading: isUpdating }] = useUpdateExpenseMutation()
 
   const {
     register,
@@ -19,15 +24,25 @@ export default function ExpenseCreateFrom({ update = false }) {
     control,
   } = useForm()
 
-  const { isLoading, expenseFormOptions } = getExpensesFromOptions(errors, update)
+  const { isLoading, expenseFormOptions, expenseId } = getExpensesFromOptions(errors, update)
 
   async function onSuccess(newObj) {
-    // const newExpense = await createExpense(newObj)
+    const newExpense = update
+      ? await updateExpense({ updatedExpense: newObj, id: expenseId })
+      : await createExpense(newObj)
     if (newExpense) {
       navigate('/expenses')
-      toast.success('New expense created !')
+      if (update) {
+        toast.success('Expense updated !')
+      } else {
+        toast.success('New expense created !')
+      }
     } else {
-      toast.error('Expense not created !')
+      if (update) {
+        toast.error('Expense was not updated !')
+      } else {
+        toast.error('Expense was not created !')
+      }
     }
   }
 
@@ -42,11 +57,23 @@ export default function ExpenseCreateFrom({ update = false }) {
     <form className="customer_create_form" onSubmit={handleSubmit(onSuccess, onError)}>
       <div className="create_form_container">
         <div className="create_form_box">
-          <FormGenerator options={expenseFormOptions} control={control} register={register} />
+          <FormGenerator
+            options={expenseFormOptions}
+            control={control}
+            register={register}
+            disableAll={disabled}
+          />
         </div>
-        <button className="sumbit_button_create_expense" disabled={false}>
-          {isCreating ? 'Creating Expense ... ' : 'Create Expense'}
-        </button>
+        {disabled ? (
+          ''
+        ) : (
+          <FormCreateUpdateBtn
+            type="expense"
+            isCreating={isCreating}
+            isUpdating={isUpdating}
+            update={update}
+          />
+        )}
       </div>
     </form>
   )

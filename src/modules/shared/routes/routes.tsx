@@ -1,8 +1,7 @@
 import sharedRoutes from './sharedRoutes'
 import authRoutes from '../../auth/routes/routes'
 import dashboardRoutes from '../../dashboard/routes/routes'
-import todosRoutes from '../../todos/routes/routes'
-import todosRTKRoutes from '../../todosRtk/routes/routes'
+import trainingRoutes from '../../trainings/routes/routes'
 import incomesRoutes from '../../incomes/routes/routes'
 import expensesRoutes from '../../expenses/routes/routes'
 
@@ -14,6 +13,7 @@ const routes = [
   // ...todosRTKRoutes,
   ...incomesRoutes,
   ...expensesRoutes,
+  ...trainingRoutes,
 ]
 
 export default routes

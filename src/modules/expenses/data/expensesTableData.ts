@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../shared/store'
 import {
   useGetExpenseByIdQuery,
@@ -6,7 +5,7 @@ import {
   useGetExpensesQuery,
 } from './supabaseApi/expensesApi'
 import { expensesTableColumns } from './TableColumnsExpenses'
-import { setPageSize, setCurrentPage } from './expensesUiSlice'
+import { setPageSize, setCurrentPage, setSelectedRows } from './expensesUiSlice'
 import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
 import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
 import { useParams } from 'react-router'
@@ -17,14 +16,13 @@ export default function expensesTableData() {
   const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
     (state) => state.expensesUi
   )
-  const { currentPage, pageSize } = useAppSelector((state) => state.expensesUi)
+  const { currentPage, pageSize , selectedRows} = useAppSelector((state) => state.expensesUi)
 
   const { data: expenses, isFetching } = useGetExpensesQuery({
     currentPage,
     pageSize,
   })
 
-  const [selectedRows, setSelectedRows] = useState([])
 
   const totalData = expenses?.count
 
@@ -43,7 +41,7 @@ export default function expensesTableData() {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      setSelectedRows(selectedRows)
+      dispatch(setSelectedRows(selectedRows))
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
@@ -176,8 +174,6 @@ export function getExpensesFromOptions(errors, update) {
     },
   ]
 
-  console.log(expenseByIdInfo)
-
   const expenseFormUpdateOptions = [
     {
       columns: [
@@ -187,7 +183,7 @@ export function getExpensesFromOptions(errors, update) {
           value: 'price',
           placeHolder: 'price to pay ... ',
           error: errors?.price?.message,
-          defaultValue: expenseByIdInfo?.map((object) => object.price),
+          defaultValue: expenseByIdInfo?.map((object) => object.price)[0],
         },
         {
           label: 'Payment Method',
@@ -201,7 +197,7 @@ export function getExpensesFromOptions(errors, update) {
           createOption: true,
           placeHolder: 'Choose Training ... ',
           error: errors?.payment_method?.message,
-          defaultValue: expenseByIdInfo?.map((object) => object.payment_method_id.id),
+          defaultValue: expenseByIdInfo?.map((object) => object.payment_method_id.id)[0],
         },
         {
           label: 'Category',
@@ -215,7 +211,7 @@ export function getExpensesFromOptions(errors, update) {
           createOption: true,
           placeHolder: 'Choose Category ... ',
           error: errors?.category_id?.message,
-          defaultValue: expenseByIdInfo?.map((object) => object.category_id.id),
+          defaultValue: expenseByIdInfo?.map((object) => object.category_id.id)[0],
         },
       ],
     },
@@ -231,7 +227,7 @@ export function getExpensesFromOptions(errors, update) {
           createOption: false,
           placeHolder: ' ',
           error: errors?.employeeName?.message,
-          defaultValue: expenseByIdInfo?.map((object) => object.user_id.full_name),
+          defaultValue: expenseByIdInfo?.map((object) => object.user_id.id)[0],
         },
         {
           label: 'Date of income',
@@ -239,7 +235,7 @@ export function getExpensesFromOptions(errors, update) {
           value: 'date_created',
           placeHolder: '',
           error: errors?.date_created?.message,
-          defaultValue: expenseByIdInfo?.map((object) =>dayjs(object.date_created)),
+          defaultValue: expenseByIdInfo?.map((object) =>dayjs(object.date_created))[0],
         },
       ],
     },
@@ -251,7 +247,7 @@ export function getExpensesFromOptions(errors, update) {
           placeHolder: 'any details you want to add ... ',
           name: 'description',
           error: errors?.description?.message,
-          defaultValue: expenseByIdInfo?.map((object)=>object.description),
+          defaultValue: expenseByIdInfo?.map((object)=>object.description)[0],
         },
       ],
     },
@@ -259,5 +255,5 @@ export function getExpensesFromOptions(errors, update) {
 
   const expenseFormOptions = update ? expenseFormUpdateOptions : expenseFormBlankOptions
 
-  return { expenseFormOptions, isLoading, expenseByIdInfo }
+  return { expenseFormOptions, isLoading, expenseByIdInfo , expenseId }
 }

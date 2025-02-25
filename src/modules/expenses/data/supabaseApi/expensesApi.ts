@@ -82,6 +82,22 @@ const expensesApi = createApi({
         return { data }
       },
     }),
+    updateExpense: builder.mutation({
+      async queryFn(params) {
+        const { data, error } = await supabase
+          .from('expenses')
+          .update(params.updatedExpense)
+          .eq('id', params.id)
+          .select()
+
+        if (error) {
+          console.error(error)
+          return
+        }
+        return { data }
+      },
+      invalidatesTags: ['expenses'],
+    }),
   }),
 })
 
@@ -91,6 +107,7 @@ export const {
   useCreateExpenseMutation,
   useDeleteExpenseMutation,
   useGetExpenseByIdQuery,
+  useUpdateExpenseMutation,
 } = expensesApi
 
 export default expensesApi

@@ -1,29 +1,15 @@
+import { useForm } from 'react-hook-form'
 import { Spin } from 'antd'
 import CustomerForm from '../CustomerForm/CustomerForm'
 import PaymentForm from '../PaymentForm/PaymentForm'
-import { useForm } from 'react-hook-form'
-import {
-  useCreateIncomeMutation,
-  useGetPaymentMethodsQuery,
-  useGetLocationsQuery,
-  useGetTrainingsQuery,
-} from '../../data/supabaseApi/incomesApi'
-import { useGetAllUsersQuery } from '../../data/supabaseApi/usersApi'
-import { useNavigate } from 'react-router'
+import { useCreateIncomeMutation, useUpdateIncomeMutation } from '../../data/supabaseApi/incomesApi'
 import toast from 'react-hot-toast'
+import { getIncomesFormData } from '../../data/incomesTableData'
+import FormCreateUpdateBtn from '../../../shared/components/FormCreateUpdateBtn/FormCreateUpdateBtn'
 
-export default function IncomeCreateForm() {
-  const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
-  const { data: users, isLoading: isLoadingUsers } = useGetAllUsersQuery({})
-  const { data: locations, isLoading: isLoadingLocations } = useGetLocationsQuery({})
-  const { data: payment_methods, isLoading: isLoadingPaymentMethods } = useGetPaymentMethodsQuery(
-    {}
-  )
+export default function IncomeCreateForm({ update = false, disabled = false }) {
   const [createIncome, { isLoading: isCreating }] = useCreateIncomeMutation({})
-  const navigate = useNavigate()
-
-  const isLoading =
-    isLoadingTrainings || isLoadingUsers || isLoadingLocations || isLoadingPaymentMethods
+  const [updateIncome, { isLoading: isUpdating }] = useUpdateIncomeMutation({})
 
   const {
     register,
@@ -32,10 +18,19 @@ export default function IncomeCreateForm() {
     control,
   } = useForm()
 
+  const { isLoading, customerFormInputs, paymentFormInputs, navigate, incomeId, customerId } =
+    getIncomesFormData(errors, update)
+
   async function onSumbit(newObj) {
-    await createIncome(newObj)
-    navigate('/incomes')
-    toast.success('New Income Created !')
+    const { data } = update
+      ? await updateIncome({ id: incomeId, updatedIncome: newObj, customerId: customerId })
+      : await createIncome(newObj)
+    if (!data?.error) {
+      navigate('/incomes')
+      toast.success(update ? `Income updated ! ` : `New Income Created !`)
+    } else {
+      toast.error(update ? `Income was not Updated !` : `Income was not created !`)
+    }
   }
 
   function onError(error) {
@@ -47,18 +42,28 @@ export default function IncomeCreateForm() {
   return (
     <form className="customer_create_form" onSubmit={handleSubmit(onSumbit, onError)}>
       <div className="create_form_container">
-        <CustomerForm trainings={trainings} register={register} control={control} errors={errors} />
-        <PaymentForm
-          payment_methods={payment_methods}
-          locations={locations}
-          users={users}
+        <CustomerForm
+          inputs={customerFormInputs}
           register={register}
           control={control}
-          errors={errors}
+          disableAll={disabled}
         />
-        <button className="sumbit_button_create_income" disabled={isCreating}>
-          {isCreating ? 'Creating Income ... ' : 'Create Income'}
-        </button>
+        <PaymentForm
+          inputs={paymentFormInputs}
+          register={register}
+          control={control}
+          disableAll={disabled}
+        />
+        {disabled ? (
+          ''
+        ) : (
+          <FormCreateUpdateBtn
+            type="income"
+            isCreating={isCreating}
+            isUpdating={isUpdating}
+            update={update}
+          />
+        )}
       </div>
     </form>
   )

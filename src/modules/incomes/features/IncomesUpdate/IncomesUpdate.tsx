@@ -1,10 +1,10 @@
 import PageActionLayout from '../../../shared/components/IncomesExpensesActionsPageLayout/PageActionLayout'
 import IncomeCreateForm from '../../components/IncomeCreateForm/IncomeCreateForm'
 
-export default function IncomesCreateForm() {
+export default function IncomesUpdate() {
   return (
-    <PageActionLayout title="Create new Income">
-      <IncomeCreateForm />
+    <PageActionLayout title="Update Income">
+      <IncomeCreateForm update={true} />
     </PageActionLayout>
   )
 }

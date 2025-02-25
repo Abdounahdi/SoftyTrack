@@ -1,7 +1,7 @@
 import { DatePicker, Input, Select } from 'antd'
 import { Controller } from 'react-hook-form'
 
-export default function InputGenerator({ inputOptions, control, register }) {
+export default function InputGenerator({ inputOptions, control, register, disableAll }) {
   const { type, placeHolder, selectOptions, name, value, defaultValue = '' } = inputOptions
 
   if (type === 'text') {
@@ -17,6 +17,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
             type="text"
             placeholder={placeHolder}
             status={inputOptions.error && 'error'}
+            disabled={disableAll}
           />
         )}
       />
@@ -37,9 +38,10 @@ export default function InputGenerator({ inputOptions, control, register }) {
         render={({ field, fieldState: { error } }) => (
           <Input
             {...field}
-            type="tel"
+            type="number"
             placeholder={placeHolder}
             status={inputOptions.error && 'error'}
+            disabled={disableAll}
           />
         )}
       />
@@ -65,6 +67,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
             type="email"
             placeholder={placeHolder}
             status={inputOptions.error && 'error'}
+            disabled={disableAll}
           />
         )}
       />
@@ -84,6 +87,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
             type="number"
             placeholder={placeHolder}
             status={inputOptions.error && 'error'}
+            disabled={disableAll}
           />
         )}
       />
@@ -91,7 +95,14 @@ export default function InputGenerator({ inputOptions, control, register }) {
   }
 
   if (type === 'textarea') {
-    return <textarea placeholder={placeHolder} {...register(name || value)} defaultValue={defaultValue} />
+    return (
+      <textarea
+        placeholder={placeHolder}
+        {...register(name || value)}
+        defaultValue={defaultValue}
+        disabled={disableAll}
+      />
+    )
   }
 
   if (type === 'select') {
@@ -110,6 +121,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
             optionFilterProp="label"
             options={selectOptions}
             status={inputOptions.error && 'error'}
+            disabled={disableAll}
           />
         )}
       />
@@ -124,7 +136,12 @@ export default function InputGenerator({ inputOptions, control, register }) {
         defaultValue={defaultValue}
         rules={{ required: 'This Field is required' }}
         render={({ field, fieldState: { error } }) => (
-          <DatePicker {...field} className={'form_column'} status={inputOptions.error && 'error'} />
+          <DatePicker
+            {...field}
+            className={'form_column'}
+            status={inputOptions.error && 'error'}
+            disabled={disableAll}
+          />
         )}
       />
     )
@@ -143,6 +160,7 @@ export default function InputGenerator({ inputOptions, control, register }) {
             className={'password_input'}
             status={inputOptions.error && 'error'}
             placeholder={placeHolder}
+            disabled={disableAll}
           />
         )}
       />
