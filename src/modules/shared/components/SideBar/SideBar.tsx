@@ -49,19 +49,19 @@ export default function SideBar() {
           {
             name: 'Trainings',
             icon: <HiOutlineFolderOpen />,
-            to: '/fdsdfsa',
+            to: '/trainings',
             guard: 'user admin',
           },
           {
             name: 'Categories',
             icon: <HiOutlineBanknotes />,
-            to: '/dfsaddfas',
+            to: '/expenses-categories',
             guard: 'user admin',
           },
           {
             name: 'Users',
             icon: <HiOutlineUserGroup />,
-            to: '/fdsadfsad',
+            to: '/users',
             guard: 'admin',
           },
         ]}

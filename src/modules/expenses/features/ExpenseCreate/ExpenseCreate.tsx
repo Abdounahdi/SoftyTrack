@@ -1,11 +1,10 @@
-import PageHeading from '../../../shared/components/PageHeading/PageHeading'
+import PageActionLayout from '../../../shared/components/IncomesExpensesActionsPageLayout/PageActionLayout'
 import ExpenseCreateFrom from '../../components/ExpenseCreateForm/ExpenseCreateFrom'
 
 export default function ExpenseCreate() {
   return (
-    <div className="expenses_create_form_container">
-      <PageHeading title="Create Expense" goBack={true} />
+    <PageActionLayout title="Create Expense" goBack={true}>
       <ExpenseCreateFrom />
-    </div>
+    </PageActionLayout>
   )
 }

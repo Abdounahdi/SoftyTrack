@@ -1,22 +1,30 @@
-import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../shared/store'
-import { useGetIncomesQuery } from './supabaseApi/incomesApi'
-import { incomesTableColumns } from './IncomesTableColumns'
-import { setCurrentPage, setPageSize } from './incomesUiSlice'
+import {
+  useGetIncomeByIdQuery,
+  useGetIncomesQuery,
+  useGetLocationsQuery,
+  useGetPaymentMethodsQuery,
+  useGetTrainingsQuery,
+} from './supabaseApi/incomesApi'
+import { getIncomesColumns } from './IncomesTableColumns'
+import { setCurrentPage, setPageSize, setSelectedRows } from './incomesUiSlice'
+import { useGetAllUsersQuery } from './supabaseApi/usersApi'
+import { useNavigate, useParams } from 'react-router'
+import dayjs from 'dayjs'
 
 export default function incomesTableData() {
   const dispatch = useAppDispatch()
   const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
     (state) => state.incomesUi
   )
-  const { currentPage, pageSize } = useAppSelector((state) => state.incomesUi)
+  const { currentPage, pageSize, selectedRows } = useAppSelector((state) => state.incomesUi)
 
   const { data: incomes, isFetching } = useGetIncomesQuery({
     currentPage,
     pageSize,
   })
 
-  const [selectedRows, setSelectedRows] = useState([])
+  const {incomesTableColumns} = getIncomesColumns()
 
   const totalData = incomes?.count
 
@@ -42,7 +50,7 @@ export default function incomesTableData() {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-      setSelectedRows(selectedRows)
+      dispatch(setSelectedRows(selectedRows))
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === 'Disabled User',
@@ -82,4 +90,199 @@ export default function incomesTableData() {
     handlePagination,
     newColumns,
   }
+}
+
+export function getIncomesFormData(errors, update) {
+  //paramas:
+  const { id: incomeId } = useParams()
+  // api calls :
+  const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
+  const { data: users, isLoading: isLoadingUsers } = useGetAllUsersQuery({})
+  const { data: locations, isLoading: isLoadingLocations } = useGetLocationsQuery({})
+  const { data: payment_methods, isLoading: isLoadingPaymentMethods } = useGetPaymentMethodsQuery(
+    {}
+  )
+  const { data: income, isLoading: isGettingIncomeInfo } = useGetIncomeByIdQuery(incomeId)
+  //hooks
+  const navigate = useNavigate()
+
+  const isLoading =
+    isLoadingTrainings ||
+    isLoadingUsers ||
+    isLoadingLocations ||
+    isLoadingPaymentMethods ||
+    isGettingIncomeInfo
+
+  //preparing data
+  const trainingsOptions = trainings?.map((training) => {
+    return { value: training.id, label: training.training }
+  })
+
+  const paymentMethods = payment_methods?.map((paymentMethod) => {
+    return { value: paymentMethod.id, label: paymentMethod.payment_method }
+  })
+
+  const locationOptions = locations?.map((location) => {
+    return { value: location.id, label: location.location }
+  })
+  const receptionistOptions = users?.map((user) => {
+    return { value: user.id, label: user.full_name }
+  })
+
+  const incomeInfo = income?.at(0) || {}
+
+  const customerId = incomeInfo?.customer_id?.id
+
+  //data objects for generating forms
+  const customerFormInputsBlank = [
+    {
+      columns: [
+        {
+          label: 'Full Name',
+          type: 'text',
+          value: 'full_name',
+          placeHolder: 'customer full name ... ',
+          error: errors?.customer_name?.message,
+        },
+        {
+          label: 'Phone Number',
+          type: 'tel',
+          value: 'phone',
+          placeHolder: '** *** ***',
+          error: errors?.phone?.message,
+        },
+        {
+          label: 'Email',
+          type: 'email',
+          value: 'email',
+          placeHolder: 'customer@example.com',
+          error: errors?.email?.message,
+        },
+        {
+          label: 'Training Chosen',
+          type: 'select',
+          selectOptions: trainingsOptions,
+          name: 'training_id',
+          value: 'training_id',
+          createOption: true,
+          placeHolder: 'Choose Training ... ',
+          error: errors?.training?.message,
+        },
+      ],
+    },
+  ]
+
+  const customerFormInputsUpdate = customerFormInputsBlank?.map((el) => {
+    const columns = el.columns.map((column) => {
+      if (column.value !== 'training_id') {
+        return { ...column, defaultValue: incomeInfo?.customer_id?.[column.value] }
+      } else {
+        return { ...column, defaultValue: incomeInfo?.training_id?.id }
+      }
+    })
+    return { columns }
+  })
+
+  const customerFormInputs = update ? customerFormInputsUpdate : customerFormInputsBlank
+
+  const paymentFormInputsBlank = [
+    {
+      columns: [
+        {
+          label: 'Price',
+          type: 'number',
+          value: 'price',
+          placeHolder: 'price to pay ... ',
+          error: errors?.price?.message,
+        },
+        {
+          label: 'Total Slices',
+          type: 'number',
+          value: 'total_slices',
+          placeHolder: '',
+          error: errors?.total_slices?.message,
+          className: 'slices_box_width_small',
+        },
+        {
+          label: 'Paid Slices',
+          type: 'number',
+          value: 'paid_slices',
+          placeHolder: '',
+          error: errors?.paid_slices?.message,
+          className: 'slices_box_width_small',
+        },
+        {
+          label: 'Payment Method',
+          type: 'select',
+          selectOptions: paymentMethods,
+          name: 'payment_method',
+          value: 'payment_method',
+          createOption: true,
+          placeHolder: 'Choose Training ... ',
+          error: errors?.payment_method?.message,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Reception Local',
+          type: 'select',
+          name: 'location',
+          value: 'location',
+          selectOptions: locationOptions,
+          placeHolder: 'select location ... ',
+          error: errors?.location?.message,
+        },
+        {
+          label: 'Date of income',
+          type: 'date',
+          value: 'date_created',
+          placeHolder: '',
+          error: errors?.date_created?.message,
+        },
+        {
+          label: 'Receptionist',
+          type: 'select',
+          selectOptions: receptionistOptions,
+          name: 'receptionist',
+          value: 'receptionist',
+          createOption: false,
+          placeHolder: ' ',
+          error: errors?.receptionist?.message,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Description',
+          type: 'textarea',
+          placeHolder: 'any details you want to add ... ',
+          name: 'description',
+          value: 'description',
+          error: errors?.description?.message,
+        },
+      ],
+    },
+  ]
+
+  const paymentFormInputs = paymentFormInputsBlank?.map((el) => {
+    const columns = el.columns.map((column) => {
+      if (column.value === 'payment_method') {
+        return { ...column, defaultValue: incomeInfo?.payment_method_id?.id }
+      } else if (column.value === 'receptionist') {
+        return { ...column, defaultValue: incomeInfo?.receptionist_id?.id }
+      } else if (column.value === 'location') {
+        return { ...column, defaultValue: incomeInfo?.reception_location_id?.id }
+      } else if (column.value === 'date_created') {
+        return { ...column, defaultValue: dayjs(incomeInfo?.date_created) }
+      } else {
+        return { ...column, defaultValue: incomeInfo?.[column.value] }
+      }
+    })
+    return { columns }
+  })
+
+  return { paymentFormInputs, customerFormInputs, isLoading, navigate, incomeId, customerId }
 }

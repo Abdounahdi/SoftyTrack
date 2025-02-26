@@ -1,11 +1,11 @@
 import { Pagination, PaginationProps, Spin, Table } from 'antd'
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
 
-import { incomesTableColumns } from '../../../incomes/data/IncomesTableColumns'
+import { getIncomesColumns } from '../../../incomes/data/IncomesTableColumns'
 import ColumnsShowOptions from '../ColumnsShowOptions/ColumnsShowOptions'
 import incomesTableData from '../../../incomes/data/incomesTableData'
 import expensesTableData from '../../../expenses/data/expensesTableData'
-import { expensesTableColumns } from '../../../expenses/data/TableColumnsExpenses'
+import { getExpensesColumns } from '../../../expenses/data/TableColumnsExpenses'
 
 const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
   return item === 'prev' ? (
@@ -39,6 +39,9 @@ export default function IncomesExpensesTable({ where }) {
     newColumns,
     currentPage,
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
+
+  const {expensesTableColumns} = getExpensesColumns()
+  const {incomesTableColumns} = getIncomesColumns()
 
   if (isFetching) return <Spin size="large" />
 

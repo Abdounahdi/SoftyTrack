@@ -3,6 +3,7 @@ import ProgressBySteps from '../../shared/components/ProgressBySteps/ProgressByS
 import TableActions from '../../shared/components/TableActions/TableActions'
 import { TagCustomized } from '../../shared/components/TagCustomized/TagCustomized'
 import { currencyFormat, numberWithSpaces } from '../../shared/utils/helpers'
+import { useDeleteExpenseMutation } from './supabaseApi/expensesApi'
 
 const paymentMethodColors = {
   cash: {
@@ -73,7 +74,7 @@ const locationColors = {
     bgColor: '#F1D8F9',
     color: '#613A8C',
   },
-  hamemsousse: {
+hamemsousse: {
     bgColor: '#FEDD8F',
     color: '#753800',
   },
@@ -83,62 +84,68 @@ const locationColors = {
   },
 }
 
-const expensesTableColumns = [
-  {
-    title: 'Employee Name',
-    dataIndex: 'employeeName',
-    key: 1,
-    width: 200,
-    fixed: true,
-  },
-  {
-    title: 'Date',
-    dataIndex: 'dateCreated',
-    key: 2,
-  },
-  {
-    title: 'Price',
-    dataIndex: 'price',
-    key: 3,
-    render: (price) => currencyFormat(price),
-  },
-  {
-    title: 'Payment Method',
-    dataIndex: 'paymentMethod',
-    key: 5,
-    render: (paymentMethod) => (
-      <TagCustomized
-        colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
-      >
-        {paymentMethod}
-      </TagCustomized>
-    ),
-    width: 150,
-  },
-  {
-    title: 'Category',
-    dataIndex: 'category',
-    key: 4,
-    width: 150,
-    render: (category) => (
-      <TagCustomized colors={categoryColors[category.replaceAll(' ', '').toLowerCase()] || {}}>
-        {category}
-      </TagCustomized>
-    ),
-  },
-  {
-    title: 'Description ',
-    dataIndex: 'description',
-    key: 12,
-  },
-  {
-    title: 'Actions',
-    key: 13,
-    dataIndex: 'key',
-    render: (key) => <TableActions id={key} />,
-    fixed: 'right',
-    width: 100,
-  },
-]
+function getExpensesColumns() {
+  const [deleteExpense] = useDeleteExpenseMutation({})
 
-export { expensesTableColumns }
+  const expensesTableColumns = [
+    {
+      title: 'Employee Name',
+      dataIndex: 'employeeName',
+      key: 1,
+      width: 200,
+      fixed: true,
+    },
+    {
+      title: 'Date',
+      dataIndex: 'dateCreated',
+      key: 2,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 3,
+      render: (price) => currencyFormat(price),
+    },
+    {
+      title: 'Payment Method',
+      dataIndex: 'paymentMethod',
+      key: 5,
+      render: (paymentMethod) => (
+        <TagCustomized
+          colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
+        >
+          {paymentMethod}
+        </TagCustomized>
+      ),
+      width: 150,
+    },
+    {
+      title: 'Category',
+      dataIndex: 'category',
+      key: 4,
+      width: 150,
+      render: (category) => (
+        <TagCustomized colors={categoryColors[category.replaceAll(' ', '').toLowerCase()] || {}}>
+          {category}
+        </TagCustomized>
+      ),
+    },
+    {
+      title: 'Description ',
+      dataIndex: 'description',
+      key: 12,
+    },
+    {
+      title: 'Actions',
+      key: 13,
+      dataIndex: 'key',
+      render: (key) => <TableActions id={key} deleteAction={deleteExpense} />,
+      fixed: 'right',
+      width: 100,
+    },
+  ]
+
+  return {expensesTableColumns}
+}
+
+export { getExpensesColumns }

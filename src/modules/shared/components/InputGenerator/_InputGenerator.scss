@@ -28,6 +28,9 @@
     &::placeholder {
       color: #4f6991;
     }
+    &:disabled {
+      color: #38537b;
+    }
   }
   .antd_select {
     min-width: 180px;
@@ -54,6 +57,22 @@
   .ant-picker-input {
     input::placeholder {
       color: #4f6991;
+    }
+  }
+}
+
+.ant-select-disabled {
+  .ant-select-selector {
+    .ant-select-selection-item {
+      color: #38537b;
+    }
+  }
+}
+
+.ant-picker-disabled {
+  .ant-picker-input {
+    input {
+      color: #38537b !important;
     }
   }
 }

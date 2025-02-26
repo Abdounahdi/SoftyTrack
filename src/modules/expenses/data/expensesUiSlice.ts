@@ -5,6 +5,7 @@ const initialState = {
   checkedListOfShownColumns: [],
   pageSize: 5,
   currentPage: 1,
+  selectedRows: [],
 }
 
 const expensesUiSlice = createSlice({
@@ -23,10 +24,18 @@ const expensesUiSlice = createSlice({
     setPageSize: (state, action) => {
       state.pageSize = action.payload
     },
+    setSelectedRows: (state, action) => {
+      state.selectedRows = action.payload
+    },
   },
 })
 
-export const { setShowColumnsOptionsExpenses, setCheckedListOfShownColumnsExpeneses, setCurrentPage, setPageSize } =
-  expensesUiSlice.actions
+export const {
+  setShowColumnsOptionsExpenses,
+  setCheckedListOfShownColumnsExpeneses,
+  setCurrentPage,
+  setPageSize,
+  setSelectedRows
+} = expensesUiSlice.actions
 
 export default expensesUiSlice.reducer

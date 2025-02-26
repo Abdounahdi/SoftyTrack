@@ -1,8 +1,11 @@
+import { HiMiniEye, HiOutlineEye, HiOutlineEyeDropper } from 'react-icons/hi2'
 import CopyClipBoard from '../../shared/components/CopyClipBoard/CopyClipBoard'
 import ProgressBySteps from '../../shared/components/ProgressBySteps/ProgressBySteps'
 import TableActions from '../../shared/components/TableActions/TableActions'
 import { TagCustomized } from '../../shared/components/TagCustomized/TagCustomized'
 import { currencyFormat, numberWithSpaces } from '../../shared/utils/helpers'
+import { useDeleteIncomeMutation } from './supabaseApi/incomesApi'
+import { TbAlignBoxCenterBottom } from 'react-icons/tb'
 
 const paymentMethodColors = {
   cash: {
@@ -61,105 +64,150 @@ const locationColors = {
   },
 }
 
-const incomesTableColumns = [
-  {
-    title: 'Customer Name',
-    dataIndex: 'customerName',
-    key: 1,
-    width: 200,
-    fixed: true,
-  },
-  {
-    title: 'Date',
-    dataIndex: 'dateCreated',
-    key: 2,
-  },
-  {
-    title: 'Customer Phone',
-    dataIndex: 'customerPhone',
-    key: 3,
-    render: (phoneNumber) => (
-      <CopyClipBoard item={phoneNumber}>
-        <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
-      </CopyClipBoard>
-    ),
-  },
-  {
-    title: 'Customer Email',
-    dataIndex: 'customerEmail',
-    key: 4,
-    width: 250,
-    render: (email) => (
-      <CopyClipBoard item={email}>
-        {' '}
-        <a href={`mailto:${email}`}>{email}</a>
-      </CopyClipBoard>
-    ),
-  },
-  {
-    title: 'Payment Method',
-    dataIndex: 'paymentMethod',
-    key: 5,
-    render: (paymentMethod) => (
-      <TagCustomized
-        colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
-      >
-        {paymentMethod}
-      </TagCustomized>
-    ),
-    width: 150,
-  },
-  {
-    title: 'Price',
-    dataIndex: 'price',
-    key: 6,
-    render: (price) => currencyFormat(price),
-  },
-  {
-    title: 'Slices Paid',
-    dataIndex: 'slicesPrecentage',
-    key: 8,
-    render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
-  },
-  {
-    title: 'Training',
-    dataIndex: 'trainingName',
-    key: 9,
-    width: 200,
-    render: (training) => (
-      <TagCustomized colors={trainingColors[training.replaceAll(' ', '').toLowerCase()] || {}}>
-        {training}
-      </TagCustomized>
-    ),
-  },
-  {
-    title: 'Reception Location',
-    dataIndex: 'location',
-    key: 10,
-    render: (location) => (
-      <TagCustomized colors={locationColors[location.replaceAll(' ', '').toLowerCase()] || {}}>
-        {location}
-      </TagCustomized>
-    ),
-  },
-  {
-    title: 'Employee Name ',
-    dataIndex: 'employeeName',
-    key: 11,
-  },
-  {
-    title: 'Description ',
-    dataIndex: 'description',
-    key: 12,
-  },
-  {
-    title: 'Actions',
-    key: 13,
-    dataIndex: 'key',
-    render: (key) => <TableActions id={key} where="incomes" />,
-    fixed: 'right',
-    width: 100,
-  },
-]
+function getIncomesColumns(handleViewDetailsDashboard) {
+  const [deleteIncome] = useDeleteIncomeMutation({})
 
-export { incomesTableColumns }
+  const incomesTableColumns = [
+    {
+      title: 'Customer Name',
+      dataIndex: 'customerName',
+      key: 1,
+      width: 200,
+      fixed: true,
+    },
+    {
+      title: 'Date',
+      dataIndex: 'dateCreated',
+      key: 2,
+    },
+    {
+      title: 'Customer Phone',
+      dataIndex: 'customerPhone',
+      key: 3,
+      render: (phoneNumber) => (
+        <CopyClipBoard item={phoneNumber}>
+          <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>
+        </CopyClipBoard>
+      ),
+    },
+    {
+      title: 'Customer Email',
+      dataIndex: 'customerEmail',
+      key: 4,
+      width: 250,
+      render: (email) => (
+        <CopyClipBoard item={email}>
+          {' '}
+          <a href={`mailto:${email}`}>{email}</a>
+        </CopyClipBoard>
+      ),
+    },
+    {
+      title: 'Payment Method',
+      dataIndex: 'paymentMethod',
+      key: 5,
+      render: (paymentMethod) => (
+        <TagCustomized
+          colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
+        >
+          {paymentMethod}
+        </TagCustomized>
+      ),
+      width: 150,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 6,
+      render: (price) => currencyFormat(price),
+    },
+    {
+      title: 'Slices Paid',
+      dataIndex: 'slicesPrecentage',
+      key: 8,
+      render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
+    },
+    {
+      title: 'Training',
+      dataIndex: 'trainingName',
+      key: 9,
+      width: 200,
+      render: (training) => (
+        <TagCustomized colors={trainingColors[training.replaceAll(' ', '').toLowerCase()] || {}}>
+          {training}
+        </TagCustomized>
+      ),
+    },
+    {
+      title: 'Reception Location',
+      dataIndex: 'location',
+      key: 10,
+      render: (location) => (
+        <TagCustomized colors={locationColors[location.replaceAll(' ', '').toLowerCase()] || {}}>
+          {location}
+        </TagCustomized>
+      ),
+    },
+    {
+      title: 'Employee Name ',
+      dataIndex: 'employeeName',
+      key: 11,
+    },
+    {
+      title: 'Description ',
+      dataIndex: 'description',
+      key: 12,
+    },
+    {
+      title: 'Actions',
+      key: 13,
+      dataIndex: 'key',
+      render: (key) => <TableActions id={key} where="incomes" deleteAction={deleteIncome} />,
+      fixed: 'right',
+      width: 100,
+    },
+  ]
+
+  const icnomesTableColumnsDashboard: TableProps<DataType>['columns'] = [
+    {
+      dataIndex: 'customerName',
+      key: 'customerName',
+    },
+    {
+      dataIndex: 'training',
+      key: 'training',
+      render: (text) => (
+        <TagCustomized colors={trainingColors[text.replaceAll(' ', '').toLowerCase()] || {}}>
+          {text}
+        </TagCustomized>
+      ),
+    },
+    {
+      dataIndex: 'price',
+      key: 'price',
+      render: (price) => currencyFormat(price),
+      align: 'center',
+    },
+    {
+      dataIndex: 'slicesPrecentage',
+      key: 8,
+      render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
+    },
+    {
+      key: 2,
+      dataIndex: 'key',
+      render: (key) => (
+        <button
+          className="view_details_last_transaction"
+          onClick={() => handleViewDetailsDashboard(key)}
+        >
+          <HiOutlineEye />
+        </button>
+      ),
+    },
+  ]
+
+  return { incomesTableColumns, icnomesTableColumnsDashboard }
+}
+
+export { getIncomesColumns }

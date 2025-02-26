@@ -66,6 +66,20 @@
       text-align: center;
     }
 
+    .table_delete {
+      background: none;
+      border: #ed1515 1px solid;
+      color: #ed1515;
+      font-family: Almarai;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      text-align: center;
+      gap: 12px;
+      padding: 8px;
+    }
+
     .opened_column_options {
       .arrow_down {
         transform: rotate(180deg);

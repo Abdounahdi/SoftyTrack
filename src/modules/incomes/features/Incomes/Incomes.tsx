@@ -1,13 +1,13 @@
-import PageHeading from '../../../shared/components/PageHeading/PageHeading'
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import IncomesExpensesTable from '../../../shared/components/IncomesExpensesTable/IncomesExpensesTable'
+import PageActionLayout from '../../../shared/components/IncomesExpensesActionsPageLayout/PageActionLayout'
+import IncomesTableActions from '../../components/IncomesTableActions/IncomesTableActions'
 
 export default function Incomes() {
   return (
-    <div className="incomes_expenses_page_layout">
-      <PageHeading title="Incomes" goBack={true} />
-      <TableOuterActions where="incomes" />
+    <PageActionLayout title="Incomes" goBack={true}>
+      <IncomesTableActions/>
       <IncomesExpensesTable where="incomes" />
-    </div>
+    </PageActionLayout>
   )
 }

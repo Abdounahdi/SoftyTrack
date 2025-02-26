@@ -6,14 +6,19 @@ interface Props {
   goBack: boolean
 }
 
-export default function PageHeading({ title, goBack = true }: Props) {
+export default function PageHeading({ children, title, goBack = true }: Props) {
   const navigate = useNavigate()
   return (
     <div className="page_heading_title_container">
-      {goBack && <button onClick={() => navigate(-1)}>
-        <img src={ArrowLeft} alt="click to go back" />
-      </button>}
-      <h1>{title}</h1>
+      <div className='page_heading_title_box'>
+        {goBack && (
+          <button onClick={() => navigate(-1)}>
+            <img src={ArrowLeft} alt="click to go back" />
+          </button>
+        )}
+        <h1>{title}</h1>
+      </div>
+      {children}
     </div>
   )
 }

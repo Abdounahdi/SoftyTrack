@@ -1,107 +1,16 @@
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 
-export default function PaymentForm({
-  payment_methods,
-  locations,
-  users,
-  register,
-  control,
-  errors,
-}) {
-  const paymentMethods = payment_methods.map((paymentMethod) => {
-    return { value: paymentMethod.id, label: paymentMethod.payment_method }
-  })
-
-  const locationOptions = locations.map((location) => {
-    return { value: location.id, label: location.location }
-  })
-  const receptionistOptions = users.map((user) => {
-    return { value: user.id, label: user.full_name }
-  })
-
-  const paymentFormInputs = [
-    {
-      columns: [
-        {
-          label: 'Price',
-          type: 'number',
-          value: 'price',
-          placeHolder: 'price to pay ... ',
-          error: errors?.price?.message,
-        },
-        {
-          label: 'Total Slices',
-          type: 'number',
-          value: 'total_slices',
-          placeHolder: '',
-          error: errors?.total_slices?.message,
-          className: 'slices_box_width_small',
-        },
-        {
-          label: 'Paid Slices',
-          type: 'number',
-          value: 'paid_slices',
-          placeHolder: '',
-          error: errors?.paid_slices?.message,
-          className: 'slices_box_width_small',
-        },
-        {
-          label: 'Payment Method',
-          type: 'select',
-          selectOptions: paymentMethods,
-          name: 'payment_method',
-          createOption: true,
-          placeHolder: 'Choose Training ... ',
-          error: errors?.payment_method?.message,
-        },
-      ],
-    },
-    {
-      columns: [
-        {
-          label: 'Reception Local',
-          type: 'select',
-          name: 'location',
-          selectOptions: locationOptions,
-          placeHolder: 'select location ... ',
-          error: errors?.location?.message,
-        },
-        {
-          label: 'Date of income',
-          type: 'date',
-          value: 'date_created',
-          placeHolder: '',
-          error: errors?.date_created?.message,
-        },
-        {
-          label: 'Receptionist',
-          type: 'select',
-          selectOptions: receptionistOptions,
-          name: 'receptionist',
-          createOption: false,
-          placeHolder: ' ',
-          error: errors?.receptionist?.message,
-        },
-      ],
-    },
-    {
-      columns:[
-        {
-          label: 'Description',
-          type: 'textarea',
-          placeHolder: 'any details you want to add ... ',
-          name: 'description',
-          error: errors?.description?.message,
-        },
-      ]
-    }
-  ]
-
+export default function PaymentForm({ inputs, register, control, disableAll = false }) {
   return (
     <>
       <h2>Payment Details</h2>
       <div className="create_form_box">
-        <FormGenerator options={paymentFormInputs} control={control} register={register} />
+        <FormGenerator
+          options={inputs}
+          control={control}
+          register={register}
+          disableAll={disableAll}
+        />
       </div>
     </>
   )

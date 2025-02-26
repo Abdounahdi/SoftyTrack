@@ -1,18 +1,15 @@
-import { Dropdown, Modal } from 'antd'
-import { HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import { Link } from 'react-router'
-import { ExclamationCircleFilled } from '@ant-design/icons'
-import { useDeleteIncomeMutation } from '../../../incomes/data/supabaseApi/incomesApi'
 import toast from 'react-hot-toast'
-import { useDeleteExpenseMutation } from '../../../expenses/data/supabaseApi/expensesApi'
+import { HiEllipsisHorizontal, HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
+import { Dropdown, Modal } from 'antd'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
-export default function TableActions({ id, where }) {
-  const [deleteIncome] = useDeleteIncomeMutation({})
-  const [deleteExpense] = useDeleteExpenseMutation({})
-
-  const deleteItem = where === 'incomes' ? deleteIncome : deleteExpense
-
-
+export default function TableActions({
+  id,
+  where,
+  buttonsOptions,
+  deleteAction = () => console.log('no action '),
+}) {
   const { confirm } = Modal
 
   const showDeleteConfirm = () => {
@@ -26,7 +23,7 @@ export default function TableActions({ id, where }) {
       closable: true,
       centered: true,
       async onOk() {
-        const { error } = await deleteItem(id)
+        const { error } = await deleteAction(id)
         if (!error) {
           toast.success('Income deleted succesfully ! ')
         } else {
@@ -41,7 +38,7 @@ export default function TableActions({ id, where }) {
 
   const items: MenuProps['items'] = [
     {
-      key: '1',
+      key: 'details',
       label: (
         <Link to={`view/${id}`} className="table_action_option">
           <HiOutlineEye />
@@ -50,7 +47,7 @@ export default function TableActions({ id, where }) {
       ),
     },
     {
-      key: '2',
+      key: 'update',
       label: (
         <Link to={`edit/${id}`} className="table_action_option">
           <HiOutlinePencil />
@@ -59,7 +56,7 @@ export default function TableActions({ id, where }) {
       ),
     },
     {
-      key: '3',
+      key: 'delete',
       label: (
         <Link className="table_action_option table_action_danger" onClick={showDeleteConfirm}>
           <HiOutlineTrash />
@@ -69,15 +66,20 @@ export default function TableActions({ id, where }) {
     },
   ]
 
+  const itemsSpecified: MenuProps['items'] = buttonsOptions
+    ? items.filter((item) => buttonsOptions.indexOf(item.key) !== -1)
+    : items
+
   return (
     <Dropdown
-      menu={{ items }}
+      menu={{ items: itemsSpecified }}
       placement="bottomRight"
       arrow={{ pointAtCenter: true }}
       trigger="click"
     >
       <button className="table_actions_btn">
-        <HiEllipsisVertical />
+        {/* <HiEllipsisVertical /> */}
+        <HiEllipsisHorizontal/>
       </button>
     </Dropdown>
   )

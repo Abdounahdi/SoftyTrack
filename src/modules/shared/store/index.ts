@@ -11,6 +11,8 @@ import customersApi from '../../incomes/data/supabaseApi/customerApi'
 import authApi from '../../auth/data/authApi'
 import usersApi from '../../incomes/data/supabaseApi/usersApi'
 import expensesApi from '../../expenses/data/supabaseApi/expensesApi'
+import trainingsApi from '../../trainings/data/supabase/trainingsApi'
+import dashboardApi from '../../dashboard/data/supabase/dashboardApi'
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -22,7 +24,9 @@ export const store = configureStore({
       customersApi.middleware,
       authApi.middleware,
       usersApi.middleware,
+      trainingsApi.middleware,
       expensesApi.middleware,
+      dashboardApi.middleware
     ),
 })
 
