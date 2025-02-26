@@ -34,9 +34,24 @@ const trainingsApi = createApi({
       },
       invalidatesTags: ['trainings'],
     }),
+    createTraining: builder.mutation({
+      async queryFn(newObj) {
+        const { data, error } = await supabase
+          .from('trainings')
+          .insert([newObj])
+          .select()
+
+        if (error) {
+          console.error(error)
+          return
+        }
+        return data
+      },invalidatesTags:["trainings"]
+    }),
   }),
 })
 
-export const { useGetTrainingsQuery, useDeleteTrainingMutation } = trainingsApi
+export const { useGetTrainingsQuery, useDeleteTrainingMutation, useCreateTrainingMutation } =
+  trainingsApi
 
 export default trainingsApi

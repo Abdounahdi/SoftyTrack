@@ -10,7 +10,7 @@ import {
 import { useAppDispatch } from '../../store'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import toast from 'react-hot-toast'
-import { Modal } from 'antd'
+import { Dropdown, Modal } from 'antd'
 
 export function TableOuterActions({
   deleteAction,
@@ -19,6 +19,7 @@ export function TableOuterActions({
   showColumnsOptions,
   selectedRows,
   actionsOptions,
+  createAction,
 }) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -59,7 +60,13 @@ export function TableOuterActions({
             selectedRows={selectedRows}
             handleShowColumns={handleShowColumns}
             showColumnsOptions={showColumnsOptions}
-            onCreate={() => navigate('create')}
+            onCreate={() => {
+              if (!createAction) {
+                navigate('create')
+              } else {
+                createAction()
+              }
+            }}
             showDeleteConfirm={showDeleteConfirm}
           />
         ))}
@@ -71,7 +78,13 @@ export function TableOuterActions({
             selectedRows={selectedRows}
             handleShowColumns={handleShowColumns}
             showColumnsOptions={showColumnsOptions}
-            onCreate={() => navigate('create')}
+            onCreate={() => {
+              if (!createAction) {
+                navigate('create')
+              } else {
+                createAction()
+              }
+            }}
             showDeleteConfirm={showDeleteConfirm}
           />
         ))}
@@ -87,6 +100,7 @@ function ActionGenerator({
   showColumnsOptions,
   onCreate,
   showDeleteConfirm,
+  items,
 }) {
   if (type === 'filter') {
     return (

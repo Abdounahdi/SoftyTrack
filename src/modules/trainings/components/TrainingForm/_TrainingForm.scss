@@ -1,0 +1,39 @@
+.create_update_form_training_category_btn {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 8px;
+  padding-top: 5px;
+  padding-right: 14px;
+  padding-bottom: 5px;
+  padding-left: 14px;
+  font-family: Almarai;
+  font-weight: 600;
+  font-size: 15x;
+  line-height: 26px;
+  letter-spacing: 0%;
+  text-align: center;
+  background-color: #0080df;
+  color: #ffffff;
+  border: none;
+}
+
+.training_create_form_box {
+  gap: 8px;
+}
+
+.close_form_btn {
+  border: none;
+  background: none;
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
+  z-index: 9999;
+  svg {
+    height: 17px;
+    width: 17px;
+    color: #4f6991;
+  }
+}
