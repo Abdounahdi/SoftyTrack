@@ -9,7 +9,7 @@ export default function DashboardHeader() {
     },
     {
       key: 'last-three-months',
-      label: 'Last 3 Month',
+      label: 'Last 3 Months',
     },
     {
       key: 'last-year',

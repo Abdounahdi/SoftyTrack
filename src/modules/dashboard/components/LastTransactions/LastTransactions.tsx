@@ -3,7 +3,7 @@ import Card from '../Card/Card'
 import { getIncomesColumns } from '../../../incomes/data/IncomesTableColumns'
 import { useNavigate } from 'react-router'
 
-export default function LastTransactions({ title, viewPath }) {
+export default function LastTransactions({ title, viewPath, data }) {
   const navigate = useNavigate()
   const handleViewDetails = (key) => {
     console.log(key)
@@ -11,7 +11,7 @@ export default function LastTransactions({ title, viewPath }) {
   }
   const { icnomesTableColumnsDashboard: columns } = getIncomesColumns(handleViewDetails)
 
-  const data: DataType[] = [
+  const dataIncomes: DataType[] = data || [
     {
       key: 1,
       training: 'training',
@@ -41,13 +41,12 @@ export default function LastTransactions({ title, viewPath }) {
       customerName: 'abdou',
     },
     {
-      key: 3,
+      key: 5,
       training: 'training',
       price: 12200,
       slicesPrecentage: '2-1',
       customerName: 'abdou',
     },
-
   ]
 
   return (
@@ -55,7 +54,7 @@ export default function LastTransactions({ title, viewPath }) {
       <h2 className="last_transactions_title">{title}</h2>
       <TableAntD
         columns={columns}
-        dataSource={data}
+        dataSource={dataIncomes}
         pagination={false}
         showHeader={false}
         className="antd_table_last_transactions"

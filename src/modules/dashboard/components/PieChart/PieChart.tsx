@@ -2,27 +2,33 @@ import Card from '../Card/Card'
 import Chart from 'react-apexcharts'
 import chroma from 'chroma-js'
 
-export default function PieChart({title}) {
+export default function PieChart({ title, options }) {
   //
   const generateColors = (count) => chroma.scale(['#2E71E2', '#28d997']).colors(count)
   const colors = generateColors(5)
 
+  const labels = options.map((option) => option.label)
+
+  const numbers = options.map((option) => option.number)
+  const total = numbers.reduce((acc, cur) => acc + cur, 0)
+  
+
   return (
     <Card className="pie_chart_container">
-      <h2 className='pie_chart_title'>{title}</h2>
-      <DonutChart colors={colors} />
+      <h2 className="pie_chart_title">{title}</h2>
+      <DonutChart colors={colors} labels={labels} numbers={numbers} />
     </Card>
   )
 }
 
-const DonutChart = ({ colors }) => {
-  const series = [20, 20, 20, 20, 20]
+const DonutChart = ({ colors, labels, numbers }) => {
+  const series = numbers
 
   const options = {
     chart: {
       type: 'donut',
     },
-    labels: ['Beginner', 'Intermediate', 'Advanced'],
+    labels: labels || ['Beginner', 'Intermediate', 'Advanced'],
     colors: colors, // Green, Blue, Orange
     legend: {
       show: true,

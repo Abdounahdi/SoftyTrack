@@ -4,28 +4,32 @@ import supabase from '../../../shared/supabase'
 const dashboardApi = createApi({
   reducerPath: 'dashboardApi',
   baseQuery: fetchBaseQuery(),
-  tagTypes: ['incomes'],
+  tagTypes: ['dashboardIncomes'],
   endpoints: (builder) => ({
     getIncomesByTime: builder.query({
       async queryFn(params) {
-        // let query = supabase
-        //   .from('incomes')
-        //   .select(
-        //     '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)',
-        //     { count: 'exact' }
-        //   )
+        const { minus } = params
 
-        // const { data: incomesInfo, error, count } = await query
+        const pastDate = new Date(new Date().setDate(new Date().getDate() - minus))
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', '+00')
 
-        // if (error) return
+        let query = supabase
+          .from('incomes')
+          .select(
+            '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)',
+            { count: 'exact' }
+          )
+          .gte('date_created', pastDate)
+          .order('date_created', { ascending: false })
 
-        // return { data: { incomesInfo, count } }
+        const { data, error, count } = await query
 
-        console.log(params)
-        const data = {}
-        return {data}
+        if (error) return
+
+        return { data }
       },
-      providesTags: ['incomes'],
     }),
     getTrainings: builder.query({
       async queryFn() {

@@ -1,4 +1,4 @@
-import StatsCard from "../StatsCard/StatsCard"
+import StatsCard from '../StatsCard/StatsCard'
 
 export default function Stats({ stats }) {
   return (
