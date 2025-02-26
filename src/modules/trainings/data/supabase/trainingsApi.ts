@@ -4,7 +4,7 @@ import supabase from '../../../shared/supabase'
 const trainingsApi = createApi({
   reducerPath: 'trainingsApi',
   baseQuery: fetchBaseQuery(),
-  tagTypes: ['incomes'],
+  tagTypes: ['trainings'],
   endpoints: (builder) => ({
     getTrainings: builder.query({
       async queryFn(params) {
@@ -19,10 +19,24 @@ const trainingsApi = createApi({
         if (error) console.error(error)
         return { data: { data, count } }
       },
+      providesTags: ['trainings'],
+    }),
+    deleteTraining: builder.mutation({
+      async queryFn(id) {
+        const { data, error } = await supabase.from('trainings').delete().eq('id', id).select()
+        if (error) {
+          console.error('deleting training error')
+          console.error(error)
+          return
+        }
+
+        return { data }
+      },
+      invalidatesTags: ['trainings'],
     }),
   }),
 })
 
-export const { useGetTrainingsQuery } = trainingsApi
+export const { useGetTrainingsQuery, useDeleteTrainingMutation } = trainingsApi
 
 export default trainingsApi

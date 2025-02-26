@@ -7,33 +7,21 @@ import {
   HiOutlineSquare3Stack3D,
 } from 'react-icons/hi2'
 
-import { useAppDispatch, useAppSelector } from '../../store'
-import {
-  setSelectedRows as setSelectedRowsIncomes,
-  setShowColumnsOptionsIncomes,
-} from '../../../incomes/data/incomesUiSlice'
-import {
-  setSelectedRows as setSelectedRowsExpenses,
-  setShowColumnsOptionsExpenses,
-} from '../../../expenses/data/expensesUiSlice'
+import { useAppDispatch } from '../../store'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import toast from 'react-hot-toast'
-import { useDeleteExpenseMutation } from '../../../expenses/data/supabaseApi/expensesApi'
-import { useDeleteIncomeMutation } from '../../../incomes/data/supabaseApi/incomesApi'
 import { Modal } from 'antd'
 
-export function TableOuterActions({ where }) {
+export function TableOuterActions({
+  deleteAction,
+  resetSelectedRows,
+  handleShowColumns,
+  showColumnsOptions,
+  selectedRows,
+  actionsOptions,
+}) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  const [deleteIncome] = useDeleteIncomeMutation({})
-  const [deleteExpense] = useDeleteExpenseMutation({})
-
-  const deleteItem = where === 'incomes' ? deleteIncome : deleteExpense
-
-  const { showColumnsOptions, selectedRows } = useAppSelector((state) =>
-    where === 'incomes' ? state.incomesUi : state.expensesUi
-  )
 
   const { confirm } = Modal
 
@@ -49,12 +37,11 @@ export function TableOuterActions({ where }) {
       centered: true,
       async onOk() {
         const errors = selectedRows.map(async (row) => {
-          const { error } = await deleteItem(row.key)
+          const { error } = await deleteAction(row.key)
           return error
         })
         console.log(errors)
-        dispatch(setSelectedRowsIncomes([]))
-        dispatch(setSelectedRowsExpenses([]))
+        dispatch(resetSelectedRows([]))
         toast.success('Deleted succesfully ! ')
       },
       onCancel() {
@@ -63,21 +50,55 @@ export function TableOuterActions({ where }) {
     })
   }
 
-  function hanldeShowColumns() {
-    if (where === 'incomes') {
-      dispatch(setShowColumnsOptionsIncomes())
-    } else if (where === 'expenses') {
-      dispatch(setShowColumnsOptionsExpenses())
-    }
-  }
-
   return (
     <div className="table_actions_container">
       <div className="table_actions_btns_box">
-        <button className="table_btn table_filter">
-          <HiMiniAdjustmentsVertical />
-          Filter
-        </button>
+        {actionsOptions.left?.map((option) => (
+          <ActionGenerator
+            type={option}
+            selectedRows={selectedRows}
+            handleShowColumns={handleShowColumns}
+            showColumnsOptions={showColumnsOptions}
+            onCreate={() => navigate('create')}
+            showDeleteConfirm={showDeleteConfirm}
+          />
+        ))}
+      </div>
+      <div className="table_actions_btns_box">
+        {actionsOptions.right?.map((option) => (
+          <ActionGenerator
+            type={option}
+            selectedRows={selectedRows}
+            handleShowColumns={handleShowColumns}
+            showColumnsOptions={showColumnsOptions}
+            onCreate={() => navigate('create')}
+            showDeleteConfirm={showDeleteConfirm}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ActionGenerator({
+  type,
+  selectedRows,
+  handleShowColumns,
+  showColumnsOptions,
+  onCreate,
+  showDeleteConfirm,
+}) {
+  if (type === 'filter') {
+    return (
+      <button className="table_btn table_filter">
+        <HiMiniAdjustmentsVertical />
+        Filter
+      </button>
+    )
+  }
+  if (type === 'delete') {
+    return (
+      <>
         {selectedRows.length === 0 ? (
           ''
         ) : (
@@ -86,22 +107,29 @@ export function TableOuterActions({ where }) {
             Delete {selectedRows.length} Items
           </button>
         )}
-      </div>
-      <div className="table_actions_btns_box">
-        <button
-          onClick={hanldeShowColumns}
-          className={`table_btn_show_columns_options table_btn ${showColumnsOptions ? 'opened_column_options' : ''}`}
-        >
-          <HiOutlineSquare3Stack3D />
-          Columns
-          <HiOutlineChevronDown className="arrow_down" />
-        </button>
-        <button className="table_button_create table_btn" onClick={() => navigate('create')}>
-          <HiMiniPlus />
-          <p>Create Income</p>
-        </button>
-      </div>
-    </div>
-  )
-}
+      </>
+    )
+  }
+  if (type === 'showColumns') {
+    return (
+      <button
+        onClick={handleShowColumns}
+        className={`table_btn_show_columns_options table_btn ${showColumnsOptions ? 'opened_column_options' : ''}`}
+      >
+        <HiOutlineSquare3Stack3D />
+        Columns
+        <HiOutlineChevronDown className="arrow_down" />
+      </button>
+    )
+  }
+  if (type === 'create') {
+    return (
+      <button className="table_button_create table_btn" onClick={() => onCreate()}>
+        <HiMiniPlus />
+        <p>Create Income</p>
+      </button>
+    )
+  }
 
+  return <button>We still Dont have this action </button>
+}
