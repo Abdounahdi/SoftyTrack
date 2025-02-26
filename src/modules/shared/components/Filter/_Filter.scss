@@ -1,0 +1,58 @@
+.filter_btn {
+  border: none;
+  border-radius: 8px;
+  padding-top: 4px;
+  padding-right: 14px;
+  padding-bottom: 4px;
+  padding-left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 16px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  svg {
+    height: 17px;
+    width: 17px;
+  }
+  background: none;
+  border: #0593ff 1px solid;
+  color: #0080df;
+  font-family: Almarai;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  text-align: center;
+
+  &:hover {
+    background-color: #0593ff;
+    color: #fff;
+  }
+}
+
+.filter_option {
+}
+
+.ant-segmented {
+  background-color: #f4f7fb;
+  font-family: Almarai;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: justify;
+  color: #4f6991 ; 
+
+  .ant-segmented-item-selected {
+    font-family: Almarai;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: justify;
+    color: #4f6991;
+  }
+}

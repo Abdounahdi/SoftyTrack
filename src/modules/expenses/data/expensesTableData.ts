@@ -23,7 +23,7 @@ export default function expensesTableData() {
     pageSize,
   })
 
-  const expensesTableColumns = getExpensesColumns()
+  const {expensesTableColumns} = getExpensesColumns()
 
   const totalData = expenses?.count
 

@@ -19,7 +19,7 @@ const routes: RouteConfig[] = [
     exact: true,
     guard: AdminGuard,
     path: '/dashboard',
-    component: lazy(() => import('../features/Test')),
+    component: lazy(() => import('../features/Dashboard/Dashboard')),
     layout: MainLayout,
   },
 ]

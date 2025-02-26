@@ -1,0 +1,32 @@
+.stats_card {
+  .stats_text_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 12px;
+
+    .stats_label {
+      color: #778baa;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 22px;
+      text-wrap: nowrap;
+    }
+
+    .stats_value {
+      color: #6a6a6a;
+      font-size: 27px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 22px;
+    }
+  }
+  .stats_icon {
+    svg {
+      height: 70px;
+      width: 70px;
+    }
+  }
+}

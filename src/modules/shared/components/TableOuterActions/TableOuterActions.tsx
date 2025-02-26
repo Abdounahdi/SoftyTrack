@@ -118,7 +118,7 @@ function ActionGenerator({
         ) : (
           <button className="table_btn table_delete" onClick={showDeleteConfirm}>
             <HiMiniTrash />
-            Delete {selectedRows.length} Items
+            Delete {selectedRows.length} Item{selectedRows.length !== 1 ? 's' : ''}
           </button>
         )}
       </>

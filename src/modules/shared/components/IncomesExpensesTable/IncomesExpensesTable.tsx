@@ -40,8 +40,8 @@ export default function IncomesExpensesTable({ where }) {
     currentPage,
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
 
-  const expensesTableColumns = getExpensesColumns()
-  const incomesTableColumns = getIncomesColumns()
+  const {expensesTableColumns} = getExpensesColumns()
+  const {incomesTableColumns} = getIncomesColumns()
 
   if (isFetching) return <Spin size="large" />
 

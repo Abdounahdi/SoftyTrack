@@ -1,0 +1,36 @@
+.filter_justify_end {
+  align-self: end;
+}
+
+.dashboard_page_layout_main_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+
+  .incomes_expenses_summary_container {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    .view_details_last_transaction {
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      width: 100%;
+      svg {
+        color: #2962d8;
+        height: 20px;
+        width: 20px;
+      }
+    }
+
+    .ant-table-tbody > tr:last-child {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+}

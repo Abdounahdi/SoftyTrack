@@ -1,9 +1,11 @@
+import { HiMiniEye, HiOutlineEye, HiOutlineEyeDropper } from 'react-icons/hi2'
 import CopyClipBoard from '../../shared/components/CopyClipBoard/CopyClipBoard'
 import ProgressBySteps from '../../shared/components/ProgressBySteps/ProgressBySteps'
 import TableActions from '../../shared/components/TableActions/TableActions'
 import { TagCustomized } from '../../shared/components/TagCustomized/TagCustomized'
 import { currencyFormat, numberWithSpaces } from '../../shared/utils/helpers'
 import { useDeleteIncomeMutation } from './supabaseApi/incomesApi'
+import { TbAlignBoxCenterBottom } from 'react-icons/tb'
 
 const paymentMethodColors = {
   cash: {
@@ -62,7 +64,7 @@ const locationColors = {
   },
 }
 
-function getIncomesColumns() {
+function getIncomesColumns(handleViewDetailsDashboard) {
   const [deleteIncome] = useDeleteIncomeMutation({})
 
   const incomesTableColumns = [
@@ -166,7 +168,46 @@ function getIncomesColumns() {
     },
   ]
 
-  return incomesTableColumns
+  const icnomesTableColumnsDashboard: TableProps<DataType>['columns'] = [
+    {
+      dataIndex: 'customerName',
+      key: 'customerName',
+    },
+    {
+      dataIndex: 'training',
+      key: 'training',
+      render: (text) => (
+        <TagCustomized colors={trainingColors[text.replaceAll(' ', '').toLowerCase()] || {}}>
+          {text}
+        </TagCustomized>
+      ),
+    },
+    {
+      dataIndex: 'price',
+      key: 'price',
+      render: (price) => currencyFormat(price),
+      align: 'center',
+    },
+    {
+      dataIndex: 'slicesPrecentage',
+      key: 8,
+      render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
+    },
+    {
+      key: 2,
+      dataIndex: 'key',
+      render: (key) => (
+        <button
+          className="view_details_last_transaction"
+          onClick={() => handleViewDetailsDashboard(key)}
+        >
+          <HiOutlineEye />
+        </button>
+      ),
+    },
+  ]
+
+  return { incomesTableColumns, icnomesTableColumnsDashboard }
 }
 
 export { getIncomesColumns }

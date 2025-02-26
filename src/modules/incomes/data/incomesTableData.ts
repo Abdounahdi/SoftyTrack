@@ -24,7 +24,7 @@ export default function incomesTableData() {
     pageSize,
   })
 
-  const incomesTableColumns = getIncomesColumns()
+  const {incomesTableColumns} = getIncomesColumns()
 
   const totalData = incomes?.count
 

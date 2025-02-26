@@ -1,0 +1,14 @@
+.pie_chart_container {
+  width: 30%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  .pie_chart_title{
+    font-family: Almarai;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 22.32px;
+    letter-spacing: 0%;
+    align-self: flex-start;
+  }
+}

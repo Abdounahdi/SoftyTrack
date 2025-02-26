@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import toast from 'react-hot-toast'
-import { HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
+import { HiEllipsisHorizontal, HiEllipsisVertical, HiOutlineEye, HiOutlinePencil, HiOutlineTrash } from 'react-icons/hi2'
 import { Dropdown, Modal } from 'antd'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 
@@ -78,7 +78,8 @@ export default function TableActions({
       trigger="click"
     >
       <button className="table_actions_btn">
-        <HiEllipsisVertical />
+        {/* <HiEllipsisVertical /> */}
+        <HiEllipsisHorizontal/>
       </button>
     </Dropdown>
   )

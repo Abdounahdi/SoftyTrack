@@ -145,7 +145,7 @@ function getExpensesColumns() {
     },
   ]
 
-  return expensesTableColumns
+  return {expensesTableColumns}
 }
 
 export { getExpensesColumns }
