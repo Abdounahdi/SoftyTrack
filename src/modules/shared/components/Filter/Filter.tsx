@@ -10,10 +10,10 @@ export default function Filter({ filterOptions, style }) {
     setSearchParams(searchParams)
   }
   useEffect(() => {
-    // if (!searchParams.get('filter-by-time')) {
+    if (!searchParams.get('filter-by-time')) {
       searchParams.set('filter-by-time', filterOptions.at(0).label)
       setSearchParams(searchParams)
-    // }
+    }
   }, [])
 
   return (
@@ -23,6 +23,7 @@ export default function Filter({ filterOptions, style }) {
       onChange={(value) => {
         handleFilterParams(value) // string
       }}
+      value={searchParams.get('filter-by-time')}
     />
   )
 }

@@ -98,6 +98,28 @@ const expensesApi = createApi({
       },
       invalidatesTags: ['expenses'],
     }),
+    getExpensesByTime: builder.query({
+      async queryFn(params) {
+        let query = supabase
+          .from('expenses')
+          .select('* , category_id(*) , user_id(*) , payment_method_id(*)', { count: 'exact' })
+        const { minus } = params
+        const pastDate = new Date(new Date().setDate(new Date().getDate() - minus))
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', '+00')
+        const { data, error, count } = await query
+          .gte('date_created', pastDate)
+          .order('date_created', { ascending: false })
+
+        if (error) {
+          console.error(error)
+        }
+
+        return { data: { data, count } }
+      },
+      providesTags: ['expenses'],
+    }),
   }),
 })
 
@@ -108,6 +130,7 @@ export const {
   useDeleteExpenseMutation,
   useGetExpenseByIdQuery,
   useUpdateExpenseMutation,
+  useGetExpensesByTimeQuery,
 } = expensesApi
 
 export default expensesApi

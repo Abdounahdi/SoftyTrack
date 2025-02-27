@@ -5,9 +5,10 @@ import PieChart from '../../components/PieChart/PieChart'
 import AreaChart from '../../components/AreaChart/AreaChart'
 import DashboardHeader from '../../components/DashboardHeader/DashboardHeader'
 import Stats from '../../components/Stats/Stats'
-import { useGetIncomesByTimeQuery } from '../../data/supabase/dashboardApi'
 import { useSearchParams } from 'react-router'
 import { Spin } from 'antd'
+import { useGetExpensesByTimeQuery } from '../../../expenses/data/supabaseApi/expensesApi'
+import { useGetIncomesByTimeQuery } from '../../../incomes/data/supabaseApi/incomesApi'
 
 export default function Dashboard() {
   const [searchParams] = useSearchParams()
@@ -15,31 +16,59 @@ export default function Dashboard() {
   const when = searchParams.get('filter-by-time')
 
   const minus = when === 'Last Month' ? 30 : when === 'Last 3 Months' ? 90 : 365
-  const { data: incomes, isFetching: isLoadingTraining } = useGetIncomesByTimeQuery({ minus })
+  const { data: incomes, isFetching: isLoadingIncomes } = useGetIncomesByTimeQuery({ minus })
+  const { data: expensesInfo, isFetching: isLoadingExpenses } = useGetExpensesByTimeQuery({ minus })
+  const isLoading = isLoadingIncomes || isLoadingExpenses
 
-  if (isLoadingTraining) return <Spin />
+  if (isLoading) return <Spin />
+
+  const { data: expenses, count: expensesCount } = expensesInfo
+
+  const totalIncomesPrice = incomes
+    ?.map((income) => income?.price)
+    .reduce((acc, cur) => acc + cur, 0)
+  const totalExpensesPrice = expenses
+    ?.map((expense) => expense.price)
+    .reduce((acc, cur) => acc + cur, 0)
 
   const stats = [
     {
       label: 'Total Incomes',
-      value: incomes?.map((income) => income?.price).reduce((acc, cur) => acc + cur, 0),
+      value: totalIncomesPrice,
       icon: <HiOutlineBanknotes />,
       color: '#2E71E2',
     },
     {
       label: 'Total Expenses',
-      value: 576,
+      value: totalExpensesPrice,
       icon: <HiOutlineCurrencyDollar />,
       color: '#2BA5BD',
     },
     {
       label: 'Total Revenus',
-      value: 1200 - 576,
+      value: totalIncomesPrice - totalExpensesPrice,
       icon: <TbPigMoney />,
       color: '#28d997',
     },
   ]
   const { incomesData, incomesPieChartOptions } = incomesDashboardData(incomes)
+
+  const { expensesData, expensesPieChartOptions } = expensesDashboardData(expenses)
+
+  const monthlyIncomes = getMonthlyData(incomes)
+  const monthlyExpenses = getMonthlyData(expenses)
+
+  const allMonths = [
+    ...new Set([...Object.keys(monthlyIncomes), ...Object.keys(monthlyExpenses)]),
+  ].sort()
+
+  const areaChartOptions = allMonths.map((month) => {
+    return {
+      category: month,
+      incomes: monthlyIncomes[month] || 0,
+      expenses: monthlyExpenses[month] || 0,
+    }
+  })
 
   return (
     <>
@@ -51,11 +80,15 @@ export default function Dashboard() {
           <PieChart title="Incomes" options={incomesPieChartOptions} />
         </div>
         <div className="incomes_expenses_summary_container">
-          {/* <PieChart title="Expenses  " /> */}
-          <LastTransactions title="Last Expenses" viewPath="/expenses" />
+          <PieChart title="Expense" options={expensesPieChartOptions} />
+          <LastTransactions title="Last Expenses" viewPath="/expenses" data={expensesData} />
         </div>
         <div className="summary_container">
-          <AreaChart />
+          <AreaChart
+            areaChartOptions={areaChartOptions}
+            firstTitle={'Incomes'}
+            secondTitle={'Expenses'}
+          />
         </div>
       </div>
     </>
@@ -66,7 +99,7 @@ function incomesDashboardData(incomes) {
   const incomesPieChartOptions = []
 
   const incomesData = incomes
-    .map((income) => {
+    ?.map((income) => {
       return {
         key: income.id,
         training: income.training_id.training,
@@ -78,15 +111,57 @@ function incomesDashboardData(incomes) {
     .slice(0, 5)
 
   const incomesTrainings = new Set()
-  incomes.map((income) => incomesTrainings.add(income.training_id.training))
+  incomes?.map((income) => incomesTrainings.add(income.training_id.training))
 
   incomesTrainings.forEach((training) => {
     const price = incomes
-      .filter((income) => income.training_id.training === training)
+      ?.filter((income) => income?.training_id.training === training)
       .map((income) => income.price)
       .reduce((acc, cur) => acc + cur, 0)
     incomesPieChartOptions.push({ label: training, number: price })
   })
 
   return { incomesPieChartOptions, incomesData }
+}
+
+function expensesDashboardData(expenses) {
+  const expensesData = expenses
+    .map((expense) => {
+      return {
+        key: expense.id,
+        category: expense.category_id.category,
+        price: expense.price,
+        employeeName: expense.user_id.full_name,
+      }
+    })
+    .slice(0, 5)
+
+  const expensesPieChartOptions = []
+
+  const expensesCategories = new Set()
+  expenses.map((expenses) => expensesCategories.add(expenses.category_id.category))
+
+  expensesCategories.forEach((category) => {
+    const price = expenses
+      .filter((expenses) => expenses.category_id.category === category)
+      .map((expenses) => expenses.price)
+      .reduce((acc, cur) => acc + cur, 0)
+    expensesPieChartOptions.push({ label: category, number: price })
+  })
+
+  return { expensesPieChartOptions, expensesData }
+}
+
+const getMonthlyData = (data) => {
+  return data.reduce((acc, item) => {
+    const date = new Date(item.date_created)
+    const month = date.toISOString().slice(0, 7) // Get short month name
+
+    if (!acc[month]) {
+      acc[month] = 0
+    }
+    acc[month] += item.price
+
+    return acc
+  }, {})
 }

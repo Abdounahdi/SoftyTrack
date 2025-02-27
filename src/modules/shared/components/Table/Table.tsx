@@ -16,7 +16,7 @@ export default function Table({
     <>
       <div className="">
         <TableAntD
-          className="table"
+          className="table_antd"
           pagination={false}
           dataSource={data}
           columns={columns}

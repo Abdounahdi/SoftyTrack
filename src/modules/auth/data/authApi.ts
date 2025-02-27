@@ -41,6 +41,16 @@ const authApi = createApi({
         return { data }
       },
     }),
+    logout: builder.mutation({
+      async queryFn() {
+        const { error } = await supabase.auth.signOut()
+        if (error) {
+          console.error(error)
+        }
+        const data = { error }
+        return { data }
+      },
+    }),
     // createNewCustomer: builder.mutation({
     //   async queryFn({ email, password, fullName, phone, role }) {
     //     let { data, error } = await supabase.auth.signUp({
@@ -66,6 +76,6 @@ const authApi = createApi({
   }),
 })
 
-export const { useLoginMutation, useGetUserRoleMutation } = authApi
+export const { useLoginMutation, useGetUserRoleMutation , useLogoutMutation } = authApi
 
 export default authApi

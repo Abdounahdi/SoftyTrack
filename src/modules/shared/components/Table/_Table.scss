@@ -1,0 +1,13 @@
+.table_antd {
+  // background-color: red;
+  border: 1px #e8eff6 solid;
+  border-radius: 8px;
+  .ant-table {
+    border-radius: 8px;
+    .ant-table-container {
+      .ant-table-content {
+        border-radius: 8px !important;
+      }
+    }
+  }
+}

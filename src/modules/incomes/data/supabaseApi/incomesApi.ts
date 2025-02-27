@@ -28,6 +28,32 @@ const incomesApi = createApi({
       },
       providesTags: ['incomes'],
     }),
+    getIncomesByTime: builder.query({
+      async queryFn(params) {
+        const { minus } = params
+
+        const pastDate = new Date(new Date().setDate(new Date().getDate() - minus))
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', '+00')
+
+        let query = supabase
+          .from('incomes')
+          .select(
+            '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)',
+            { count: 'exact' }
+          )
+          .gte('date_created', pastDate)
+          .order('date_created', { ascending: false })
+
+        const { data, error } = await query
+
+        if (error) return
+
+        return { data }
+      },
+      providesTags: ['incomes'],
+    }),
     getPaymentMethods: builder.query({
       async queryFn() {
         const { data, error } = await supabase.from('payment_methods').select('*')
@@ -203,7 +229,8 @@ const incomesApi = createApi({
         }
 
         return { data }
-      },invalidatesTags:["incomes"]
+      },
+      invalidatesTags: ['incomes'],
     }),
   }),
 })
@@ -217,6 +244,7 @@ export const {
   useDeleteIncomeMutation,
   useGetIncomeByIdQuery,
   useUpdateIncomeMutation,
+  useGetIncomesByTimeQuery,
 } = incomesApi
 
 export default incomesApi

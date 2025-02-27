@@ -84,6 +84,7 @@ function getIncomesColumns(handleViewDetailsDashboard) {
       title: 'Customer Phone',
       dataIndex: 'customerPhone',
       key: 3,
+      align: 'center',
       render: (phoneNumber) => (
         <CopyClipBoard item={phoneNumber}>
           <a href={`tel:${phoneNumber}`}>{numberWithSpaces(phoneNumber, '## ### ###')}</a>

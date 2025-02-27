@@ -11,18 +11,17 @@ export default function PieChart({ title, options }) {
 
   const numbers = options.map((option) => option.number)
   const total = numbers.reduce((acc, cur) => acc + cur, 0)
+  const series = numbers.map((number) => Number(Number((number / total) * 100).toFixed(2)))
 
   return (
     <Card className="pie_chart_container">
       <h2 className="pie_chart_title">{title}</h2>
-      <DonutChart colors={colors} labels={labels} numbers={numbers} />
+      <DonutChart colors={colors} labels={labels} numbers={numbers} series={series} />
     </Card>
   )
 }
 
-const DonutChart = ({ colors, labels, numbers }) => {
-  const series = numbers
-
+const DonutChart = ({ colors, labels, series }) => {
   const options = {
     chart: {
       type: 'donut',

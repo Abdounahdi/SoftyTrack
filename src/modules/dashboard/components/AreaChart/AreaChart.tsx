@@ -1,31 +1,33 @@
-import React from 'react'
+export default function AreaChart({ areaChartOptions, firstTitle, secondTitle }) {
+  console.log(areaChartOptions)
 
-export default function AreaChart() {
+  const firstTitleData = areaChartOptions.map((option) => option[firstTitle.toLowerCase()])
+  const secondTitleData = areaChartOptions.map((option) => option[secondTitle.toLowerCase()])
+  const series = [
+    {
+      name: firstTitle,
+      data: firstTitleData, // Sample data for courses
+    },
+    {
+      name: secondTitle,
+      data: secondTitleData, // Sample data for training camps
+    },
+  ]
   return (
     <div className="area_chart_container">
-      <AreaChartChart />
+      <AreaChartChart series={series}/>
     </div>
   )
 }
 
 import Chart from 'react-apexcharts'
 
-const AreaChartChart = () => {
-  const series = [
-    {
-      name: 'Courses Revenue',
-      data: [20, 5, 0, 0, 0, 0, 0, 0, 0, 10, 15, 25], // Sample data for courses
-    },
-    {
-      name: 'Training Camps Revenue',
-      data: [30, 10, 0, 0, 0, 0, 0, 0, 110, 40, 20, 15], // Sample data for training camps
-    },
-  ]
+const AreaChartChart = ({series }) => {
 
   const options = {
     chart: {
       type: 'area',
-      zoom: { enabled: false },
+      zoom: { enabled: true },
     },
     colors: ['#007bff', '#28d997'], // Blue & Green
     dataLabels: { enabled: false }, // No number labels on data points

@@ -9,7 +9,6 @@
       th {
         background-color: #f4f7fb;
         text-align: center;
-        font-family: Almarai;
         font-weight: 700;
         font-size: 14px;
         line-height: 16px;
@@ -18,11 +17,21 @@
       }
       td {
         color: #6a6a6a;
-        font-family: Almarai;
         font-weight: 400;
         font-size: 14px;
         line-height: 20px;
         letter-spacing: 0%;
+      }
+    }
+
+    border: 1px #e8eff6 solid;
+    border-radius: 8px;
+    .ant-table {
+      border-radius: 8px;
+      .ant-table-container {
+        .ant-table-content {
+          border-radius: 8px !important;
+        }
       }
     }
   }

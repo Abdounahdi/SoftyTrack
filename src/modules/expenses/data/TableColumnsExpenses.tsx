@@ -1,3 +1,4 @@
+import { HiOutlineEye } from 'react-icons/hi2'
 import CopyClipBoard from '../../shared/components/CopyClipBoard/CopyClipBoard'
 import ProgressBySteps from '../../shared/components/ProgressBySteps/ProgressBySteps'
 import TableActions from '../../shared/components/TableActions/TableActions'
@@ -74,7 +75,7 @@ const locationColors = {
     bgColor: '#F1D8F9',
     color: '#613A8C',
   },
-hamemsousse: {
+  hamemsousse: {
     bgColor: '#FEDD8F',
     color: '#753800',
   },
@@ -84,7 +85,7 @@ hamemsousse: {
   },
 }
 
-function getExpensesColumns() {
+function getExpensesColumns(handleViewDetailsDashboard) {
   const [deleteExpense] = useDeleteExpenseMutation({})
 
   const expensesTableColumns = [
@@ -145,7 +146,41 @@ function getExpensesColumns() {
     },
   ]
 
-  return {expensesTableColumns}
+  const expensesTableColumnsDashboard = [
+    {
+      dataIndex: 'employeeName',
+      key: 'employeeName',
+    },
+    {
+      dataIndex: 'category',
+      key: 'category',
+      render: (category) => (
+        <TagCustomized colors={categoryColors[category.replaceAll(' ', '').toLowerCase()] || {}}>
+          {category}
+        </TagCustomized>
+      ),
+    },
+    {
+      dataIndex: 'price',
+      key: 'price',
+      render: (price) => currencyFormat(price),
+      align: 'center',
+    },
+    {
+      key: 2,
+      dataIndex: 'key',
+      render: (key) => (
+        <button
+          className="view_details_last_transaction"
+          onClick={() => handleViewDetailsDashboard(key)}
+        >
+          <HiOutlineEye />
+        </button>
+      ),
+    },
+  ]
+
+  return { expensesTableColumns, expensesTableColumnsDashboard }
 }
 
 export { getExpensesColumns }
