@@ -11,7 +11,6 @@ export default function PieChart({ title, options }) {
 
   const numbers = options.map((option) => option.number)
   const total = numbers.reduce((acc, cur) => acc + cur, 0)
-  
 
   return (
     <Card className="pie_chart_container">
