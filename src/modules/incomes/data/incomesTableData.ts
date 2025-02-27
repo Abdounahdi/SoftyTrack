@@ -11,20 +11,24 @@ import { setCurrentPage, setPageSize, setSelectedRows } from './incomesUiSlice'
 import { useGetAllUsersQuery } from './supabaseApi/usersApi'
 import { useNavigate, useParams } from 'react-router'
 import dayjs from 'dayjs'
+import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
 
 export default function incomesTableData() {
   const dispatch = useAppDispatch()
-  const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
-    (state) => state.incomesUi
+  const { showColumnsOptions } = useAppSelector((state) => state.incomesUi)
+
+  const { columnsIncomes: checkedListOfShownColumns, pageSizeIncomes: pageSize } = useAppSelector(
+    (state) => state.shared
   )
-  const { currentPage, pageSize, selectedRows } = useAppSelector((state) => state.incomesUi)
+
+  const { currentPage, selectedRows } = useAppSelector((state) => state.incomesUi)
 
   const { data: incomes, isFetching } = useGetIncomesQuery({
     currentPage,
     pageSize,
   })
 
-  const {incomesTableColumns} = getIncomesColumns()
+  const { incomesTableColumns } = getIncomesColumns()
 
   const totalData = incomes?.count
 
@@ -72,7 +76,7 @@ export default function incomesTableData() {
   const handlePagination = (currentPage, pageSize) => {
     dispatch(setCurrentPage(currentPage))
     if (pageSize) {
-      dispatch(setPageSize(pageSize))
+      dispatch(SharedSwitchValue({ key: 'pageSizeIncomes', value: pageSize }))
     }
   }
 
@@ -142,7 +146,7 @@ export function getIncomesFormData(errors, update) {
           type: 'text',
           value: 'full_name',
           placeHolder: 'customer full name ... ',
-          error: errors?.customer_name?.message,
+          error: errors?.full_name?.message,
         },
         {
           label: 'Phone Number',
@@ -150,6 +154,21 @@ export function getIncomesFormData(errors, update) {
           value: 'phone',
           placeHolder: '** *** ***',
           error: errors?.phone?.message,
+          rules: {
+            maxLength: { value: 8, message: 'This Phone Number is not valid' },
+            minLength: { value: 8, message: 'This Phone Number is not valid ' },
+            validate: (value) => {
+              const check = value.toString()
+              return (
+                check.startsWith('2') ||
+                check.startsWith('5') ||
+                check.startsWith('9') ||
+                check.startsWith('7') ||
+                check.startsWith('4') ||
+                'This Phone Number is not valid '
+              )
+            },
+          },
         },
         {
           label: 'Email',
@@ -166,7 +185,19 @@ export function getIncomesFormData(errors, update) {
           value: 'training_id',
           createOption: true,
           placeHolder: 'Choose Training ... ',
-          error: errors?.training?.message,
+          error: errors?.training_id?.message,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Description',
+          type: 'textarea',
+          placeHolder: 'any details you want to add ... ',
+          name: 'description',
+          value: 'description',
+          error: errors?.description?.message,
         },
       ],
     },
@@ -174,10 +205,12 @@ export function getIncomesFormData(errors, update) {
 
   const customerFormInputsUpdate = customerFormInputsBlank?.map((el) => {
     const columns = el.columns.map((column) => {
-      if (column.value !== 'training_id') {
-        return { ...column, defaultValue: incomeInfo?.customer_id?.[column.value] }
-      } else {
+      if (column.value === 'training_id') {
         return { ...column, defaultValue: incomeInfo?.training_id?.id }
+      } else if (column.value === 'description') {
+        return { ...column, defaultValue: incomeInfo?.description }
+      } else {
+        return { ...column, defaultValue: incomeInfo?.customer_id?.[column.value] }
       }
     })
     return { columns }
@@ -205,11 +238,11 @@ export function getIncomesFormData(errors, update) {
         },
         {
           label: 'Paid Slices',
-          type: 'number',
+          type: 'rate',
           value: 'paid_slices',
           placeHolder: '',
           error: errors?.paid_slices?.message,
-          className: 'slices_box_width_small',
+          className: 'slices_box_width_rate',
         },
         {
           label: 'Payment Method',
@@ -235,13 +268,6 @@ export function getIncomesFormData(errors, update) {
           error: errors?.location?.message,
         },
         {
-          label: 'Date of income',
-          type: 'date',
-          value: 'date_created',
-          placeHolder: '',
-          error: errors?.date_created?.message,
-        },
-        {
           label: 'Receptionist',
           type: 'select',
           selectOptions: receptionistOptions,
@@ -251,17 +277,12 @@ export function getIncomesFormData(errors, update) {
           placeHolder: ' ',
           error: errors?.receptionist?.message,
         },
-      ],
-    },
-    {
-      columns: [
         {
-          label: 'Description',
-          type: 'textarea',
-          placeHolder: 'any details you want to add ... ',
-          name: 'description',
-          value: 'description',
-          error: errors?.description?.message,
+          label: 'Paid at ',
+          type: 'date',
+          value: 'date_created',
+          placeHolder: '',
+          error: errors?.date_created?.message,
         },
       ],
     },

@@ -1,8 +1,20 @@
-import { DatePicker, Input, Select } from 'antd'
+import { DatePicker, Input, Rate, Select } from 'antd'
+import { useState } from 'react'
 import { Controller } from 'react-hook-form'
+import { useAppSelector } from '../../store'
+import { CheckCircleOutlined } from '@ant-design/icons'
+import sliceSvg from '../../assets/icons/slice.svg'
 
 export default function InputGenerator({ inputOptions, control, register, disableAll }) {
-  const { type, placeHolder, selectOptions, name, value, defaultValue = '' } = inputOptions
+  const {
+    type,
+    placeHolder,
+    selectOptions,
+    name,
+    value,
+    defaultValue = '',
+    rules = {},
+  } = inputOptions
 
   if (type === 'text') {
     return (
@@ -10,7 +22,11 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This field is required' }}
+        rules={{
+          required: 'This field is required',
+          ...rules,
+          validate: (value) => (value.trim() ? true : 'This filed is required'),
+        }}
         render={({ field, fieldState: { error } }) => (
           <Input
             {...field}
@@ -32,8 +48,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         defaultValue={defaultValue}
         rules={{
           required: 'This field is required',
-          maxLength: { value: 8, message: 'This Phone Number is not valid' },
-          minLength: { value: 8, message: 'This Phone Number is not valid ' },
+          ...rules,
         }}
         render={({ field, fieldState: { error } }) => (
           <Input
@@ -60,6 +75,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
             value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
             message: 'Invalid email address',
           },
+          ...rules,
         }}
         render={({ field, fieldState: { error } }) => (
           <Input
@@ -80,7 +96,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This field is required' }}
+        rules={{ required: 'This field is required', ...rules }}
         render={({ field, fieldState: { error } }) => (
           <Input
             {...field}
@@ -96,11 +112,24 @@ export default function InputGenerator({ inputOptions, control, register, disabl
 
   if (type === 'textarea') {
     return (
-      <textarea
-        placeholder={placeHolder}
-        {...register(name || value)}
+      <Controller
+        name={name || value}
+        control={control}
         defaultValue={defaultValue}
-        disabled={disableAll}
+        rules={{
+          required: 'This field is required',
+          ...rules,
+          validate: (value) => (value.trim() ? true : 'This filed is required'),
+        }}
+        render={({ field, fieldState: { error } }) => (
+          <Input.TextArea
+            {...field}
+            type="number"
+            placeholder={placeHolder}
+            status={inputOptions.error && 'error'}
+            disabled={disableAll}
+          />
+        )}
       />
     )
   }
@@ -111,7 +140,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This field is required' }}
+        rules={{ required: 'This field is required', ...rules }}
         render={({ field, fieldState: { error } }) => (
           <Select
             {...field}
@@ -134,7 +163,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This Field is required' }}
+        rules={{ required: 'This Field is required', ...rules }}
         render={({ field, fieldState: { error } }) => (
           <DatePicker
             {...field}
@@ -153,7 +182,7 @@ export default function InputGenerator({ inputOptions, control, register, disabl
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This Field is required' }}
+        rules={{ required: 'This Field is required', ...rules }}
         render={({ field, fieldState: { error } }) => (
           <Input.Password
             {...field}
@@ -163,6 +192,30 @@ export default function InputGenerator({ inputOptions, control, register, disabl
             disabled={disableAll}
           />
         )}
+      />
+    )
+  }
+
+  if (type === 'rate') {
+    const { slicesNumber } = useAppSelector((state) => state.incomesUi)
+    return (
+      <Controller
+        name={name || value}
+        control={control}
+        defaultValue={defaultValue}
+        rules={{ required: 'This Field is required', ...rules }}
+        render={({ field, fieldState: { error } }) => {
+          console.log(slicesNumber)
+          return (
+            <>
+              <Rate
+                {...field}
+                count={slicesNumber > 0 ? slicesNumber : 0}
+                character={<div className="slice_div"></div>}
+              />
+            </>
+          )
+        }}
       />
     )
   }

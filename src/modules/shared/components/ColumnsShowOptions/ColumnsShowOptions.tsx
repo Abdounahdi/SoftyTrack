@@ -1,8 +1,11 @@
-import { Checkbox, Switch } from 'antd'
+import { Switch } from 'antd'
 import toast from 'react-hot-toast'
 import { useAppDispatch } from '../../store'
-import { setCheckedListOfShownColumnsIncomes } from '../../../incomes/data/incomesUiSlice'
-import { setCheckedListOfShownColumnsExpeneses } from '../../../expenses/data/expensesUiSlice'
+import {
+  setCheckedListOfShownColumnsExpeneses,
+  setShowColumnsOptionsExpenses,
+} from '../../../expenses/data/expensesUiSlice'
+import { SharedSwitchValue } from '../../store/slices/sharedSlice'
 
 export default function ColumnsShowOptions({ checkedList, columns, where }) {
   // const options = columns.map(({ key, title }) => ({ value: key, label: title }))
@@ -23,9 +26,11 @@ export default function ColumnsShowOptions({ checkedList, columns, where }) {
                 return
               }
 
+
               where === 'incomes'
-                ? dispatch(setCheckedListOfShownColumnsIncomes(newCheckedList))
-                : dispatch(setCheckedListOfShownColumnsExpeneses(newCheckedList))
+                ? dispatch(SharedSwitchValue({ key: 'columnsIncomes', value: newCheckedList }))
+                 : dispatch(SharedSwitchValue({ key: 'columnsExpenses', value: newCheckedList }))
+                // :  dispatch(setCheckedListOfShownColumnsExpeneses(newCheckedList))
             }}
           />
           <span>{title}</span>

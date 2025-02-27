@@ -1,0 +1,26 @@
+.filter_table_option {
+  // display: flex;
+  // align-items: center;
+  // justify-content: flex-start;
+  text-align: left;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  color: #778BAA;
+
+  // span {
+  // }
+
+  // svg {
+  //   height: 15px;
+  //   width: 15px;
+  //   color: #4b76b8;
+  // }
+}
+.ant-dropdown-menu-vertical {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}

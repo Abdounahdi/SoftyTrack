@@ -19,7 +19,7 @@ export default function DashboardHeader() {
   return (
     <div className="title_filter_container">
       <PageHeading title="Dashboard" goBack={false} />
-      <Filter filterOptions={filterOptions} style={{ justifySelf: 'end' }} />
+      <Filter field="filter-by-time" filterOptions={filterOptions} style={{ justifySelf: 'end' }} />
     </div>
   )
 }

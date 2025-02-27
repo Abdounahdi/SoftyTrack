@@ -4,7 +4,7 @@ import supabase from '../../../shared/supabase'
 const incomesApi = createApi({
   reducerPath: 'incomesApi',
   baseQuery: fetchBaseQuery(),
-  tagTypes: ['incomes'],
+  tagTypes: ['incomes', 'income'],
   endpoints: (builder) => ({
     getIncomes: builder.query({
       async queryFn(params) {
@@ -167,6 +167,9 @@ const incomesApi = createApi({
         }
         return { data }
       },
+      providesTags(result, error, id) {
+        return [{ type: 'income', id }]
+      },
     }),
     updateIncome: builder.mutation({
       async queryFn(params) {
@@ -230,7 +233,9 @@ const incomesApi = createApi({
 
         return { data }
       },
-      invalidatesTags: ['incomes'],
+      invalidatesTags(result, error, params) {
+        return [{ type: 'income', id: params.id }, 'incomes']
+      },
     }),
   }),
 })

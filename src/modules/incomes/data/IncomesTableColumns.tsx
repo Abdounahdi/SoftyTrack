@@ -71,19 +71,19 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Customer Name',
       dataIndex: 'customerName',
-      key: 1,
+      key: "h",
       width: 200,
       fixed: true,
     },
     {
       title: 'Date',
       dataIndex: 'dateCreated',
-      key: 2,
+      key: "hh",
     },
     {
       title: 'Customer Phone',
       dataIndex: 'customerPhone',
-      key: 3,
+      key: "hhh",
       align: 'center',
       render: (phoneNumber) => (
         <CopyClipBoard item={phoneNumber}>
@@ -94,7 +94,7 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Customer Email',
       dataIndex: 'customerEmail',
-      key: 4,
+      key: "hhhh",
       width: 250,
       render: (email) => (
         <CopyClipBoard item={email}>
@@ -106,7 +106,7 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Payment Method',
       dataIndex: 'paymentMethod',
-      key: 5,
+      key: "a",
       render: (paymentMethod) => (
         <TagCustomized
           colors={paymentMethodColors[paymentMethod.replaceAll(' ', '').toLowerCase()] || {}}
@@ -119,19 +119,19 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Price',
       dataIndex: 'price',
-      key: 6,
+      key: "aa",
       render: (price) => currencyFormat(price),
     },
     {
       title: 'Slices Paid',
       dataIndex: 'slicesPrecentage',
-      key: 8,
+      key: "aaa",
       render: (infoSlices) => <ProgressBySteps slicesInfo={infoSlices} />,
     },
     {
       title: 'Training',
       dataIndex: 'trainingName',
-      key: 9,
+      key: "aaaa",
       width: 200,
       render: (training) => (
         <TagCustomized colors={trainingColors[training.replaceAll(' ', '').toLowerCase()] || {}}>
@@ -142,7 +142,7 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Reception Location',
       dataIndex: 'location',
-      key: 10,
+      key: "q",
       render: (location) => (
         <TagCustomized colors={locationColors[location.replaceAll(' ', '').toLowerCase()] || {}}>
           {location}
@@ -152,16 +152,16 @@ function getIncomesColumns(handleViewDetailsDashboard) {
     {
       title: 'Employee Name ',
       dataIndex: 'employeeName',
-      key: 11,
+      key: "qq",
     },
     {
       title: 'Description ',
       dataIndex: 'description',
-      key: 12,
+      key: "qqq",
     },
     {
       title: 'Actions',
-      key: 13,
+      key: "qqqa",
       dataIndex: 'key',
       render: (key) => <TableActions id={key} where="incomes" deleteAction={deleteIncome} />,
       fixed: 'right',

@@ -1,23 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-interface SharedState {
-  isSidebarCollapsed: boolean
-}
+// interface SharedState {
+//   isSidebarCollapsed: boolean
+// }
 
-const initialState: SharedState = {
+const initialState = {
   isSidebarCollapsed: false,
+  columnsIncomes: [],
+  columnsExpenses: [],
+  pageSizeIncomes: 5,
+  pageSizeExpenses: 5,
 }
 
-interface DataHandleChangeProps<T extends keyof SharedState> {
-  key: T
-  value: SharedState[T]
-}
+// interface DataHandleChangeProps<T extends keyof SharedState> {
+//   key: T
+//   value: SharedState[T]
+// }
 
 export const sharedSlice = createSlice({
   name: 'shared',
   initialState,
   reducers: {
-    SharedSwitchValue: (state, action: PayloadAction<DataHandleChangeProps<keyof SharedState>>) => {
+    SharedSwitchValue: (state, action) => {
       const { key, value } = action.payload
       state[key] = value
     },

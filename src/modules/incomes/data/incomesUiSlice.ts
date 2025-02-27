@@ -6,6 +6,7 @@ const initialState = {
   pageSize: 5,
   currentPage: 1,
   selectedRows: [],
+  slicesNumber: 0,
 }
 
 const incomesUiSlice = createSlice({
@@ -27,6 +28,9 @@ const incomesUiSlice = createSlice({
     setSelectedRows: (state, action) => {
       state.selectedRows = action.payload
     },
+    setSlicesNumber: (state, action) => {
+      state.slicesNumber = action.payload
+    },
   },
 })
 
@@ -35,7 +39,8 @@ export const {
   setCheckedListOfShownColumnsIncomes,
   setCurrentPage,
   setPageSize,
-  setSelectedRows
+  setSelectedRows,
+  setSlicesNumber,
 } = incomesUiSlice.actions
 
 export default incomesUiSlice.reducer

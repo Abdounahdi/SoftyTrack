@@ -6,7 +6,13 @@ import sharedReducer from '../slices/sharedSlice'
 const sharedPersistConfig = {
   key: 'shared',
   storage,
-  whitelist: ['isSidebarCollapsed'],
+  whitelist: [
+    'isSidebarCollapsed',
+    'columnsIncomes',
+    'columnsExpenses',
+    'pageSizeIncomes',
+    'pageSizeExpenses',
+  ],
 }
 
 export const sharedsPersistedReducer = persistReducer(sharedPersistConfig, sharedReducer)

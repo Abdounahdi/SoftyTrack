@@ -39,12 +39,12 @@ export default function IncomesExpensesTable({ where }) {
     newColumns,
     currentPage,
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
-
-  const {expensesTableColumns} = getExpensesColumns()
-  const {incomesTableColumns} = getIncomesColumns()
+  
+  
+  const { expensesTableColumns } = getExpensesColumns()
+  const { incomesTableColumns } = getIncomesColumns()
 
   if (isFetching) return <Spin size="large" />
-
   return (
     <>
       {showColumnsOptions ? (
@@ -60,7 +60,7 @@ export default function IncomesExpensesTable({ where }) {
       <div className="table_container">
         <div className="">
           <Table
-            className="table"
+            className={'table'}
             pagination={false}
             dataSource={data}
             columns={newColumns}
@@ -79,7 +79,7 @@ export default function IncomesExpensesTable({ where }) {
           onChange={handlePagination}
           pageSizeOptions={['5', '10', '20']}
           current={currentPage}
-          pageSize={pageSize}
+          pageSize={pageSize.toString()}
           itemRender={itemRender}
         />
       </div>

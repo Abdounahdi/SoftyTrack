@@ -35,10 +35,12 @@
       }
     }
   }
+
   .ant-pagination {
     justify-content: flex-end;
-    align-items: center;
-
+    .ant-select-selector {
+      height: auto;
+    }
     li {
       display: flex;
       align-items: center;

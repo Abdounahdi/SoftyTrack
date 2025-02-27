@@ -1,17 +1,17 @@
-import { Dropdown, MenuProps, Segmented } from 'antd'
+import { Segmented } from 'antd'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'
 
-export default function Filter({ filterOptions, style }) {
+export default function Filter({field,  filterOptions, style }) {
   const [searchParams, setSearchParams] = useSearchParams()
   const handleFilterParams = (key) => {
     console.log(key)
-    searchParams.set('filter-by-time', key)
+    searchParams.set(field, key)
     setSearchParams(searchParams)
   }
   useEffect(() => {
-    if (!searchParams.get('filter-by-time')) {
-      searchParams.set('filter-by-time', filterOptions.at(0).label)
+    if (!searchParams.get(field)) {
+      searchParams.set(field, filterOptions.at(0).label)
       setSearchParams(searchParams)
     }
   }, [])
@@ -23,7 +23,7 @@ export default function Filter({ filterOptions, style }) {
       onChange={(value) => {
         handleFilterParams(value) // string
       }}
-      value={searchParams.get('filter-by-time')}
+      value={searchParams.get(field)}
     />
   )
 }

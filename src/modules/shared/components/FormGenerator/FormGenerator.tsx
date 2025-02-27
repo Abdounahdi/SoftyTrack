@@ -1,6 +1,6 @@
 import InputGenerator from '../InputGenerator/InputGenerator'
 
-export default function FormGenerator({ options, control, register, disableAll=false }) {
+export default function FormGenerator({ options, control, register, disableAll = false }) {
   return (
     <>
       {options.map((formRowOptions) => {

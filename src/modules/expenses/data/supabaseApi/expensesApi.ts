@@ -5,7 +5,7 @@ import { useParams } from 'react-router'
 const expensesApi = createApi({
   reducerPath: 'expensesApi',
   baseQuery: fetchBaseQuery(),
-  tagTypes: ['expenses'],
+  tagTypes: ['expenses', 'expense'],
   endpoints: (builder) => ({
     getExpenses: builder.query({
       async queryFn(params) {
@@ -81,6 +81,9 @@ const expensesApi = createApi({
 
         return { data }
       },
+      providesTags(result, error, id) {
+        return [{ type: 'expense', id }]
+      },
     }),
     updateExpense: builder.mutation({
       async queryFn(params) {
@@ -96,7 +99,9 @@ const expensesApi = createApi({
         }
         return { data }
       },
-      invalidatesTags: ['expenses'],
+      invalidatesTags(result, error, params) {
+        return [{ type: 'expense', id: params.id }, 'expenses']
+      },
     }),
     getExpensesByTime: builder.query({
       async queryFn(params) {

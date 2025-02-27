@@ -4,6 +4,7 @@ import {
   HiMiniPlus,
   HiMiniTrash,
   HiOutlineChevronDown,
+  HiOutlineFunnel,
   HiOutlineSquare3Stack3D,
 } from 'react-icons/hi2'
 
@@ -11,6 +12,8 @@ import { useAppDispatch } from '../../store'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import toast from 'react-hot-toast'
 import { Dropdown, Modal } from 'antd'
+import FilterTable from '../FilterTable/FilterTable'
+import Filter from '../Filter/Filter'
 
 export function TableOuterActions({
   deleteAction,
@@ -104,10 +107,28 @@ function ActionGenerator({
 }) {
   if (type === 'filter') {
     return (
-      <button className="table_btn table_filter">
-        <HiMiniAdjustmentsVertical />
-        Filter
-      </button>
+      <Filter
+        field="filter-options"
+        filterOptions={[
+          {
+            key: 'date-asc',
+            label: 'Date (Oldest First)',
+          },
+          {
+            key: 'date-desc',
+            label: 'Date (Recent First)',
+          },
+          {
+            key: 'amount-asc',
+            label: 'Amount (Smallest First)',
+          },
+          {
+            key: 'amount-des',
+            label: 'Amount (Largest First)',
+          },
+        ]}
+        style={{ justifySelf: 'end' }}
+      />
     )
   }
   if (type === 'delete') {

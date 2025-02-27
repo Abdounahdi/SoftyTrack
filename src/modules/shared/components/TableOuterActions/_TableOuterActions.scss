@@ -1,4 +1,4 @@
-.table_actions_container {
+  .table_actions_container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -12,14 +12,12 @@
     .table_btn {
       border: none;
       border-radius: 8px;
-      padding-top: 8px;
-      padding-right: 14px;
-      padding-bottom: 8px;
-      padding-left: 14px;
+      padding: 4px 13px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
+      gap: 6px;
+      letter-spacing: 0.5px;
       font-size: 16px;
       cursor: pointer;
       position: relative;
@@ -72,10 +70,10 @@
       font-weight: 400;
       font-size: 18px;
       line-height: 24px;
-      letter-spacing: 0%;
+      // letter-spacing: 0%;
       text-align: center;
-      gap: 12px;
-      padding: 8px;
+      // gap: 12px;
+      // padding: 8px;
     }
 
     .opened_column_options {

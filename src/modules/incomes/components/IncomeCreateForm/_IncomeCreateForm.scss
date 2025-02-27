@@ -2,6 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .ant-select-selection-search-input{
+    &::placeholder{
+      color: red;
+    }
+  }
 }
 
 .create_form_box {

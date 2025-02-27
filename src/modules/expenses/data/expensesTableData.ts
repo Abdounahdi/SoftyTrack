@@ -10,20 +10,25 @@ import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
 import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
 import { useParams } from 'react-router'
 import dayjs from 'dayjs'
+import { sharedsPersistedReducer } from '../../shared/store/persist/sharedPersist'
+import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
 
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
-  const { showColumnsOptions, checkedListOfShownColumns } = useAppSelector(
-    (state) => state.expensesUi
+  const { showColumnsOptions } = useAppSelector((state) => state.expensesUi)
+  const { currentPage, selectedRows } = useAppSelector((state) => state.expensesUi)
+
+  const { columnsExpenses: checkedListOfShownColumns, pageSizeExpenses: pageSize } = useAppSelector(
+    (state) => state.shared
   )
-  const { currentPage, pageSize, selectedRows } = useAppSelector((state) => state.expensesUi)
+
 
   const { data: expenses, isFetching } = useGetExpensesQuery({
     currentPage,
     pageSize,
   })
 
-  const {expensesTableColumns} = getExpensesColumns()
+  const { expensesTableColumns } = getExpensesColumns()
 
   const totalData = expenses?.count
 
@@ -64,7 +69,8 @@ export default function expensesTableData() {
   const handlePagination = (currentPage, pageSize) => {
     dispatch(setCurrentPage(currentPage))
     if (pageSize) {
-      dispatch(setPageSize(pageSize))
+      console.log(pageSize)
+      dispatch(SharedSwitchValue({ key: 'pageSizeExpenses', value: pageSize }))
     }
   }
 
@@ -118,7 +124,7 @@ export function getExpensesFromOptions(errors, update) {
           name: 'payment_method_id',
           createOption: true,
           placeHolder: 'Choose Training ... ',
-          error: errors?.payment_method?.message,
+          error: errors?.payment_method_id?.message,
           defaultValue: null,
         },
         {
@@ -132,7 +138,7 @@ export function getExpensesFromOptions(errors, update) {
           value: 'category_id',
           createOption: true,
           placeHolder: 'Choose Category ... ',
-          error: errors?.payment_method?.message,
+          error: errors?.category_id?.message,
           defaultValue: null,
         },
       ],
@@ -148,7 +154,7 @@ export function getExpensesFromOptions(errors, update) {
           name: 'user_id',
           createOption: false,
           placeHolder: ' ',
-          error: errors?.employeeName?.message,
+          error: errors?.user_id?.message,
           defaultValue: null,
         },
         {
@@ -197,7 +203,7 @@ export function getExpensesFromOptions(errors, update) {
           name: 'payment_method_id',
           createOption: true,
           placeHolder: 'Choose Training ... ',
-          error: errors?.payment_method?.message,
+          error: errors?.payment_method_id?.message,
           defaultValue: expenseByIdInfo?.map((object) => object.payment_method_id.id)[0],
         },
         {
@@ -227,7 +233,7 @@ export function getExpensesFromOptions(errors, update) {
           name: 'user_id',
           createOption: false,
           placeHolder: ' ',
-          error: errors?.employeeName?.message,
+          error: errors?.user_id?.message,
           defaultValue: expenseByIdInfo?.map((object) => object.user_id.id)[0],
         },
         {

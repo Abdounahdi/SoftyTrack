@@ -1,4 +1,3 @@
-import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import IncomesExpensesTable from '../../../shared/components/IncomesExpensesTable/IncomesExpensesTable'
 import PageActionLayout from '../../../shared/components/IncomesExpensesActionsPageLayout/PageActionLayout'
 import IncomesTableActions from '../../components/IncomesTableActions/IncomesTableActions'
