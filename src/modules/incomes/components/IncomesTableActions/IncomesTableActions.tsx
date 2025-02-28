@@ -1,6 +1,10 @@
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
-import { setSelectedRows, setShowColumnsOptionsIncomes } from '../../data/incomesUiSlice'
+import {
+  setSelectedRows,
+  setShowColumnsOptionsIncomes,
+  setShowFilterOptions,
+} from '../../data/incomesUiSlice'
 import { useDeleteIncomeMutation } from '../../data/supabaseApi/incomesApi'
 
 export default function IncomesTableActions() {
@@ -11,6 +15,9 @@ export default function IncomesTableActions() {
   const openCloseShowColumns = () => {
     dispatch(setShowColumnsOptionsIncomes())
   }
+  const handleFilterOptionsShow = () => {
+    dispatch(setShowFilterOptions())
+  }
   const actionsOptions = { left: ['filter', 'delete'], right: ['showColumns', 'create'] }
   return (
     <TableOuterActions
@@ -20,6 +27,7 @@ export default function IncomesTableActions() {
       showColumnsOptions={showColumnsOptions}
       selectedRows={selectedRows}
       actionsOptions={actionsOptions}
+      handleFilterOptionsShow={handleFilterOptionsShow}
     />
   )
 }

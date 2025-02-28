@@ -27,17 +27,15 @@ export default function IncomeCreateForm({ update = false, disabled = false }) {
     getIncomesFormData(errors, update)
 
   async function onSumbit(newObj) {
-    // const { data } = update
-    //   ? await updateIncome({ id: incomeId, updatedIncome: newObj, customerId: customerId })
-    //   : await createIncome(newObj)
-    // if (!data?.error) {
-    //   navigate('/incomes')
-    //   toast.success(update ? `Income updated ! ` : `New Income Created !`)
-    // } else {
-    //   toast.error(update ? `Income was not Updated !` : `Income was not created !`)
-    // }
-
-    console.log(newObj)
+    const { data } = update
+      ? await updateIncome({ id: incomeId, updatedIncome: newObj, customerId: customerId })
+      : await createIncome(newObj)
+    if (!data?.error) {
+      navigate('/incomes')
+      toast.success(update ? `Income updated ! ` : `New Income Created !`)
+    } else {
+      toast.error(update ? `Income was not Updated !` : `Income was not created !`)
+    }
   }
 
   const totalSlices = watch('total_slices')

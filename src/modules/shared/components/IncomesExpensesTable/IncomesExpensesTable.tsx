@@ -6,6 +6,7 @@ import ColumnsShowOptions from '../ColumnsShowOptions/ColumnsShowOptions'
 import incomesTableData from '../../../incomes/data/incomesTableData'
 import expensesTableData from '../../../expenses/data/expensesTableData'
 import { getExpensesColumns } from '../../../expenses/data/TableColumnsExpenses'
+import FilterForm from '../FilterForm/FilterForm'
 
 const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
   return item === 'prev' ? (
@@ -38,13 +39,15 @@ export default function IncomesExpensesTable({ where }) {
     handlePagination,
     newColumns,
     currentPage,
+    showFilterOptions,
+    filterFormInputs,
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
-  
-  
+
   const { expensesTableColumns } = getExpensesColumns()
   const { incomesTableColumns } = getIncomesColumns()
 
   if (isFetching) return <Spin size="large" />
+
   return (
     <>
       {showColumnsOptions ? (
@@ -56,6 +59,8 @@ export default function IncomesExpensesTable({ where }) {
       ) : (
         ''
       )}
+
+      {showFilterOptions ? <FilterForm filterOptions={filterFormInputs} /> : ''}
 
       <div className="table_container">
         <div className="">

@@ -1,7 +1,6 @@
-import { Dropdown } from 'antd'
 import { HiOutlineFunnel } from 'react-icons/hi2'
 
-export default function FilterTable({ className }) {
+export default function FilterTable({ className, onClick }) {
   const handleFilter = (filter) => {
     console.log(filter)
   }
@@ -25,32 +24,10 @@ export default function FilterTable({ className }) {
     },
   ]
 
-  const items: MenusProps['items'] = filterOptions.map((option) => {
-    return {
-      key: option.key,
-      label: (
-        <p
-          key={option.key}
-          className="filter_table_option"
-          onClick={() => handleFilter(option.key)}
-        >
-          {option.label}
-        </p>
-      ),
-    }
-  })
-
   return (
-    <Dropdown
-      menu={{ items }}
-      placement="bottomLeft"
-      arrow={{ pointAtCenter: true }}
-      trigger="click"
-    >
-      <button className={`${className} table_filter`}>
-        <HiOutlineFunnel />
-        Filter
-      </button>
-    </Dropdown>
+    <button className={`${className}`} onClick={onClick}>
+      <HiOutlineFunnel />
+      Filter
+    </button>
   )
 }

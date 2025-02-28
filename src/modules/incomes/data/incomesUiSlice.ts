@@ -7,6 +7,7 @@ const initialState = {
   currentPage: 1,
   selectedRows: [],
   slicesNumber: 0,
+  showFilterOptions: false,
 }
 
 const incomesUiSlice = createSlice({
@@ -31,6 +32,9 @@ const incomesUiSlice = createSlice({
     setSlicesNumber: (state, action) => {
       state.slicesNumber = action.payload
     },
+    setShowFilterOptions: (state) => {
+      state.showFilterOptions = !state.showFilterOptions
+    },
   },
 })
 
@@ -41,6 +45,7 @@ export const {
   setPageSize,
   setSelectedRows,
   setSlicesNumber,
+  setShowFilterOptions,
 } = incomesUiSlice.actions
 
 export default incomesUiSlice.reducer

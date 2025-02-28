@@ -23,6 +23,7 @@ export function TableOuterActions({
   selectedRows,
   actionsOptions,
   createAction,
+  handleFilterOptionsShow,
 }) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -63,6 +64,7 @@ export function TableOuterActions({
             selectedRows={selectedRows}
             handleShowColumns={handleShowColumns}
             showColumnsOptions={showColumnsOptions}
+            handleFilterOptionsShow={handleFilterOptionsShow}
             onCreate={() => {
               if (!createAction) {
                 navigate('create')
@@ -80,6 +82,7 @@ export function TableOuterActions({
             type={option}
             selectedRows={selectedRows}
             handleShowColumns={handleShowColumns}
+            handleFilterOptionsShow={handleFilterOptionsShow}
             showColumnsOptions={showColumnsOptions}
             onCreate={() => {
               if (!createAction) {
@@ -104,31 +107,34 @@ function ActionGenerator({
   onCreate,
   showDeleteConfirm,
   items,
+  handleFilterOptionsShow,
 }) {
   if (type === 'filter') {
     return (
-      <Filter
-        field="filter-options"
-        filterOptions={[
-          {
-            key: 'date-asc',
-            label: 'Date (Oldest First)',
-          },
-          {
-            key: 'date-desc',
-            label: 'Date (Recent First)',
-          },
-          {
-            key: 'amount-asc',
-            label: 'Amount (Smallest First)',
-          },
-          {
-            key: 'amount-des',
-            label: 'Amount (Largest First)',
-          },
-        ]}
-        style={{ justifySelf: 'end' }}
-      />
+      // <Filter
+      //   field="filter-options"
+      //   filterOptions={[
+      //     {
+      //       key: 'date-asc',
+      //       label: 'Date (Oldest First)',
+      //     },
+      //     {
+      //       key: 'date-desc',
+      //       label: 'Date (Recent First)',
+      //     },
+      //     {
+      //       key: 'amount-asc',
+      //       label: 'Amount (Smallest First)',
+      //     },
+      //     {
+      //       key: 'amount-des',
+      //       label: 'Amount (Largest First)',
+      //     },
+      //   ]}
+      //   style={{ justifySelf: 'end' }}
+      // />
+
+      <FilterTable className="table_btn table_filter" onClick={handleFilterOptionsShow} />
     )
   }
   if (type === 'delete') {
@@ -139,7 +145,7 @@ function ActionGenerator({
         ) : (
           <button className="table_btn table_delete" onClick={showDeleteConfirm}>
             <HiMiniTrash />
-            Delete {selectedRows.length} Item{selectedRows.length !== 1 ? 's' : ''}
+            {selectedRows.length} Item{selectedRows.length !== 1 ? 's' : ''}
           </button>
         )}
       </>

@@ -1,11 +1,19 @@
-import { DatePicker, Input, Rate, Select } from 'antd'
+import { DatePicker, Input, Rate, Select, Slider } from 'antd'
 import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { useAppSelector } from '../../store'
 import { CheckCircleOutlined } from '@ant-design/icons'
 import sliceSvg from '../../assets/icons/slice.svg'
+import SliderNumberRange from '../SliderNumberRange/SliderNumberRange'
 
-export default function InputGenerator({ inputOptions, control, register, disableAll }) {
+export default function InputGenerator({
+  inputOptions,
+  control,
+  register,
+  disableAll,
+  getValues,
+  setValue,
+}) {
   const {
     type,
     placeHolder,
@@ -14,7 +22,11 @@ export default function InputGenerator({ inputOptions, control, register, disabl
     value,
     defaultValue = '',
     rules = {},
+    sliderMin,
+    sliderMax,
   } = inputOptions
+
+  const { RangePicker } = DatePicker
 
   if (type === 'text') {
     return (
@@ -135,12 +147,13 @@ export default function InputGenerator({ inputOptions, control, register, disabl
   }
 
   if (type === 'select') {
+    console.log(selectOptions)
     return (
       <Controller
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        rules={{ required: 'This field is required', ...rules }}
+        // rules={{ required: 'This field is required', ...rules }}
         render={({ field, fieldState: { error } }) => (
           <Select
             {...field}
@@ -215,6 +228,30 @@ export default function InputGenerator({ inputOptions, control, register, disabl
               />
             </>
           )
+        }}
+      />
+    )
+  }
+
+  if (type === 'slider') {
+    return (
+      <SliderNumberRange
+        setValue={setValue}
+        getValues={getValues}
+        min={sliderMin}
+        max={sliderMax}
+      />
+    )
+  }
+
+  if (type == 'date-range') {
+    return (
+      <Controller
+        name={name || value}
+        control={control}
+        defaultValue={defaultValue}
+        render={({ field, fieldState: { error } }) => {
+          return <RangePicker {...field} />
         }}
       />
     )

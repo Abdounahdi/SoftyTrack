@@ -4,6 +4,7 @@ import {
   useGetIncomesQuery,
   useGetLocationsQuery,
   useGetPaymentMethodsQuery,
+  useGetRangePriceIncomeQuery,
   useGetTrainingsQuery,
 } from './supabaseApi/incomesApi'
 import { getIncomesColumns } from './IncomesTableColumns'
@@ -15,18 +16,26 @@ import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
 
 export default function incomesTableData() {
   const dispatch = useAppDispatch()
-  const { showColumnsOptions } = useAppSelector((state) => state.incomesUi)
 
   const { columnsIncomes: checkedListOfShownColumns, pageSizeIncomes: pageSize } = useAppSelector(
     (state) => state.shared
   )
 
-  const { currentPage, selectedRows } = useAppSelector((state) => state.incomesUi)
+  const { currentPage, selectedRows, showColumnsOptions, showFilterOptions } = useAppSelector(
+    (state) => state.incomesUi
+  )
 
   const { data: incomes, isFetching } = useGetIncomesQuery({
     currentPage,
     pageSize,
   })
+
+  const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
+
+  const { data: incomesPricesRange, isLoading } = useGetRangePriceIncomeQuery({})
+
+  const maxIncome = incomesPricesRange?.maxIncome
+  const minIncome = incomesPricesRange?.minIncome
 
   const { incomesTableColumns } = getIncomesColumns()
 
@@ -80,8 +89,45 @@ export default function incomesTableData() {
     }
   }
 
+  const trainingArr = trainings?.map((training) => {
+    return { value: training.id, label: training.training }
+  })
+
+  const filterFormInputs = [
+    {
+      columns: [
+        {
+          label: 'Training',
+          type: 'select',
+          value: 'by-training',
+          placeHolder: 'Enter Training ... ',
+          selectOptions: trainingArr,
+          // error: null,
+        },
+        {
+          label: 'Price Range',
+          type: 'slider',
+          value: 'by-price-range',
+          sliderMax: maxIncome,
+          sliderMin: minIncome,
+          // error: null,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Date Range ',
+          type: 'date-range',
+          value: 'by-date-range',
+          // error: null,
+        },
+      ],
+    },
+  ]
+
   return {
-    isFetching,
+    isFetching: isFetching || isLoading || isLoadingTrainings,
     data,
     pageSize,
     currentPage,
@@ -93,6 +139,10 @@ export default function incomesTableData() {
     checkedList,
     handlePagination,
     newColumns,
+    showFilterOptions,
+    filterFormInputs,
+    maxSliderFilter: maxIncome,
+    minSliderFilter: minIncome,
   }
 }
 

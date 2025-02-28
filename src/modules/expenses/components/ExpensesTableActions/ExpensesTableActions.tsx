@@ -1,6 +1,10 @@
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
-import { setSelectedRows, setShowColumnsOptionsExpenses } from '../../data/expensesUiSlice'
+import {
+  setSelectedRows,
+  setShowColumnsOptionsExpenses,
+  setShowFilterOptions,
+} from '../../data/expensesUiSlice'
 import { useDeleteExpenseMutation } from '../../data/supabaseApi/expensesApi'
 
 export default function ExpensesTableActions() {
@@ -10,6 +14,9 @@ export default function ExpensesTableActions() {
   const resetSelectedRows = setSelectedRows
   const openCloseShowColumns = () => {
     dispatch(setShowColumnsOptionsExpenses())
+  }
+  const handleFilterOptionsShow = () => {
+    dispatch(setShowFilterOptions())
   }
 
   const actionsOptions = { left: ['filter', 'delete'], right: ['showColumns', 'create'] }
@@ -21,6 +28,7 @@ export default function ExpensesTableActions() {
       showColumnsOptions={showColumnsOptions}
       selectedRows={selectedRows}
       actionsOptions={actionsOptions}
+      handleFilterOptionsShow={handleFilterOptionsShow}
     />
   )
 }

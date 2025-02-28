@@ -15,13 +15,13 @@ import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
 
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
-  const { showColumnsOptions } = useAppSelector((state) => state.expensesUi)
-  const { currentPage, selectedRows } = useAppSelector((state) => state.expensesUi)
+  const { currentPage, selectedRows, showColumnsOptions, showFilterOptions } = useAppSelector(
+    (state) => state.expensesUi
+  )
 
   const { columnsExpenses: checkedListOfShownColumns, pageSizeExpenses: pageSize } = useAppSelector(
     (state) => state.shared
   )
-
 
   const { data: expenses, isFetching } = useGetExpensesQuery({
     currentPage,
@@ -87,6 +87,7 @@ export default function expensesTableData() {
     checkedList,
     handlePagination,
     newColumns,
+    showFilterOptions,
   }
 }
 

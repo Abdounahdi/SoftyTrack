@@ -130,3 +130,12 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+.ant-slider {
+  width: 90%;
+}
+
+.ant-picker-range {
+  padding-bottom: 3px !important;
+  width: 50%;
+}

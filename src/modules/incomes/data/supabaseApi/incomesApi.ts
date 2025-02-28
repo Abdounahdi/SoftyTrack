@@ -237,6 +237,17 @@ const incomesApi = createApi({
         return [{ type: 'income', id: params.id }, 'incomes']
       },
     }),
+    getRangePriceIncome: builder.query({
+      async queryFn() {
+        const { data: incomes, error } = await supabase.from('incomes').select('*')
+
+        if (error) console.error(error)
+        const maxIncome = incomes?.reduce((a, b) => Math.max(Number(a), Number(b.price)), -Infinity)
+        const minIncome = incomes?.reduce((a, b) => Math.min(a, b.price), Infinity)
+        return { data: { minIncome, maxIncome } }
+      },
+      providesTags: ['incomes'],
+    }),
   }),
 })
 
@@ -250,6 +261,7 @@ export const {
   useGetIncomeByIdQuery,
   useUpdateIncomeMutation,
   useGetIncomesByTimeQuery,
+  useGetRangePriceIncomeQuery,
 } = incomesApi
 
 export default incomesApi
