@@ -1,11 +1,5 @@
-import { Pagination, PaginationProps, Spin, Table as TableAntD } from 'antd'
+import { Pagination, PaginationProps, Table as TableAntD } from 'antd'
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
-import TableActions from '../../../shared/components/TableActions/TableActions'
-import {
-  useDeleteTrainingMutation,
-  useGetTrainingsQuery,
-  useUpdateTrianingMutation,
-} from '../../data/supabase/trainingsApi'
 import Table from '../../../shared/components/Table/Table'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import {
@@ -13,7 +7,12 @@ import {
   setPageSize,
   setSearchQuery,
   setSelectedRows,
-} from '../../data/trainingsSlice'
+} from '../../data/categoriesSlice'
+import {
+  useDeleteCategoriesMutation,
+  useGetCategoriesQuery,
+  useUpdateCategoryMutation,
+} from '../../data/supabase/categoriesApi'
 import TableActionsBtns from '../../../shared/components/TableActionsBtns/TableActionsBtns'
 import { useEffect } from 'react'
 
@@ -35,22 +34,22 @@ const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => 
   )
 }
 
-export default function TrainingsTable() {
+export default function CategoriesTable() {
   const dispatch = useAppDispatch()
-  const { currentPage, pageSize, searchQuery } = useAppSelector((state) => state.trainingsUi)
-  const { data: trainingsData, isLoading: isLoadingTrainings } = useGetTrainingsQuery({
+  const { currentPage, pageSize, searchQuery } = useAppSelector((state) => state.categoriesUi)
+  const { data: categoriesData, isLoading: isLoadingCategories } = useGetCategoriesQuery({
     currentPage,
     pageSize,
     searchQuery,
   })
-  const [deleteTraining] = useDeleteTrainingMutation({})
-  const [updateTraining, { isLoading: isUpdatingTraining }] = useUpdateTrianingMutation({})
+  const [deleteCategory] = useDeleteCategoriesMutation({})
+  const [updateCategory, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation({})
 
-  const data = trainingsData?.data || []
+  const data = categoriesData?.data || []
 
-  useEffect(() => {
-    dispatch(setSearchQuery(''))
-  }, [])
+    useEffect(() => {
+      dispatch(setSearchQuery(''))
+    }, [])
 
   const columns = [
     {
@@ -61,9 +60,9 @@ export default function TrainingsTable() {
       width: 50,
     },
     {
-      title: 'Training',
-      dataIndex: 'training',
-      key: 'training',
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
       width: 250,
       align: 'left',
     },
@@ -77,21 +76,21 @@ export default function TrainingsTable() {
       title: 'Actions',
       key: 'actions',
       width: 140,
-      render: (training) => (
+      render: (category) => (
         <TableActionsBtns
-          id={training.id}
-          deleteAction={deleteTraining}
+          id={category.id}
+          deleteAction={deleteCategory}
           modalTitle="Update training : "
-          defaultValue={training.training}
-          isLoading={isUpdatingTraining}
-          updateAction={updateTraining}
+          defaultValue={category.category}
+          isLoading={isUpdatingCategory}
+          updateAction={updateCategory}
         />
       ),
       align: 'center',
     },
   ]
 
-  const totalData = trainingsData?.count
+  const totalData = categoriesData?.count
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
@@ -124,7 +123,7 @@ export default function TrainingsTable() {
         rowSelection={rowSelection}
         // xScroll={560}
         data={data}
-        isLoading={isLoadingTrainings}
+        isLoading={isLoadingCategories}
       />
     </div>
   )

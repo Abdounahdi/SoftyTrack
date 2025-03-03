@@ -1,0 +1,73 @@
+.table_btns_box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.table_row_action_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  padding: 4px;
+  letter-spacing: 0.5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.1s;
+  svg {
+    transition: all 0.1s;
+    height: 18px;
+    width: 18px;
+  }
+}
+.update_row_btn {
+  background: none;
+  border: #0593ff 1px solid;
+  color: #0080df;
+
+  &:hover {
+    color: white;
+    border: white 1ps solid;
+    background-color: #0080df;
+  }
+}
+.delete_row_btn {
+  background: none;
+  border: #ed1515 1px solid;
+  color: #ed1515;
+  &:hover {
+    color: white;
+    border: white 1ps solid;
+    background-color: #ed1515;
+  }
+}
+
+.ant-modal-footer {
+  display: flex !important;
+  align-items: center;
+  justify-content: end;
+
+  .update_modal_btn {
+    font-size: 14px;
+    padding: 4px 14px;
+    color: white;
+    background-color: #0080df;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: #00589c;
+    }
+  }
+}
+
+
+.updating_row_form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding : 10px 0px ;
+    .modal_update_error_msg{
+        color: rgb(255, 61, 61);
+    }
+}

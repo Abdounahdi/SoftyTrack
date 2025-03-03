@@ -9,3 +9,17 @@ export function numberWithSpaces(value, pattern) {
 }
 
 // console.log(numberWithSpaces('27113818', '## ### ###'))
+
+export function formatCustomDate(date) {
+  // const date = new Date(inputDateString);
+
+  // Extract year-month-day directly in local time
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  // Your fixed custom time (14:24:42.172)
+  const customTime = '14:24:42.172';
+
+  return `${year}-${month}-${day} ${customTime}+00`;
+}

@@ -29,6 +29,7 @@ export default function ExpensesTableActions() {
       selectedRows={selectedRows}
       actionsOptions={actionsOptions}
       handleFilterOptionsShow={handleFilterOptionsShow}
+      where="expenses"
     />
   )
 }

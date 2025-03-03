@@ -41,6 +41,9 @@ export default function IncomesExpensesTable({ where }) {
     currentPage,
     showFilterOptions,
     filterFormInputs,
+    maxSliderFilter,
+    minSliderFilter,
+    setFilterOptions,
   } = where === 'incomes' ? incomesTableData() : expensesTableData()
 
   const { expensesTableColumns } = getExpensesColumns()
@@ -60,7 +63,16 @@ export default function IncomesExpensesTable({ where }) {
         ''
       )}
 
-      {showFilterOptions ? <FilterForm filterOptions={filterFormInputs} /> : ''}
+      {showFilterOptions ? (
+        <FilterForm
+          setFilter={setFilterOptions}
+          filterOptions={filterFormInputs}
+          sliderMin={maxSliderFilter}
+          sliderMax={minSliderFilter}
+        />
+      ) : (
+        ''
+      )}
 
       <div className="table_container">
         <div className="">

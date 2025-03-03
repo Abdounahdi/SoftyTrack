@@ -8,8 +8,8 @@ const initialState = {
   searchQuery: '',
 }
 
-const trainingsSlice = createSlice({
-  name: 'trainings',
+const categoriesSlice = createSlice({
+  name: 'categories',
   initialState,
   reducers: {
     setCurrentPage: (state, action) => {
@@ -24,13 +24,14 @@ const trainingsSlice = createSlice({
     setCreateFormIsOpen: (state) => {
       state.createFormIsOpen = !state.createFormIsOpen
     },
-    setSearchQuery: (state, action) => {
+    setSearchQuery: (state , action) => {
+      console.log("hie")
       state.searchQuery = action.payload
     },
   },
 })
 
 export const { setCurrentPage, setPageSize, setSelectedRows, setCreateFormIsOpen, setSearchQuery } =
-  trainingsSlice.actions
+  categoriesSlice.actions
 
-export default trainingsSlice.reducer
+export default categoriesSlice.reducer

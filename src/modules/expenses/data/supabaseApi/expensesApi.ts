@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import supabase from '../../../shared/supabase'
 import { useParams } from 'react-router'
+import { formatCustomDate } from '../../../shared/utils/helpers'
 
 const expensesApi = createApi({
   reducerPath: 'expensesApi',
@@ -9,10 +10,28 @@ const expensesApi = createApi({
   endpoints: (builder) => ({
     getExpenses: builder.query({
       async queryFn(params) {
-        const { currentPage, pageSize } = params
+        const { currentPage, pageSize, filterOptions } = params
         let query = supabase
           .from('expenses')
           .select('* , category_id(*) , user_id(*) , payment_method_id(*)', { count: 'exact' })
+
+        const { by_price_range, by_category, by_date_range } = filterOptions
+
+        if (by_category) {
+          query.eq('category_id', by_category)
+        }
+
+        if (by_price_range) {
+          query.gte('price', by_price_range.min).lte('price', by_price_range.max)
+        }
+
+        if (by_date_range) {
+          const dates = JSON.stringify(by_date_range)
+          const startDate = formatCustomDate(new Date(JSON.parse(dates)[0]))
+          const endDate = formatCustomDate(new Date(JSON.parse(dates)[1]))
+          console.log(startDate , endDate)
+          query.gte('date_created', startDate).lte('date_created', endDate)
+        }
 
         const offset = (currentPage - 1) * pageSize
 
@@ -125,6 +144,20 @@ const expensesApi = createApi({
       },
       providesTags: ['expenses'],
     }),
+    getRangePriceExpense: builder.query({
+      async queryFn() {
+        const { data: incomes, error } = await supabase.from('expenses').select('*')
+
+        if (error) console.error(error)
+        const maxExpense = incomes?.reduce(
+          (a, b) => Math.max(Number(a), Number(b.price)),
+          -Infinity
+        )
+        const minExpense = incomes?.reduce((a, b) => Math.min(a, b.price), Infinity)
+        return { data: { minExpense, maxExpense } }
+      },
+      providesTags: ['expenses'],
+    }),
   }),
 })
 
@@ -136,6 +169,7 @@ export const {
   useGetExpenseByIdQuery,
   useUpdateExpenseMutation,
   useGetExpensesByTimeQuery,
+  useGetRangePriceExpenseQuery,
 } = expensesApi
 
 export default expensesApi

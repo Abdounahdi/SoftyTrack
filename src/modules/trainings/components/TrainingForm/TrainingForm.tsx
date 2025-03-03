@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 import { HiXMark } from 'react-icons/hi2'
+import InputGenerator from '../../../shared/components/InputGenerator/InputGenerator'
 
 export default function TrainingForm({
   update = false,
@@ -45,16 +46,20 @@ export default function TrainingForm({
     <form className="customer_create_form" onSubmit={handleSubmit(onSuccess, onError)}>
       <div className="create_form_container">
         <div className="create_form_box training_create_form_box">
-          <button
-            className="close_form_btn"
-            onClick={() => {
-              onCLose()
-              reset()
-            }}
-            type="reset"
-          >
-            <HiXMark />
-          </button>
+          {!update ? (
+            <button
+              className="close_form_btn"
+              onClick={() => {
+                onCLose()
+                reset()
+              }}
+              type="reset"
+            >
+              <HiXMark />
+            </button>
+          ) : (
+            ''
+          )}
           <FormGenerator
             options={expenseFormBlankOptions}
             control={control}

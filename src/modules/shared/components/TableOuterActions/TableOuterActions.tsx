@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router'
+import { data, useNavigate } from 'react-router'
 import {
+  HiMagnifyingGlass,
   HiMiniAdjustmentsVertical,
   HiMiniPlus,
   HiMiniTrash,
@@ -11,7 +12,7 @@ import {
 import { useAppDispatch } from '../../store'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import toast from 'react-hot-toast'
-import { Dropdown, Modal } from 'antd'
+import { Dropdown, Input, Modal, Select } from 'antd'
 import FilterTable from '../FilterTable/FilterTable'
 import Filter from '../Filter/Filter'
 
@@ -24,6 +25,9 @@ export function TableOuterActions({
   actionsOptions,
   createAction,
   handleFilterOptionsShow,
+  where,
+  dataSearch,
+  onSearch,
 }) {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -42,10 +46,11 @@ export function TableOuterActions({
       centered: true,
       async onOk() {
         const errors = selectedRows.map(async (row) => {
-          const { error } = await deleteAction(row.key)
+          console.log(row)
+          const { error } = await deleteAction(row.key || row.id)
           return error
         })
-        console.log(errors)
+
         dispatch(resetSelectedRows([]))
         toast.success('Deleted succesfully ! ')
       },
@@ -57,7 +62,7 @@ export function TableOuterActions({
 
   return (
     <div className="table_actions_container">
-      <div className="table_actions_btns_box">
+      <div className="table_actions_btns_box table_actions_left">
         {actionsOptions.left?.map((option) => (
           <ActionGenerator
             type={option}
@@ -73,6 +78,7 @@ export function TableOuterActions({
               }
             }}
             showDeleteConfirm={showDeleteConfirm}
+            searchAction={onSearch}
           />
         ))}
       </div>
@@ -92,6 +98,8 @@ export function TableOuterActions({
               }
             }}
             showDeleteConfirm={showDeleteConfirm}
+            where={where}
+            searchAction={onSearch}
           />
         ))}
       </div>
@@ -108,6 +116,8 @@ function ActionGenerator({
   showDeleteConfirm,
   items,
   handleFilterOptionsShow,
+  where = 'Uknown',
+  searchAction,
 }) {
   if (type === 'filter') {
     return (
@@ -138,6 +148,7 @@ function ActionGenerator({
     )
   }
   if (type === 'delete') {
+    console.log(selectedRows)
     return (
       <>
         {selectedRows.length === 0 ? (
@@ -167,8 +178,33 @@ function ActionGenerator({
     return (
       <button className="table_button_create table_btn" onClick={() => onCreate()}>
         <HiMiniPlus />
-        <p>Create Income</p>
+        <p>
+          Create {where[0].toUpperCase()}
+          {where.slice(1)}
+        </p>
       </button>
+    )
+  }
+
+  if (type === 'search') {
+    const dispatch = useAppDispatch()
+    const onSearch = (e) => {
+      dispatch(searchAction(e.target.value))
+    }
+    return (
+      <div className="search_table_outer_actions">
+        <Input
+          className="search_input_table_outer_actions"
+          // showSearch
+          placeholder="Search ... "
+          // optionFilterProp="label"
+          // onChange={onChange}
+          // onSearch={onSearch}
+          // options={dataSearch}
+          onChange={onSearch}
+        />
+        {/* <button className='search_query_btn'><HiMagnifyingGlass/></button> */}
+      </div>
     )
   }
 

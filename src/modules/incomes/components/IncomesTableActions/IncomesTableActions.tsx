@@ -1,6 +1,7 @@
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import {
+  setSearchQuery,
   setSelectedRows,
   setShowColumnsOptionsIncomes,
   setShowFilterOptions,
@@ -28,6 +29,8 @@ export default function IncomesTableActions() {
       selectedRows={selectedRows}
       actionsOptions={actionsOptions}
       handleFilterOptionsShow={handleFilterOptionsShow}
+      where="incomes"
+      onSearch={setSearchQuery}
     />
   )
 }

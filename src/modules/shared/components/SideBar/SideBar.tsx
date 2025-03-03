@@ -55,15 +55,15 @@ export default function SideBar() {
           {
             name: 'Categories',
             icon: <HiOutlineBanknotes />,
-            to: '/expenses-categories',
+            to: '/categories',
             guard: 'user admin',
           },
-          {
-            name: 'Users',
-            icon: <HiOutlineUserGroup />,
-            to: '/users',
-            guard: 'admin',
-          },
+          // {
+          //   name: 'Users',
+          //   icon: <HiOutlineUserGroup />,
+          //   to: '/users',
+          //   guard: 'admin',
+          // },
         ]}
         isOpen={isSidebarCollapsed}
       />

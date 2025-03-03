@@ -3,9 +3,10 @@ import {
   useGetExpenseByIdQuery,
   useGetExpensesCategoriesQuery,
   useGetExpensesQuery,
+  useGetRangePriceExpenseQuery,
 } from './supabaseApi/expensesApi'
 import { getExpensesColumns } from './TableColumnsExpenses'
-import { setPageSize, setCurrentPage, setSelectedRows } from './expensesUiSlice'
+import { setPageSize, setCurrentPage, setSelectedRows, setFilterOptions } from './expensesUiSlice'
 import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
 import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
 import { useParams } from 'react-router'
@@ -15,9 +16,8 @@ import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
 
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
-  const { currentPage, selectedRows, showColumnsOptions, showFilterOptions } = useAppSelector(
-    (state) => state.expensesUi
-  )
+  const { currentPage, selectedRows, showColumnsOptions, showFilterOptions, filterOptions } =
+    useAppSelector((state) => state.expensesUi)
 
   const { columnsExpenses: checkedListOfShownColumns, pageSizeExpenses: pageSize } = useAppSelector(
     (state) => state.shared
@@ -26,15 +26,30 @@ export default function expensesTableData() {
   const { data: expenses, isFetching } = useGetExpensesQuery({
     currentPage,
     pageSize,
+    filterOptions,
   })
+
+  const { data: expensesPriceRange, isLoading: isLoadingPriceRange } = useGetRangePriceExpenseQuery(
+    {}
+  )
+
+  const { data: categories, isLoading: isLoadingCategories } = useGetExpensesCategoriesQuery({})
+
+  const minExpense = expensesPriceRange?.minExpense
+  const maxExpense = expensesPriceRange?.maxExpense
+
+  console.log(minExpense, maxExpense)
 
   const { expensesTableColumns } = getExpensesColumns()
 
   const totalData = expenses?.count
 
   const data = expenses?.expensesInfo.map((expense) => {
+    // console.log(expense.created_at)
+    // console.log( new Intl.DateTimeFormat('en-CA').format(new Date(expense.date_created)))
+    // console.log(expense.date_created)
     return {
-      dateCreated: new Intl.DateTimeFormat('en-CA').format(new Date(expense.date_created)),
+      dateCreated: expense.date_created.split("T")[0],
       employeeName: expense.user_id.full_name,
       price: expense.price,
       description: expense.description,
@@ -74,8 +89,48 @@ export default function expensesTableData() {
     }
   }
 
+  const categoriesArr = categories?.map((el) => {
+    return { value: el.id, label: el.category }
+  })
+
+  const filterFormInputs = [
+    {
+      columns: [
+        {
+          label: 'Categories',
+          type: 'select',
+          value: 'by_category',
+          placeHolder: 'Enter Training ... ',
+          selectOptions: categoriesArr,
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_category : '',
+          // error: null,
+        },
+        {
+          label: 'Price Range',
+          type: 'slider',
+          value: 'by_price_range',
+          sliderMax: maxExpense,
+          sliderMin: minExpense,
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_price_range : '',
+          // error: null,
+        },
+      ],
+    },
+    {
+      columns: [
+        {
+          label: 'Date Range ',
+          type: 'date-range',
+          value: 'by_date_range',
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_date_range : '',
+          // error: null,
+        },
+      ],
+    },
+  ]
+
   return {
-    isFetching,
+    isFetching: isFetching || isLoadingPriceRange || isLoadingCategories,
     data,
     pageSize,
     currentPage,
@@ -88,6 +143,10 @@ export default function expensesTableData() {
     handlePagination,
     newColumns,
     showFilterOptions,
+    filterFormInputs,
+    maxSliderFilter: maxExpense,
+    minSliderFilter: minExpense,
+    setFilterOptions,
   }
 }
 

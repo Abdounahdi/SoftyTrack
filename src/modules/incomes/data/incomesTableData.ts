@@ -8,7 +8,7 @@ import {
   useGetTrainingsQuery,
 } from './supabaseApi/incomesApi'
 import { getIncomesColumns } from './IncomesTableColumns'
-import { setCurrentPage, setPageSize, setSelectedRows } from './incomesUiSlice'
+import { setCurrentPage, setFilterOptions, setPageSize, setSelectedRows } from './incomesUiSlice'
 import { useGetAllUsersQuery } from './supabaseApi/usersApi'
 import { useNavigate, useParams } from 'react-router'
 import dayjs from 'dayjs'
@@ -21,13 +21,20 @@ export default function incomesTableData() {
     (state) => state.shared
   )
 
-  const { currentPage, selectedRows, showColumnsOptions, showFilterOptions } = useAppSelector(
-    (state) => state.incomesUi
-  )
+  const {
+    currentPage,
+    selectedRows,
+    showColumnsOptions,
+    showFilterOptions,
+    filterOptions,
+    searchQuery,
+  } = useAppSelector((state) => state.incomesUi)
 
   const { data: incomes, isFetching } = useGetIncomesQuery({
     currentPage,
     pageSize,
+    filterOptions,
+    searchQuery,
   })
 
   const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
@@ -99,17 +106,19 @@ export default function incomesTableData() {
         {
           label: 'Training',
           type: 'select',
-          value: 'by-training',
+          value: 'by_training',
           placeHolder: 'Enter Training ... ',
           selectOptions: trainingArr,
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_training : '',
           // error: null,
         },
         {
           label: 'Price Range',
           type: 'slider',
-          value: 'by-price-range',
+          value: 'by_price_range',
           sliderMax: maxIncome,
           sliderMin: minIncome,
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_price_range : '',
           // error: null,
         },
       ],
@@ -119,7 +128,8 @@ export default function incomesTableData() {
         {
           label: 'Date Range ',
           type: 'date-range',
-          value: 'by-date-range',
+          value: 'by_date_range',
+          defaultValue: filterOptions.length !== 0 ? filterOptions.by_date_range : '',
           // error: null,
         },
       ],
@@ -143,6 +153,7 @@ export default function incomesTableData() {
     filterFormInputs,
     maxSliderFilter: maxIncome,
     minSliderFilter: minIncome,
+    setFilterOptions,
   }
 }
 

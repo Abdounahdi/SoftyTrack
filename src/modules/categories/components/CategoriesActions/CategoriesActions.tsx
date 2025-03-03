@@ -1,13 +1,15 @@
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
-import { useDeleteTrainingMutation } from '../../data/supabase/trainingsApi'
-import { setCreateFormIsOpen, setSearchQuery, setSelectedRows } from '../../data/trainingsSlice'
-import TrainingForm from '../TrainingForm/TrainingForm'
+import { setCreateFormIsOpen, setSearchQuery, setSelectedRows } from '../../data/categoriesSlice'
+import {
+  useDeleteCategoriesMutation,
+  useGetCategoriesQuery,
+} from '../../data/supabase/categoriesApi'
 
-export default function TrainingActions() {
+export default function CategoriesActions() {
   const dispatch = useAppDispatch()
-  const [deleteTraining] = useDeleteTrainingMutation({})
-  const { showColumnsOptions, selectedRows } = useAppSelector((state) => state.trainingsUi)
+  const [deleteCategory] = useDeleteCategoriesMutation({})
+  const { selectedRows, searchQuery } = useAppSelector((state) => state.categoriesUi)
   const resetSelectedRows = setSelectedRows
   const openCloseShowColumns = () => {
     console.log('no columns to be hided')
@@ -18,14 +20,13 @@ export default function TrainingActions() {
   const actionsOptions = { left: ['search', 'delete'], right: ['create'] }
   return (
     <TableOuterActions
-      deleteAction={deleteTraining}
+      deleteAction={deleteCategory}
       resetSelectedRows={resetSelectedRows}
       handleShowColumns={openCloseShowColumns}
-      showColumnsOptions={showColumnsOptions}
       selectedRows={selectedRows}
       actionsOptions={actionsOptions}
       createAction={createAction}
-      where={'training'}
+      where={'Categories'}
       onSearch={setSearchQuery}
     />
   )

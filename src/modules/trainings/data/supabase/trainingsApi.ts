@@ -8,12 +8,14 @@ const trainingsApi = createApi({
   endpoints: (builder) => ({
     getTrainings: builder.query({
       async queryFn(params) {
-        const { currentPage, pageSize } = params
+        const { currentPage, pageSize, searchQuery } = params
         let query = supabase.from('trainings').select('*', { count: 'exact' })
 
         const offset = (currentPage - 1) * pageSize
 
         query = query.range(offset, offset + pageSize - 1)
+
+        query = query.ilike('training', `%${searchQuery}%`)
 
         const { data, error, count } = await query
         if (error) console.error(error)
@@ -23,11 +25,12 @@ const trainingsApi = createApi({
     }),
     deleteTraining: builder.mutation({
       async queryFn(id) {
+        console.log('deleting : ', id)
         const { data, error } = await supabase.from('trainings').delete().eq('id', id).select()
         if (error) {
           console.error('deleting training error')
           console.error(error)
-          return
+          return { error }
         }
 
         return { data }
@@ -35,10 +38,10 @@ const trainingsApi = createApi({
       invalidatesTags: ['trainings'],
     }),
     createTraining: builder.mutation({
-      async queryFn(newObj) {
+      async queryFn(newTraining) {
         const { data, error } = await supabase
           .from('trainings')
-          .insert([newObj])
+          .insert([{ training: newTraining }])
           .select()
 
         if (error) {
@@ -46,12 +49,34 @@ const trainingsApi = createApi({
           return
         }
         return data
-      },invalidatesTags:["trainings"]
+      },
+      invalidatesTags: ['trainings'],
+    }),
+    updateTrianing: builder.mutation({
+      async queryFn(params) {
+        const { newName, id } = params
+        const { data, error } = await supabase
+          .from('trainings')
+          .update({ training: newName })
+          .eq('id', id)
+          .select()
+
+        if (error) {
+          console.log(error)
+        }
+
+        return { data }
+      },
+      invalidatesTags: ['trainings'],
     }),
   }),
 })
 
-export const { useGetTrainingsQuery, useDeleteTrainingMutation, useCreateTrainingMutation } =
-  trainingsApi
+export const {
+  useGetTrainingsQuery,
+  useDeleteTrainingMutation,
+  useCreateTrainingMutation,
+  useUpdateTrianingMutation,
+} = trainingsApi
 
 export default trainingsApi

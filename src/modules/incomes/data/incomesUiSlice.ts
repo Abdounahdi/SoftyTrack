@@ -8,6 +8,8 @@ const initialState = {
   selectedRows: [],
   slicesNumber: 0,
   showFilterOptions: false,
+  filterOptions: [],
+  searchQuery: '',
 }
 
 const incomesUiSlice = createSlice({
@@ -29,8 +31,14 @@ const incomesUiSlice = createSlice({
     setSelectedRows: (state, action) => {
       state.selectedRows = action.payload
     },
+    setFilterOptions: (state, action) => {
+      state.filterOptions = action.payload
+    },
     setSlicesNumber: (state, action) => {
       state.slicesNumber = action.payload
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload
     },
     setShowFilterOptions: (state) => {
       state.showFilterOptions = !state.showFilterOptions
@@ -46,6 +54,8 @@ export const {
   setSelectedRows,
   setSlicesNumber,
   setShowFilterOptions,
+  setFilterOptions,
+  setSearchQuery,
 } = incomesUiSlice.actions
 
 export default incomesUiSlice.reducer

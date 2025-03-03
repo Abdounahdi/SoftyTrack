@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import supabase from '../../../shared/supabase'
+import dayjs from 'dayjs'
+import { formatCustomDate } from '../../../shared/utils/helpers'
 
 const incomesApi = createApi({
   reducerPath: 'incomesApi',
@@ -8,13 +10,32 @@ const incomesApi = createApi({
   endpoints: (builder) => ({
     getIncomes: builder.query({
       async queryFn(params) {
-        const { currentPage, pageSize } = params
         let query = supabase
           .from('incomes')
           .select(
             '* , payment_method_id(*) , made_by(*) , reception_location_id(*) , receptionist_id(*) , training_id(*) , customer_id(*)',
             { count: 'exact' }
           )
+        const { currentPage, pageSize, filterOptions } = params
+
+        const { by_training, by_date_range, by_price_range } = filterOptions
+
+        if (by_training) {
+          query.eq('training_id', by_training)
+        }
+
+        if (by_date_range) {
+          const dates = JSON.stringify(by_date_range)
+          const startDate = formatCustomDate(new Date(JSON.parse(dates)[0]))
+          const endDate = formatCustomDate(new Date(JSON.parse(dates)[1]))
+          query.gte('date_created', startDate).lte('date_created', endDate)
+        }
+
+        if (by_price_range) {
+          query.gte('price', by_price_range.min).lte('price', by_price_range.max)
+        }
+
+        // query=  query.ilike("")
 
         const offset = (currentPage - 1) * pageSize
 

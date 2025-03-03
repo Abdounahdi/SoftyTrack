@@ -8,35 +8,50 @@ export default function SliderNumberRange({
   max = 100,
   getValues,
   setValue,
+  defaultValue,
 }) {
-  const [values, setValues] = useState(getValues('price-range'))
+  const [values, setValues] = useState(getValues('by_price_range'))
+
+  console.log(defaultValue)
+
+  const formValue = getValues('by_price_range')
 
   useEffect(() => {
-    setValues({ min, max })
-    setValue('price-range', { min, max })
-  }, [])
+    if (formValue) {
+      setValues(formValue)
+    }
+  }, [formValue])
+
+  useEffect(() => {
+    if (defaultValue) {
+      setValue('by_price_range', defaultValue)
+      setValues(defaultValue)
+    } else {
+      setValues({ min, max })
+      setValue('by_price_range', { min, max })
+    }
+  },[defaultValue])
 
   const handleChangeMin = (e) => {
-    console.log(e)
     setValues((state) => {
-      setValue('price-range', { min: e, max: state.max })
+      setValue('by_price_range', { min: e, max: state.max })
       return { min: e, max: state.max }
     })
   }
+
   const handleChangeMax = (e) => {
     setValues((state) => {
-      setValue('price-range', { max: e, min: state.min })
+      setValue('by_price_range', { max: e, min: state.min })
       return { max: e, min: state.min }
     })
   }
 
   const handleChangeSlider = (e) => {
     setValues((state) => {
-      setValue('price-range', { min: e.at(0), max: e.at(1) })
+      setValue('by_price_range', { min: e.at(0), max: e.at(1) })
       return { min: e.at(0), max: e.at(1) }
     })
   }
-  console.log(values)
   return (
     <div className={`${className} slider_with_number_inputs`}>
       <InputNumber
@@ -45,6 +60,7 @@ export default function SliderNumberRange({
         value={values?.min}
         onChange={handleChangeMin}
         formatter={(value) => currencyFormat(value)}
+        changeOnWheel
       />
       <Slider
         range
@@ -60,6 +76,7 @@ export default function SliderNumberRange({
         value={values?.max}
         onChange={handleChangeMax}
         formatter={(value) => currencyFormat(value)}
+        changeOnWheel
       />
     </div>
   )

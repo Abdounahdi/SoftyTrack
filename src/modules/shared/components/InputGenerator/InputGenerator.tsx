@@ -24,6 +24,7 @@ export default function InputGenerator({
     rules = {},
     sliderMin,
     sliderMax,
+    onChange,
   } = inputOptions
 
   const { RangePicker } = DatePicker
@@ -240,6 +241,7 @@ export default function InputGenerator({
         getValues={getValues}
         min={sliderMin}
         max={sliderMax}
+        defaultValue={defaultValue}
       />
     )
   }
