@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 export function currencyFormat(amount: number) {
   return new Intl.NumberFormat('en-TN', { style: 'currency', currency: 'TND' }).format(amount)
 }

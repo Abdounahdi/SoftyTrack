@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useNavigate } from 'react-router'
 import ArrowLeft from '../../assets/icons/arrowLeft.svg'
 

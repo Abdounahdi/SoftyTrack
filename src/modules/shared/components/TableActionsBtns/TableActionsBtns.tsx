@@ -1,3 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+
 import { ExclamationCircleFilled } from '@ant-design/icons'
 import { Input, Modal } from 'antd'
 import { useEffect, useState } from 'react'

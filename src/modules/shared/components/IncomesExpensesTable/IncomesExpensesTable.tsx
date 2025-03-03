@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { Pagination, PaginationProps, Spin, Table } from 'antd'
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
 

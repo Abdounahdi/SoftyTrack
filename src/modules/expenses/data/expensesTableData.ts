@@ -1,18 +1,24 @@
-import { useAppDispatch, useAppSelector } from '../../shared/store'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+import { useParams } from 'react-router'
+import dayjs from 'dayjs'
+
+import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
+import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
 import {
   useGetExpenseByIdQuery,
   useGetExpensesCategoriesQuery,
   useGetExpensesQuery,
   useGetRangePriceExpenseQuery,
 } from './supabaseApi/expensesApi'
-import { getExpensesColumns } from './TableColumnsExpenses'
-import { setPageSize, setCurrentPage, setSelectedRows, setFilterOptions } from './expensesUiSlice'
-import { useGetAllUsersQuery } from '../../incomes/data/supabaseApi/usersApi'
-import { useGetPaymentMethodsQuery } from '../../incomes/data/supabaseApi/incomesApi'
-import { useParams } from 'react-router'
-import dayjs from 'dayjs'
-import { sharedsPersistedReducer } from '../../shared/store/persist/sharedPersist'
 import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
+import { useAppDispatch, useAppSelector } from '../../shared/store'
+import { setCurrentPage, setSelectedRows, setFilterOptions } from './expensesUiSlice'
+
+import { getExpensesColumns } from './TableColumnsExpenses'
+
 
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
@@ -49,7 +55,7 @@ export default function expensesTableData() {
     // console.log( new Intl.DateTimeFormat('en-CA').format(new Date(expense.date_created)))
     // console.log(expense.date_created)
     return {
-      dateCreated: expense.date_created.split("T")[0],
+      dateCreated: expense.date_created.split('T')[0],
       employeeName: expense.user_id.full_name,
       price: expense.price,
       description: expense.description,

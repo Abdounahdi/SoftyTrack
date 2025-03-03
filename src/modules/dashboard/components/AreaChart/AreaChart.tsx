@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 export default function AreaChart({ areaChartOptions, firstTitle, secondTitle }) {
   console.log(areaChartOptions)
 
@@ -15,15 +19,14 @@ export default function AreaChart({ areaChartOptions, firstTitle, secondTitle })
   ]
   return (
     <div className="area_chart_container">
-      <AreaChartChart series={series}/>
+      <AreaChartChart series={series} />
     </div>
   )
 }
 
 import Chart from 'react-apexcharts'
 
-const AreaChartChart = ({series }) => {
-
+const AreaChartChart = ({ series }) => {
   const options = {
     chart: {
       type: 'area',

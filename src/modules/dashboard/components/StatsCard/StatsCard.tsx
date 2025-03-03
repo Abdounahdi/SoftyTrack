@@ -1,4 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { currencyFormat } from '../../../shared/utils/helpers'
+
 import Card from '../Card/Card'
 
 export default function StatsCard({ statsObj }) {

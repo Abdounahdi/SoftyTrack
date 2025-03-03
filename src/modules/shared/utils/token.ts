@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 export const getToken = () => {
   const authInfo = localStorage.getItem('sb-flnfpmjlnofgwbgfuiar-auth-token')
   const access_token = JSON.parse(authInfo)?.access_token

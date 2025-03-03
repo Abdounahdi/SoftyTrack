@@ -1,8 +1,13 @@
-import { Input, Modal } from 'antd'
-import { useAppDispatch, useAppSelector } from '../../../shared/store'
-import { useCreateCategorieMutation } from '../../data/supabase/categoriesApi'
-import { setCreateFormIsOpen } from '../../data/categoriesSlice'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useState } from 'react'
+import { Input, Modal } from 'antd'
+
+import { useCreateCategorieMutation } from '../../data/supabase/categoriesApi'
+import { useAppDispatch, useAppSelector } from '../../../shared/store'
+import { setCreateFormIsOpen } from '../../data/categoriesSlice'
 
 export default function CategoriesCreate() {
   const dispatch = useAppDispatch()

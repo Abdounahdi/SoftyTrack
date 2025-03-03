@@ -1,6 +1,5 @@
 import { Input, Modal } from 'antd'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
-import TrainingForm from '../../components/TrainingForm/TrainingForm'
 import { useCreateTrainingMutation } from '../../data/supabase/trainingsApi'
 import { setCreateFormIsOpen } from '../../data/trainingsSlice'
 import { useState } from 'react'

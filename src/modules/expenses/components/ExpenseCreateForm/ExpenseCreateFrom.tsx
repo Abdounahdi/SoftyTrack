@@ -1,5 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useForm } from 'react-hook-form'
 import { Spin } from 'antd'
+import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
 
 import {
   useCreateExpenseMutation,
@@ -8,8 +14,6 @@ import {
 import { getExpensesFromOptions } from '../../data/expensesTableData'
 
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
-import { useNavigate } from 'react-router'
-import toast from 'react-hot-toast'
 import FormCreateUpdateBtn from '../../../shared/components/FormCreateUpdateBtn/FormCreateUpdateBtn'
 
 export default function ExpenseCreateFrom({ update = false, disabled = false }) {

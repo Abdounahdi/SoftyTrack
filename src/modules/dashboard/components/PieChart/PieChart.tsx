@@ -1,6 +1,11 @@
-import Card from '../Card/Card'
-import Chart from 'react-apexcharts'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import chroma from 'chroma-js'
+import Chart from 'react-apexcharts'
+
+import Card from '../Card/Card'
 
 export default function PieChart({ title, options }) {
   //

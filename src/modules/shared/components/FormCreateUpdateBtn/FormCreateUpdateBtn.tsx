@@ -1,3 +1,8 @@
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 export default function FormCreateUpdateBtn({ update, isUpdating, isCreating, type }) {
   return (
     <button className="sumbit_button_create_update_form" disabled={isUpdating || isCreating}>

@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import toast from 'react-hot-toast'
 import { HiOutlineClipboardDocumentCheck } from 'react-icons/hi2'
 

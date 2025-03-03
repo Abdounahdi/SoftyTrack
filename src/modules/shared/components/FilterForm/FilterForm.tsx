@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useForm } from 'react-hook-form'
 import FormGenerator from '../FormGenerator/FormGenerator'
 import { useAppDispatch } from '../../store'

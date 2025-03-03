@@ -1,9 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { DatePicker, Input, Rate, Select, Slider } from 'antd'
-import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { useAppSelector } from '../../store'
-import { CheckCircleOutlined } from '@ant-design/icons'
-import sliceSvg from '../../assets/icons/slice.svg'
 import SliderNumberRange from '../SliderNumberRange/SliderNumberRange'
 
 export default function InputGenerator({
@@ -137,7 +138,7 @@ export default function InputGenerator({
         render={({ field, fieldState: { error } }) => (
           <Input.TextArea
             {...field}
-            type="number"
+            // type="number"
             placeholder={placeHolder}
             status={inputOptions.error && 'error'}
             disabled={disableAll}

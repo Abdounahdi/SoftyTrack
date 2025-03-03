@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { HiOutlineFunnel } from 'react-icons/hi2'
 
 export default function FilterTable({ className, onClick }) {

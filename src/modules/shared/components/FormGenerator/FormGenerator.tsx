@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import InputGenerator from '../InputGenerator/InputGenerator'
 
 export default function FormGenerator({

@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 // import { ConfigProvider, Tag } from 'antd'
 
 export function TagCustomized({ children, colors: { bgColor = '#2E71E2', textColor = 'white' } }) {

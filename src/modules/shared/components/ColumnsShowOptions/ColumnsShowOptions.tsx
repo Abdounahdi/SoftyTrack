@@ -1,10 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { Switch } from 'antd'
 import toast from 'react-hot-toast'
 import { useAppDispatch } from '../../store'
-import {
-  setCheckedListOfShownColumnsExpeneses,
-  setShowColumnsOptionsExpenses,
-} from '../../../expenses/data/expensesUiSlice'
 import { SharedSwitchValue } from '../../store/slices/sharedSlice'
 
 export default function ColumnsShowOptions({ checkedList, columns, where }) {

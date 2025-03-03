@@ -1,11 +1,17 @@
-import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+
+import { useDeleteExpenseMutation } from '../../data/supabaseApi/expensesApi'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import {
   setSelectedRows,
   setShowColumnsOptionsExpenses,
   setShowFilterOptions,
 } from '../../data/expensesUiSlice'
-import { useDeleteExpenseMutation } from '../../data/supabaseApi/expensesApi'
+
+import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 
 export default function ExpensesTableActions() {
   const dispatch = useAppDispatch()

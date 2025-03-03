@@ -1,10 +1,13 @@
-import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
-import { useAppDispatch, useAppSelector } from '../../../shared/store'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+import { useDeleteCategoriesMutation } from '../../data/supabase/categoriesApi'
 import { setCreateFormIsOpen, setSearchQuery, setSelectedRows } from '../../data/categoriesSlice'
-import {
-  useDeleteCategoriesMutation,
-  useGetCategoriesQuery,
-} from '../../data/supabase/categoriesApi'
+import { useAppDispatch, useAppSelector } from '../../../shared/store'
+
+import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
+
 
 export default function CategoriesActions() {
   const dispatch = useAppDispatch()

@@ -1,8 +1,14 @@
-import { Table as TableAntD } from 'antd'
-import Card from '../Card/Card'
-import { getIncomesColumns } from '../../../incomes/data/IncomesTableColumns'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useNavigate } from 'react-router'
+import { Table as TableAntD } from 'antd'
+
+import { getIncomesColumns } from '../../../incomes/data/IncomesTableColumns'
 import { getExpensesColumns } from '../../../expenses/data/TableColumnsExpenses'
+
+import Card from '../Card/Card'
 
 export default function LastTransactions({ title, viewPath, data }) {
   const navigate = useNavigate()

@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice} from '@reduxjs/toolkit'
 import { IUser } from './authTypes'
-import { login } from './authThunk'
 
 export interface AuthState {
   status: string

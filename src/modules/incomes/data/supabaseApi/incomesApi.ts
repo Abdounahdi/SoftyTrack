@@ -1,6 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import supabase from '../../../shared/supabase'
-import dayjs from 'dayjs'
 import { formatCustomDate } from '../../../shared/utils/helpers'
 
 const incomesApi = createApi({

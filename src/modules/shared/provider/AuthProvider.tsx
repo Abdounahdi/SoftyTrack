@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
-import axiosInstance from '../utils/axios'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { initialise } from '../../auth/data/authSlice'
-import { isValidToken } from '../utils/isValidToken'
 import LazyLoad from '../components/LazyLoad/LazyLoad'
 import useIsMounted from '../hook/useIsMountedRef'
-import { clearTokens, getToken, getTokens } from '../utils/token'
-import { RootState } from '../store'
+import { getToken } from '../utils/token'
 import supabase from '../supabase'
-import { useGetUserRoleQuery } from '../../auth/data/authApi'
 
 // import { useDispatch, useSelector } from "react-redux"
 // import useIsMounted from "../hook/useIsMountedRef"

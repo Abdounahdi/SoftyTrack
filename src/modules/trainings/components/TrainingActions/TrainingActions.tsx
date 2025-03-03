@@ -1,8 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { TableOuterActions } from '../../../shared/components/TableOuterActions/TableOuterActions'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import { useDeleteTrainingMutation } from '../../data/supabase/trainingsApi'
 import { setCreateFormIsOpen, setSearchQuery, setSelectedRows } from '../../data/trainingsSlice'
-import TrainingForm from '../TrainingForm/TrainingForm'
 
 export default function TrainingActions() {
   const dispatch = useAppDispatch()

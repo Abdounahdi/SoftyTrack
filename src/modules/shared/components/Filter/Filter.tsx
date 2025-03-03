@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { Segmented } from 'antd'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router'

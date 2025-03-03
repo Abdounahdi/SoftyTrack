@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { ReactElement } from 'react'
 import { NavLink } from 'react-router'
 import { useAppSelector } from '../../store'

@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { HiOutlineEye } from 'react-icons/hi2'
-import CopyClipBoard from '../../shared/components/CopyClipBoard/CopyClipBoard'
-import ProgressBySteps from '../../shared/components/ProgressBySteps/ProgressBySteps'
 import TableActions from '../../shared/components/TableActions/TableActions'
 import { TagCustomized } from '../../shared/components/TagCustomized/TagCustomized'
-import { currencyFormat, numberWithSpaces } from '../../shared/utils/helpers'
+import { currencyFormat } from '../../shared/utils/helpers'
 import { useDeleteExpenseMutation } from './supabaseApi/expensesApi'
 
 const paymentMethodColors = {

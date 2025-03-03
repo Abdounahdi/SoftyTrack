@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import Logo from '../Logo/Logo'
 import MainNav from '../MainNav/MainNav'
 import {

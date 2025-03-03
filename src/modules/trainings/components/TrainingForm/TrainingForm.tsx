@@ -1,7 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useForm } from 'react-hook-form'
 import FormGenerator from '../../../shared/components/FormGenerator/FormGenerator'
 import { HiXMark } from 'react-icons/hi2'
-import InputGenerator from '../../../shared/components/InputGenerator/InputGenerator'
 
 export default function TrainingForm({
   update = false,

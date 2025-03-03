@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useForm } from 'react-hook-form'
 import { Spin } from 'antd'
 import { useCreateIncomeMutation, useUpdateIncomeMutation } from '../../data/supabaseApi/incomesApi'

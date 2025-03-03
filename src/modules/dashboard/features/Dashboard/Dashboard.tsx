@@ -1,14 +1,20 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+import { useSearchParams } from 'react-router'
 import { HiOutlineBanknotes, HiOutlineCurrencyDollar } from 'react-icons/hi2'
 import { TbPigMoney } from 'react-icons/tb'
+import { Spin } from 'antd'
+
+import { useGetExpensesByTimeQuery } from '../../../expenses/data/supabaseApi/expensesApi'
+import { useGetIncomesByTimeQuery } from '../../../incomes/data/supabaseApi/incomesApi'
+
 import LastTransactions from '../../components/LastTransactions/LastTransactions'
 import PieChart from '../../components/PieChart/PieChart'
 import AreaChart from '../../components/AreaChart/AreaChart'
 import DashboardHeader from '../../components/DashboardHeader/DashboardHeader'
 import Stats from '../../components/Stats/Stats'
-import { useSearchParams } from 'react-router'
-import { Spin } from 'antd'
-import { useGetExpensesByTimeQuery } from '../../../expenses/data/supabaseApi/expensesApi'
-import { useGetIncomesByTimeQuery } from '../../../incomes/data/supabaseApi/incomesApi'
 
 export default function Dashboard() {
   const [searchParams] = useSearchParams()

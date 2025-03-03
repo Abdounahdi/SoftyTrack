@@ -2,7 +2,6 @@
 import { RouteProps } from 'react-router-dom'
 import { Fragment, lazy } from 'react'
 import MainLayout from '../../shared/layout/MainLayout/MainLayout'
-import AuthGuard from '../../shared/guards/AuthGuard'
 import AdminGuard from '../../shared/guards/AdminGuard'
 // import GuestGuard from '../../shared/guards/GuestGuard'
 

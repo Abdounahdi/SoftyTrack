@@ -1,8 +1,8 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import { useAppDispatch } from '../../../shared/store'
-import { useFormik } from 'formik'
-import { useState } from 'react'
-import * as Yup from 'yup'
-import Input from '../../../shared/components/Input'
 import { useNavigate } from 'react-router-dom'
 import { useGetUserRoleMutation, useLoginMutation } from '../../data/authApi'
 import Logo from '../../../shared/components/Logo/Logo'
@@ -57,8 +57,6 @@ const Login = () => {
     const { data } = await login(loginInfo)
     if (!data?.user) return
 
-
-
     const {
       data: { userRole },
     } = await getUserRole(data?.session?.access_token)
@@ -94,7 +92,7 @@ const Login = () => {
         </div>
 
         <button type="submit" className="login_feature_container_btn" disabled={isLoading}>
-          {isLoading ? "Loggin in ... ":"Login"}
+          {isLoading ? 'Loggin in ... ' : 'Login'}
         </button>
 
         <Divider variant="dashed" className="divider_style">

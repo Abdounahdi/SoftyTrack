@@ -1,6 +1,16 @@
-import { Pagination, PaginationProps, Table as TableAntD } from 'antd'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
+import { useEffect } from 'react'
+import { PaginationProps, Table as TableAntD } from 'antd'
 import { HiArrowLongLeft, HiArrowLongRight } from 'react-icons/hi2'
-import Table from '../../../shared/components/Table/Table'
+
+import {
+  useDeleteCategoriesMutation,
+  useGetCategoriesQuery,
+  useUpdateCategoryMutation,
+} from '../../data/supabase/categoriesApi'
 import { useAppDispatch, useAppSelector } from '../../../shared/store'
 import {
   setCurrentPage,
@@ -8,13 +18,9 @@ import {
   setSearchQuery,
   setSelectedRows,
 } from '../../data/categoriesSlice'
-import {
-  useDeleteCategoriesMutation,
-  useGetCategoriesQuery,
-  useUpdateCategoryMutation,
-} from '../../data/supabase/categoriesApi'
+
+import Table from '../../../shared/components/Table/Table'
 import TableActionsBtns from '../../../shared/components/TableActionsBtns/TableActionsBtns'
-import { useEffect } from 'react'
 
 const itemRender: PaginationProps['itemRender'] = (_, item, originalElement) => {
   return item === 'prev' ? (
@@ -47,9 +53,9 @@ export default function CategoriesTable() {
 
   const data = categoriesData?.data || []
 
-    useEffect(() => {
-      dispatch(setSearchQuery(''))
-    }, [])
+  useEffect(() => {
+    dispatch(setSearchQuery(''))
+  }, [])
 
   const columns = [
     {

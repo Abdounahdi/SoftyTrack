@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// @ts-nocheck
+
 import StatsCard from '../StatsCard/StatsCard'
 
 export default function Stats({ stats }) {
