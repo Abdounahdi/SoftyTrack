@@ -107,11 +107,11 @@ function incomesDashboardData(incomes) {
   const incomesData = incomes
     ?.map((income) => {
       return {
-        key: income.id,
-        training: income.training_id.training,
-        price: income.price,
-        slicesPrecentage: ` ${income.total_slices}-${income.paid_slices} `,
-        customerName: income.customer_id.full_name,
+        key: income?.id,
+        training: income?.training_id.training,
+        price: income?.price,
+        slicesPrecentage: ` ${income?.total_slices}-${income?.paid_slices} `,
+        customerName: income?.customer_id?.full_name,
       }
     })
     .slice(0, 5)
@@ -133,11 +133,12 @@ function incomesDashboardData(incomes) {
 function expensesDashboardData(expenses) {
   const expensesData = expenses
     .map((expense) => {
+      console.log(expense)
       return {
         key: expense.id,
         category: expense.category_id.category,
         price: expense.price,
-        employeeName: expense.user_id.full_name,
+        employeeName: expense?.user_id?.full_name,
       }
     })
     .slice(0, 5)
