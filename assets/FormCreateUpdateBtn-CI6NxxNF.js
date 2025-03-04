@@ -1,1 +1,0 @@
-import{j as o}from"./index-G1bMk4i-.js";function m({update:a,isUpdating:e,isCreating:r,type:t}){return o.jsx("button",{className:"sumbit_button_create_update_form",disabled:e||r,children:a?e?`Updating ${t} ... `:`Update ${t} `:r?`Creating ${t} ... `:`Create ${t}`})}export{m as F};
