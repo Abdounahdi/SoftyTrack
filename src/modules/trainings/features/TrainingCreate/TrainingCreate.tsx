@@ -22,6 +22,7 @@ export default function TrainingCreate() {
       createTraining(newTraining)
       setTimeout(() => {
         dispatch(setCreateFormIsOpen())
+        setNewTraining('')
       }, 500)
     }
   }

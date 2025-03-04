@@ -25,6 +25,7 @@ export default function IncomeCreateForm({ update = false, disabled = false }) {
     formState: { errors },
     control,
     watch,
+    getValues,
   } = useForm()
 
   const { isLoading, customerFormInputs, paymentFormInputs, navigate, incomeId, customerId } =
@@ -43,6 +44,8 @@ export default function IncomeCreateForm({ update = false, disabled = false }) {
   }
 
   const totalSlices = watch('total_slices')
+  const defaultSlices = getValues('total_slices')
+  console.log(defaultSlices)
 
   useEffect(() => {
     if (totalSlices) {

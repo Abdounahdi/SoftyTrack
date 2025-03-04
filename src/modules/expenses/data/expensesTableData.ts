@@ -19,7 +19,6 @@ import { setCurrentPage, setSelectedRows, setFilterOptions } from './expensesUiS
 
 import { getExpensesColumns } from './TableColumnsExpenses'
 
-
 export default function expensesTableData() {
   const dispatch = useAppDispatch()
   const { currentPage, selectedRows, showColumnsOptions, showFilterOptions, filterOptions } =
@@ -178,6 +177,9 @@ export function getExpensesFromOptions(errors, update) {
           placeHolder: 'price to pay ... ',
           error: errors?.price?.message,
           defaultValue: null,
+          rules: {
+            min: { value: 1, message: 'Pirce should Be At least one !' },
+          },
         },
         {
           label: 'Payment Method',
@@ -187,6 +189,7 @@ export function getExpensesFromOptions(errors, update) {
               return { value: paymentMethod.id, label: paymentMethod.payment_method }
             }
           }),
+          rules: { required: 'This field is required' },
           name: 'payment_method_id',
           createOption: true,
           placeHolder: 'Choose Training ... ',
@@ -206,6 +209,7 @@ export function getExpensesFromOptions(errors, update) {
           placeHolder: 'Choose Category ... ',
           error: errors?.category_id?.message,
           defaultValue: null,
+          rules: { required: 'This field is required' },
         },
       ],
     },
@@ -222,6 +226,7 @@ export function getExpensesFromOptions(errors, update) {
           placeHolder: ' ',
           error: errors?.user_id?.message,
           defaultValue: null,
+          rules: { required: 'This field is required' },
         },
         {
           label: 'Date of income',

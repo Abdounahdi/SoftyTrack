@@ -20,7 +20,17 @@ export default function FormGenerator({
             {formRowOptions.columns.map((formColumnOptions, index) => {
               return (
                 <div className={`form_column ${formColumnOptions.className}`} key={index}>
-                  <label>{formColumnOptions.label}</label>
+                  <label
+                    className={
+                      formColumnOptions.value === 'paid_slices'
+                        ? formColumnOptions.error
+                          ? 'paid_slices_error_label'
+                          : ''
+                        : ''
+                    }
+                  >
+                    {formColumnOptions.label}
+                  </label>
                   <InputGenerator
                     inputOptions={formColumnOptions}
                     control={control}
@@ -30,7 +40,12 @@ export default function FormGenerator({
                     getValues={getValues}
                   />
                   {formColumnOptions?.error ? (
-                    <span className="error_form_column_generator">{formColumnOptions.error}</span>
+                    <span
+                      className={`error_form_column_generator
+                        ${formColumnOptions.value === 'total_slices' ? 'error_total_slices' : ''}${formColumnOptions.value === 'paid_slices' ? 'error_total_paid_slices' : ''}`}
+                    >
+                      {formColumnOptions.error}
+                    </span>
                   ) : (
                     ''
                   )}

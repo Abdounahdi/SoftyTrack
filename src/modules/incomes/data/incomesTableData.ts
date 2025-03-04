@@ -17,6 +17,7 @@ import { useGetAllUsersQuery } from './supabaseApi/usersApi'
 import { useNavigate, useParams } from 'react-router'
 import dayjs from 'dayjs'
 import { SharedSwitchValue } from '../../shared/store/slices/sharedSlice'
+import { useGetTrainingsQuery as useGetTrainingsQueryTrainingsApi } from '../../trainings/data/supabase/trainingsApi'
 
 export default function incomesTableData() {
   const dispatch = useAppDispatch()
@@ -165,7 +166,10 @@ export function getIncomesFormData(errors, update) {
   //paramas:
   const { id: incomeId } = useParams()
   // api calls :
-  const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
+  // const { data: trainings, isLoading: isLoadingTrainings } = useGetTrainingsQuery({})
+  const { data: trainingsData, isLoading: isLoadingTrainings } = useGetTrainingsQueryTrainingsApi(
+    {}
+  )
   const { data: users, isLoading: isLoadingUsers } = useGetAllUsersQuery({})
   const { data: locations, isLoading: isLoadingLocations } = useGetLocationsQuery({})
   const { data: payment_methods, isLoading: isLoadingPaymentMethods } = useGetPaymentMethodsQuery(
@@ -183,7 +187,11 @@ export function getIncomesFormData(errors, update) {
     isGettingIncomeInfo
 
   //preparing data
-  const trainingsOptions = trainings?.map((training) => {
+
+  // const { data: trainings } = trainingsData
+  // console.log(trainingsData.data , trainings)
+
+  const trainingsOptions = trainingsData?.data?.map((training) => {
     return { value: training.id, label: training.training }
   })
 
@@ -251,6 +259,7 @@ export function getIncomesFormData(errors, update) {
           createOption: true,
           placeHolder: 'Choose Training ... ',
           error: errors?.training_id?.message,
+          rules: { required: 'This field is required' },
         },
       ],
     },
@@ -292,6 +301,9 @@ export function getIncomesFormData(errors, update) {
           value: 'price',
           placeHolder: 'price to pay ... ',
           error: errors?.price?.message,
+          rules: {
+            min: { value: 1, message: 'Price should Be At least one !' },
+          },
         },
         {
           label: 'Total Slices',
@@ -300,6 +312,9 @@ export function getIncomesFormData(errors, update) {
           placeHolder: '',
           error: errors?.total_slices?.message,
           className: 'slices_box_width_small',
+          rules: {
+            min: { value: 1, message: 'Slices should Be At least one !' },
+          },
         },
         {
           label: 'Paid Slices',
@@ -308,6 +323,7 @@ export function getIncomesFormData(errors, update) {
           placeHolder: '',
           error: errors?.paid_slices?.message,
           className: 'slices_box_width_rate',
+          // defaultValue: 4,
         },
         {
           label: 'Payment Method',
@@ -318,6 +334,7 @@ export function getIncomesFormData(errors, update) {
           createOption: true,
           placeHolder: 'Choose Training ... ',
           error: errors?.payment_method?.message,
+          rules: { required: 'This field is required' },
         },
       ],
     },
@@ -331,6 +348,7 @@ export function getIncomesFormData(errors, update) {
           selectOptions: locationOptions,
           placeHolder: 'select location ... ',
           error: errors?.location?.message,
+          rules: { required: 'This field is required' },
         },
         {
           label: 'Receptionist',
@@ -341,6 +359,7 @@ export function getIncomesFormData(errors, update) {
           createOption: false,
           placeHolder: ' ',
           error: errors?.receptionist?.message,
+          rules: { required: 'This field is required' },
         },
         {
           label: 'Paid at ',
@@ -348,6 +367,7 @@ export function getIncomesFormData(errors, update) {
           value: 'date_created',
           placeHolder: '',
           error: errors?.date_created?.message,
+          rules: { required: 'This field is required' },
         },
       ],
     },
@@ -363,6 +383,13 @@ export function getIncomesFormData(errors, update) {
         return { ...column, defaultValue: incomeInfo?.reception_location_id?.id }
       } else if (column.value === 'date_created') {
         return { ...column, defaultValue: dayjs(incomeInfo?.date_created) }
+      } else if (column.value === 'paid_slices') {
+        console.log(incomeInfo)
+        return {
+          ...column,
+          defaultValue: incomeInfo.paid_slices,
+          defaultSlices: incomeInfo.total_slices,
+        }
       } else {
         return { ...column, defaultValue: incomeInfo?.[column.value] }
       }

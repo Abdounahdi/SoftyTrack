@@ -26,6 +26,7 @@ export default function InputGenerator({
     sliderMin,
     sliderMax,
     onChange,
+    error,
   } = inputOptions
 
   const { RangePicker } = DatePicker
@@ -105,6 +106,7 @@ export default function InputGenerator({
   }
 
   if (type === 'number') {
+    console.log(rules)
     return (
       <Controller
         name={name || value}
@@ -149,13 +151,12 @@ export default function InputGenerator({
   }
 
   if (type === 'select') {
-    console.log(selectOptions)
     return (
       <Controller
         name={name || value}
         control={control}
         defaultValue={defaultValue}
-        // rules={{ required: 'This field is required', ...rules }}
+        rules={{ ...rules }}
         render={({ field, fieldState: { error } }) => (
           <Select
             {...field}
@@ -213,6 +214,7 @@ export default function InputGenerator({
 
   if (type === 'rate') {
     const { slicesNumber } = useAppSelector((state) => state.incomesUi)
+    console.log(slicesNumber, inputOptions.defaultSlices)
     return (
       <Controller
         name={name || value}
@@ -220,13 +222,19 @@ export default function InputGenerator({
         defaultValue={defaultValue}
         rules={{ required: 'This Field is required', ...rules }}
         render={({ field, fieldState: { error } }) => {
-          console.log(slicesNumber)
           return (
             <>
               <Rate
                 {...field}
-                count={slicesNumber > 0 ? slicesNumber : 0}
+                count={
+                  slicesNumber > 0
+                    ? sliceNumber
+                    : inputOptions.defaultSlices
+                      ? inputOptions.defaultSlices
+                      : 0
+                }
                 character={<div className="slice_div"></div>}
+                disabled={disableAll}
               />
             </>
           )

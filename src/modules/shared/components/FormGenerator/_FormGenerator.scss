@@ -12,3 +12,18 @@
   gap: 16px;
   // justify-content: space-between;
 }
+
+.error_total_slices {
+
+  text-wrap: nowrap;
+
+}
+
+.error_total_paid_slices {
+  bottom: -20px;
+  display: none;
+}
+
+.paid_slices_error_label {
+  color: rgb(255, 61, 61) !important;
+}

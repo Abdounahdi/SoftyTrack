@@ -14,12 +14,15 @@ const trainingsApi = createApi({
       async queryFn(params) {
         const { currentPage, pageSize, searchQuery } = params
         let query = supabase.from('trainings').select('*', { count: 'exact' })
+        if (currentPage) {
+          const offset = (currentPage - 1) * pageSize
 
-        const offset = (currentPage - 1) * pageSize
+          query = query.range(offset, offset + pageSize - 1)
+        }
 
-        query = query.range(offset, offset + pageSize - 1)
-
-        query = query.ilike('training', `%${searchQuery}%`)
+        if (searchQuery) {
+          query = query.ilike('training', `%${searchQuery}%`)
+        }
 
         const { data, error, count } = await query
         if (error) console.error(error)
